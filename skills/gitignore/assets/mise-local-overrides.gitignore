@@ -1,0 +1,5 @@
+# mise local overrides
+# Keep project config such as `mise.toml` versioned.
+# Ignore only local developer overrides.
+mise.local.toml
+mise.*.local.toml

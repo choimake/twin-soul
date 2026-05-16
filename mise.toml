@@ -1,0 +1,40 @@
+# twin-soul の mise 設定
+# `mise install` で必要なツールとランタイムをセットアップする
+
+[tools]
+"pipx:apm-cli" = "0.12.4"
+
+# CI: shell script、workflow、secret scan、typo check、ローカル Actions 実行に使うツール
+shellcheck = "0.11.0"
+typos = "1.46.1"
+actionlint = "1.7.12"
+gitleaks = "8.30.1"
+act = "0.2.88"
+
+[tasks."ci:lint:shell"]
+description = "scripts/**/*.sh と skills/**/**/*.sh を ShellCheck で検証する"
+run = "bash scripts/ci/run-shellcheck.sh"
+
+[tasks."ci:apm"]
+description = "APM で skill を同期し（gitignore された展開先を生成）、lockfile と audit を検証する"
+run = "apm install --target cursor,claude && apm audit --ci --no-policy"
+
+[tasks."ci:lint:typos"]
+description = "typos でスペルミスを検出する"
+run = "typos"
+
+[tasks."ci:lint:actionlint"]
+description = "GitHub Actions workflow を actionlint で検証する"
+run = "actionlint"
+
+[tasks."ci:lint:gitleaks"]
+description = "gitleaks で secret leak を検出する"
+run = "gitleaks git . --verbose"
+
+[tasks."ci:lint"]
+description = "静的チェックをまとめて実行する"
+run = "gitleaks git . --verbose && actionlint && bash scripts/ci/run-shellcheck.sh && typos"
+
+[tasks."ci:act"]
+description = "act で CI の lint job をローカル実行する（Docker が必要。追加引数例: mise run ci:act -- -v）"
+run = "bash scripts/ci/act-lint.sh"

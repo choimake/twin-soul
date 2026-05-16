@@ -1,0 +1,88 @@
+lockfile_version: '1'
+generated_at: '2026-05-09T16:10:43.819464+00:00'
+apm_version: 0.12.4
+dependencies:
+  - repo_url: _local/decision-records
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/decision-records
+      - .claude/skills/decision-records
+    source: local
+    local_path: ./skills/decision-records
+  - repo_url: _local/gap-analysis
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/gap-analysis
+      - .claude/skills/gap-analysis
+    source: local
+    local_path: ./skills/gap-analysis
+  - repo_url: _local/gitignore
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/gitignore
+      - .claude/skills/gitignore
+    source: local
+    local_path: ./skills/gitignore
+  - repo_url: _local/migrations-script
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/migrations-script
+      - .claude/skills/migrations-script
+    source: local
+    local_path: ./skills/migrations-script
+  - repo_url: _local/pbi
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/pbi
+      - .claude/skills/pbi
+    source: local
+    local_path: ./skills/pbi
+  - repo_url: _local/planner
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/planner
+      - .claude/skills/planner
+    source: local
+    local_path: ./skills/planner
+  - repo_url: _local/pragmatic-architect
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/pragmatic-architect
+      - .claude/skills/pragmatic-architect
+    source: local
+    local_path: ./skills/pragmatic-architect
+  - repo_url: _local/readme
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/readme
+      - .claude/skills/readme
+    source: local
+    local_path: ./skills/readme
+  - repo_url: _local/requirements-definition
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/requirements-definition
+      - .claude/skills/requirements-definition
+    source: local
+    local_path: ./skills/requirements-definition
+  - repo_url: _local/skill-creator
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/skill-creator
+      - .claude/skills/skill-creator
+    source: local
+    local_path: ./skills/skill-creator
+  - repo_url: _local/testcode
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/testcode
+      - .claude/skills/testcode
+    source: local
+    local_path: ./skills/testcode
+  - repo_url: _local/universal-code-reviewer
+    package_type: claude_skill
+    deployed_files:
+      - .agents/skills/universal-code-reviewer
+      - .claude/skills/universal-code-reviewer
+    source: local
+    local_path: ./skills/universal-code-reviewer
