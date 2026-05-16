@@ -12,6 +12,19 @@
 
 1. 利用先リポジトリに `apm.yml` を追加する。
 
+   全 skill をまとめて導入する場合:
+
+   ```yaml
+   name: target-project
+   version: 1.0.0
+   target: [cursor, claude]
+   dependencies:
+     apm:
+       - choimake/twin-soul#main
+   ```
+
+   必要な skill だけを導入する場合:
+
    ```yaml
    name: target-project
    version: 1.0.0
@@ -19,7 +32,7 @@
    dependencies:
      apm:
        - choimake/twin-soul/skills/planner#main
-       - choimake/twin-soul/skills/universal-code-reviewer#main
+       - choimake/twin-soul/skills/testcode#main
    ```
 
 2. APM で導入する。

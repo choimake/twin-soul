@@ -2,18 +2,3 @@ name: twin-soul
 version: 1.0.0
 description: 複数プロジェクトへ APM 配布する Cursor / Claude Code 向け skill 集
 target: [cursor, claude]
-type: skill
-dependencies:
-  apm:
-    - path: ./skills/decision-records
-    - path: ./skills/gap-analysis
-    - path: ./skills/gitignore
-    - path: ./skills/migrations-script
-    - path: ./skills/pbi
-    - path: ./skills/planner
-    - path: ./skills/pragmatic-architect
-    - path: ./skills/readme
-    - path: ./skills/requirements-definition
-    - path: ./skills/skill-creator
-    - path: ./skills/testcode
-    - path: ./skills/universal-code-reviewer
