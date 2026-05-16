@@ -4,6 +4,8 @@
 
 採用済み (2026-05-10)
 
+Superseded in part by: [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md)
+
 ## 背景
 
 `twin-soul` は、`skill` の正本を `skills/` に置き、これまで次の 2 つの独自経路で利用していた。
@@ -24,6 +26,8 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 
 `twin-soul` の `skill` 配布基盤を Microsoft APM に移行する。
 
+以下は採用時点の初期移行方針である。現在の導入手順は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) と `specs/installing-shared-skills.md` を正とする。
+
 採用する方針:
 
 - `skills/` は引き続き `skill` の正本とする
@@ -35,6 +39,8 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 - 独自の `npx` インストーラー、`skills-lock.json` 運用、hub 内 `sync.sh` 差分確認は撤去する
 
 初期移行では、全 `skill` 一括のまとめパッケージ化ではなく、既存 `skills/<skill-name>/` を APM のサブディレクトリ単位のパッケージとして参照する。全 `skill` 一括導入や `rules` / 指示文書の外部配布が必要になった場合は、別途 `.apm/skills/` や `.apm/instructions/` への移行を検討する。
+
+注: 上記の「サブディレクトリ単位の package を基本にし、全 skill 一括導入を見送る」初期移行方針は、[0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) で置き換え済みである。現在の導入仕様は `specs/installing-shared-skills.md` を参照する。
 
 ## 影響
 
@@ -52,6 +58,8 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 - Cursor 向けの既定展開先が `.cursor/skills/` ではなく `.agents/skills/` になるため、既存リポジトリでは移行期間の案内が必要になる
 - `sync.sh` は `skills/` だけでなく `rules/` シンボリックリンクと入口文書生成も担っていたため、`rules/` / `AGENTS.md` / `CLAUDE.md` の扱いは APM 配布とは別に整理する必要がある
 - 全 `skill` 一括導入は `npx` 時代より明示的になる。必要な `skill` を `apm.yml` に列挙する運用を基本とし、まとめパッケージ化は必要になってから判断する
+
+注: この注意点は初期移行時点のものであり、現在は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) により、全 skill は root Skill collection、特定 skill は subdirectory package として導入する。
 
 ## 関連する DR
 

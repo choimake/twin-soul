@@ -34,22 +34,25 @@
 
 ## 外部プロジェクトへの導入
 
-- 他プロジェクトへ skill を入れるときは、利用先リポジトリの `apm.yml` に `choimake/twin-soul/skills/<skill-name>#<ref>` を宣言して `apm install` を実行する
+- 他プロジェクトへ全 skill を入れるときは、利用先リポジトリで `apm install choimake/twin-soul#<ref> --target cursor,claude` を実行するか、`apm.yml` に `choimake/twin-soul#<ref>` を宣言して `apm install` を実行する
+- 一部の skill だけを入れるときは、`choimake/twin-soul/skills/<skill-name>#<ref>` の subdirectory package を指定する
 - `apm.lock.yaml` は利用先リポジトリでコミットし、全員・CI が同じ resolved commit を使う
 - プライベートリポジトリとして使う場合は `GITHUB_APM_PAT`、`GITHUB_APM_PAT_{ORG}`、または `gh auth login` などの Git 認証を用意する
 - 利用先リポジトリでは project 固有 skill を併置してよい
 - 利用先リポジトリの skill は直接編集せず、このリポジトリ側を更新して `apm install --update` または `apm deps update` を実行する
+- 詳しい導入手順は `specs/installing-shared-skills.md` を参照する
 
 ## 変更手順
 
 1. `skills/`、`rules/`、`AGENTS.md`、必要なら `specs/` を編集する
 2. このリポジトリで `mise run ci:lint`、`mise run ci:apm` を実行して静的チェックと APM 配布前提を確認する（`ci:apm` は展開先を実際に同期したうえで audit する）
-3. skill を使っている利用先リポジトリでは `apm install --update` または `apm deps update` を実行する
+3. skill を使っている利用先リポジトリでは `apm install --update`、`apm update`、または `apm deps update` を実行する
 4. README や補助資料が古くなったら更新する
 
 ## Runtime Notes
 
-- `skills/` は APM の subdirectory package として導入する
+- `skills/` は APM の Skill collection としてまとめて導入できる
+- `skills/<skill-name>/` は APM の subdirectory package として個別に導入する
 - Cursor 向け skill は APM 標準の `.agents/skills/` へ展開される
 - Claude Code 向け skill は APM 標準の `.claude/skills/` へ展開される
 

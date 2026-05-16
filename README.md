@@ -19,39 +19,81 @@
 
 ## はじめ方
 
+### 使うだけの人向け
+
+利用先リポジトリで APM CLI を使い、`twin-soul` を GitHub から直接導入します。`twin-soul` を clone する必要はありません。この手順は APM CLI `0.12.4` で検証しています。
+
+全 skill をまとめて入れる場合:
+
+```bash
+apm install choimake/twin-soul#main --target cursor,claude
+```
+
+特定の skill だけ入れる場合:
+
+```bash
+apm install choimake/twin-soul/skills/planner#main --target cursor,claude
+```
+
+複数の skill を選んで入れる場合は、必要な subdirectory package を並べます。
+
+```bash
+apm install \
+  choimake/twin-soul/skills/planner#main \
+  choimake/twin-soul/skills/testcode#main \
+  --target cursor,claude
+```
+
+チームで再現可能に運用する場合は、利用先リポジトリの `apm.yml` に依存を残します。全 skill を入れる例:
+
+```yaml
+name: target-project
+version: 1.0.0
+target: [cursor, claude]
+dependencies:
+  apm:
+    - choimake/twin-soul#main
+```
+
+特定の skill だけ入れる例:
+
+```yaml
+name: target-project
+version: 1.0.0
+target: [cursor, claude]
+dependencies:
+  apm:
+    - choimake/twin-soul/skills/planner#main
+    - choimake/twin-soul/skills/testcode#main
+```
+
+その後、利用先リポジトリで実行します。
+
+```bash
+apm install
+```
+
+- `apm.lock.yaml` は利用先リポジトリでコミットします
+- Cursor 向け skill は `.agents/skills/`、Claude Code 向け skill は `.claude/skills/` に展開されます
+- `.agents/skills/`、`.claude/skills/`、`.cursor/skills/` は APM 展開物なのでコミットしません
+- `.cursor/skills/` を前提にした既存リポジトリでは、移行期間だけ `APM_LEGACY_SKILL_PATHS=1 apm install` を使えます
+
+詳しい導入仕様は [specs/installing-shared-skills.md](specs/installing-shared-skills.md) を参照してください。
+
+### このリポジトリを開発する人向け
+
 前提:
 
 - 先に [AGENTS.md](AGENTS.md) とトップレベルの [rules/](rules/) を読む
 - APM CLI は `mise install` で `pipx:apm-cli` として導入される
 - 貢献前の検証手順は [CONTRIBUTING.md](CONTRIBUTING.md) を読む
 
-### 環境セットアップ
-
 ```bash
 # mise環境のセットアップ（APM CLI と検証ツール）
 mise install
 ```
 
-### このリポジトリで skill を確認する
-
-```bash
-apm install --target cursor,claude
-```
-
-期待する結果:
-
-- `apm.yml` に書いたローカルの `skill` 依存関係が検証される
-- Cursor 向け skill は APM の標準に従って `.agents/skills/` へ展開される
-- Claude Code 向け skill は `.claude/skills/` へ展開される
-- 展開先ディレクトリは生成物であり、Git 管理対象には含めない
-
-移行期間などで旧 Cursor パスの `.cursor/skills/` も必要な場合は、次を実行します。
-
-```bash
-APM_LEGACY_SKILL_PATHS=1 apm install --target cursor,claude
-```
-
-### 変更を検証する
+変更を検証します。
 
 ```bash
 mise run ci:lint
@@ -63,39 +105,6 @@ mise run ci:apm
 - gitleaks, actionlint, ShellCheck, typos が成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリは組織共通の APM 監査ポリシーを使わないため、監査では `--no-policy` を指定する
-
-### 別プロジェクトへ導入する
-
-利用先リポジトリでは、必要な `skill` だけを `apm.yml` の `dependencies.apm` に宣言します。`twin-soul` の各 `skill` は、単一リポジトリ内のサブディレクトリ単位のパッケージとして参照します。
-
-```yaml
-name: target-project
-version: 1.0.0
-target: [cursor, claude]
-dependencies:
-  apm:
-    - choimake/twin-soul/skills/planner#main
-    - choimake/twin-soul/skills/universal-code-reviewer#main
-```
-
-その後、利用先リポジトリで実行します。
-
-```bash
-apm install
-```
-
-- `apm.lock.yaml` はコミット対象です
-- プライベートリポジトリの場合は `GITHUB_APM_PAT`、`GITHUB_APM_PAT_{ORG}`、または `gh auth login` などの Git 認証が必要です
-- `.cursor/skills/` を前提にした既存リポジトリでは、移行期間だけ `APM_LEGACY_SKILL_PATHS=1 apm install` を使えます
-
-### 共通仕様
-
-- `skills/<skill-name>/` が APM のサブディレクトリ単位のパッケージとして導入される
-- 既定では Cursor 向け skill は `.agents/skills/`、Claude Code 向け skill は `.claude/skills/` に展開される
-- `.agents/skills/`、`.claude/skills/`、`.cursor/skills/` は APM 展開物なのでコミットしない
-- 現在、別プロジェクトへ導入する対象は `skills/` のみで、`rules/` は含まない
-
-詳しい導入仕様は [specs/installing-shared-skills.md](specs/installing-shared-skills.md) を参照してください。
 
 ## リポジトリ構成
 

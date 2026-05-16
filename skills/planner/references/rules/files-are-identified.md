@@ -43,7 +43,7 @@
 ### 既存ファイル更新
 
 - `README.md` - skillsリストに `planner` を追加
-- `apm.yml` - local dev dependency として `skills/planner` を列挙
+- `apm.yml` - package metadata や target を必要に応じて更新
 ```
 
 ## 補足

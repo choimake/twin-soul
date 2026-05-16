@@ -16,7 +16,7 @@ description = "scripts/**/*.sh と skills/**/**/*.sh を ShellCheck で検証す
 run = "bash scripts/ci/run-shellcheck.sh"
 
 [tasks."ci:apm"]
-description = "APM で skill を同期し（gitignore された展開先を生成）、lockfile と audit を検証する"
+description = "APM で skill を同期し（gitignore された展開先を生成）、audit と必要な lockfile 状態を検証する"
 run = "apm install --target cursor,claude && apm audit --ci --no-policy"
 
 [tasks."ci:lint:typos"]

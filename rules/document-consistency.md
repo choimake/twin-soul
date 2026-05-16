@@ -51,7 +51,7 @@
   - skill として単体で成立するか
 - [ ] **設定ファイルのコメント**
   - mise.toml: タスクの説明、依存ツールのコメント
-  - apm.yml: skill の依存定義
+  - apm.yml: package metadata、target、依存定義がある場合はその内容
   - .github/workflows/: ワークフロー内のコメント
 
 ## チェック方法

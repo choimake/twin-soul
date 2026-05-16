@@ -24,8 +24,9 @@
 ## 代表文書
 
 - [0001-document-boundaries.md](0001-document-boundaries.md) - 文書境界の初期判断
-- [0004-use-apm-for-shared-skill-distribution.md](0004-use-apm-for-shared-skill-distribution.md) - `skill` 配布基盤を APM に移した判断
+- [0004-use-apm-for-shared-skill-distribution.md](0004-use-apm-for-shared-skill-distribution.md) - `skill` 配布基盤を APM に移した判断（現行の root Skill collection 導入は 0008 を参照）
 - [0005-rules-and-specs-boundaries.md](0005-rules-and-specs-boundaries.md) - `rules/` と `specs/` の境界確定
 - [0007-withdraw-local-gh-agent-write.md](0007-withdraw-local-gh-agent-write.md) - ローカルトークンでエージェントに GitHub 書き込み操作を任せる運用を撤回する判断
+- [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) - APM の root Skill collection で全 skill を導入する判断
 
 DR を作るか迷う場合は [../rules/when-to-create-decision-records.md](../rules/when-to-create-decision-records.md) を参照する。
