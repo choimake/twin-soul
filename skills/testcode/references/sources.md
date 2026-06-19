@@ -19,3 +19,8 @@
 - [Stryker: What is mutation testing?](https://stryker-mutator.io/docs)
 - [Google Testing Blog: Prefer Narrow Assertions in Unit Tests](https://testing.googleblog.com/2024/04/prefer-narrow-assertions-in-unit-tests.html)
 - [Software Unit Test Smells](https://testsmells.org/pages/testsmells.html)
+
+## メッセージ検証
+
+- [pytest documentation: pytest.raises](https://docs.pytest.org/en/6.2.x/reference.html?highlight=raises)
+- [testthat: Do you expect an error, warning, message, or other condition?](https://testthat.r-lib.org/reference/expect_error.html)

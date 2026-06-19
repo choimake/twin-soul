@@ -39,6 +39,7 @@ AI に書かせたテストがあるんですが、これで本当に十分か�
 - Success signals:
   - 実行可否だけでなく assertion の具体性を評価する
   - `Assertion Roulette` や `Mystery Guest` などの smell を必要に応じて指摘する
+  - エラー・ログ・例外メッセージの部分一致を弱い assertion として見つけ、必要なら全文一致を提案する
   - coverage だけでは十分と断定しない
 - Overfitting risk: smell 名の列挙だけに寄ると、なぜ問題かと改善案が弱くなる
 

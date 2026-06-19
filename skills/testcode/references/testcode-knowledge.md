@@ -41,6 +41,8 @@
   - mutation testing、`killed mutant`、`surviving mutant`
 - [test-smells.md](test-smells.md)
   - `Assertion Roulette` などの smell と改善の見方
+- [message-assertions.md](message-assertions.md)
+  - エラー・ログ・例外メッセージを完全一致で検証する方針
 - [sources.md](sources.md)
   - 出典と深掘り用 URL
 
