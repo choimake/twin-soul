@@ -51,7 +51,7 @@ plan file を書かず **調査メモのみ** 返す場合もある（`draft` �
 
 ### 実装 plan フェーズ
 
-方法論が合意済み、または最初から実装依頼の場合のみ [../assets/plan-template.md](../assets/plan-template.md) を使う。
+方法論が **ユーザー明示承認済み**、または最初から実装依頼の場合のみ [../assets/plan-template.md](../assets/plan-template.md) を使う。
 
 ## Plan生成の進め方（実装 plan）
 
@@ -71,7 +71,7 @@ plan file を書かず **調査メモのみ** 返す場合もある（`draft` �
 1. `critical-assumptions-resolved.md` - クリティカル前提が Plan 段階で解消されているか
 2. `files-are-identified.md` - 変更対象ファイルが特定されているか（方法論のみ plan では適用外）
 3. `methodology-before-implementation.md` - 方法論相談と実装 plan が分離されているか
-4. `must-have-acceptance-criteria.md` - 受け入れ条件が明確に定義されているか
+4. `must-have-acceptance-criteria.md` - 受け入れ条件が明確に定義されているか（方法論フェーズでは適用外。`methodology-before-implementation.md` で方針合意を確認）
 5. `must-have-verification-steps.md` - 検証手順が具体的か（方法論のみ plan では実装検証は適用外）
 6. `must-reference-best-practices.md` - ベストプラクティス・クラウド quota 公式 URL を参照しているか
 7. `scope-is-clear.md` - スコープが明確か
@@ -130,7 +130,8 @@ plan file を書かず **調査メモのみ** 返す場合もある（`draft` �
 
 ### `write-file`
 
-- `draft` と同じ手順でplan fileを生成する
+- `draft` と同じ手順で plan file、または方法論フェーズの調査メモを生成する
+- 方法論フェーズの場合は plan テンプレ全体ではなく、背景・制約 / 現状調査 / 方法論・成立条件・限界 / スコープ外 の節で保存する
 - 保存先が明示されていれば、そのパスに保存する
 - 保存先未指定なら、本文生成前にユーザーへ保存先パスを確認する
 - 保存後、保存先パスとレビュー結果を報告する
