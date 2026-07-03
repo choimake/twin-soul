@@ -134,6 +134,7 @@ mise run ci:apm
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
 - **gitignore**: `.gitignore` の新規作成、既存見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う
+- **mise-guide**: mise の tool バージョン管理、環境変数、task ランナー、GitHub Actions 連携の設定・相談を扱う
 - **pbi**: プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューを行い、受入基準・合意可能な検証・スコープを品質ゲートする
 - **planner**: 計画ファイルの品質を確認し、必須項目の強制、AI 自動レビュー、Web 検索統合を行う
 - **pragmatic-architect**: プロジェクト固有の Core / Details・依存方向・Legacy Baseline を対話で整理し、中核定義の草案を作る（一般的なコードレビュー用ではない）
