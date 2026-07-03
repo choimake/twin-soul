@@ -203,6 +203,47 @@ gcloud config set project "$PROJECT_ID"
 """
 ```
 
+## env 依存コマンドは task 化する
+
+env 依存、または AI が環境制約で実行できないコマンドは、**その場のワンライナー案内で済ませない**。再利用可能な **mise task** として定義し、ユーザーは `mise run <task>` で実行する。
+
+### 判断基準
+
+| 状況 | 対応 |
+| --- | --- |
+| 必須 env（`PROJECT_ID` 等）が無いと失敗する | task 化 + `:?` ガード |
+| AI sandbox / fence で実行不可（docker compose、ADC 等） | task 化 + 手順は task description |
+| 一度きりの調査 | 例外としてワンライナー可（恒久化しない） |
+
+### file task テンプレ（推奨）
+
+```bash
+#!/usr/bin/env bash
+#MISE description="Run migration against configured database"
+#MISE quiet=true
+
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+: "${DATABASE_URL:?DATABASE_URL が未設定 — mise.local.toml [env] に設定してください}"
+./scripts/migrate.sh
+```
+
+- `set -euo pipefail`
+- リポジトリ root へ `cd "$(git rev-parse --show-toplevel)"`
+- 必須 env は `${VAR:?メッセージ}`
+
+## 権限・副作用が異なる操作を混ぜない
+
+**1 task = 1 責務**。実行権限や副作用が異なる操作を同じ task に入れない。
+
+| 分離例 | 理由 |
+| --- | --- |
+| `bootstrap` と `migration` | bootstrap は初回のみ、migration は繰り返し。失敗時の復旧が異なる |
+| 読み取り検証と破壊的 apply | 参照系と更新系の境界 |
+| ローカル専用と CI ゲート | 必要 env・権限が異なる |
+
+混在が必要に見えたら、薄いゲート task が leaf task を `depends` で順序付けする。
+
 ## ベストプラクティス
 
 1. **`depends`** で順序を表現する。

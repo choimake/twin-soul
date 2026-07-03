@@ -46,11 +46,12 @@ jobs:
 
 | ルール | 例 |
 | --- | --- |
-| `[tools]` キーと完全一致 | `"aqua:golangci/golangci-lint"` |
+| `[tools]` キーと **完全一致** | `"aqua:golangci/golangci-lint"` |
+| registry 短縮名と backend prefix 付きは **別 tool 識別子** | `golangci-lint` ≠ `aqua:golangci/golangci-lint` |
 | ゲートが使う tool のみ | 未使用 tool は省く |
 | バージョン番号を書かない | `mise.toml` から解決 |
 
-典型エラー: `No version is set for shim: golangci-lint`
+典型エラー: `No version is set for shim: golangci-lint` — `install_args` が `[tools]` キーと **識別子不一致**（短名 vs `aqua:` prefix）。`mise.toml` のキー文字列をそのまま `install_args` に使う。詳細は [tools.md](tools.md) の「backend prefix = tool の識別子」節。
 
 ## `--skip-tools`
 
@@ -108,7 +109,8 @@ mise run --skip-tools <gate>    # CI 相当
 
 | 症状 | 想定原因 |
 | --- | --- |
-| `No version is set for shim: golangci-lint` | `install_args` が短名 |
+| `No version is set for shim: golangci-lint` | `install_args` が `[tools]` キーと識別子不一致（上記 install_args ルール参照） |
+| `No version is set for shim: aqua:golangci/golangci-lint` | ローカル `[tools]` に短名のみ、CI は prefix 付き |
 | CI で 10+ tool install | `--skip-tools` 欠落 |
 | ローカル OK、CI で pipefail エラー | CI ゲート task に `shell = "bash -c"` なし |
 | tool バージョン不一致 | workflow にバージョン直書き |
