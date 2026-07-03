@@ -48,7 +48,7 @@ task 追加でレイアウトが不明なら **先に task-layout.md**。
 
 1. **scope を確認**: `mise use`（project → `./mise.toml`）か `mise use -g`（global）かを実行前に確認する。
 2. **`mise use` を優先**: install + pin を一度に行う。`mise install` 単体は事前キャッシュ用途。
-3. **`mise.toml` を SSOT**: tool バージョンを workflow 等に二重定義しない。汎用 pin 方針は [rules/version-pinning.md](../../rules/version-pinning.md)。
+3. **`mise.toml` を SSOT**: tool バージョンを workflow 等に二重定義しない。汎用 pin 方針は twin-soul リポジトリ内の [rules/version-pinning.md](../../rules/version-pinning.md)（`rules/` マージ後に有効。skill 単体導入時は `rules/` が配布されない点に注意）。
 4. **機密情報は gitignore 対象**: `mise.local.toml` / `.env`。コミット可能な上書き設定ファイル（`mise.production.toml` 等）にも機密情報を置かない。
 5. **CI ゲートは mise task のみ**: lint/test の再実装を workflow に書かない。ローカル `mise run <gate>`、CI `mise run --skip-tools <gate>`（[ci.md](references/ci.md)）。
 6. **task 引数は `usage`**: task **引数**としての `$1` / `$@` / 非推奨 `{{arg()}}` は使わない（env 展開 `$VAR` は可）。
