@@ -23,6 +23,7 @@ on:
     paths:
       - "src/**"
       - "mise.toml"
+      - "skills/mise-guide/scripts/**"       # tool pin 検証 script
       - ".mise/tasks/**"              # ゲート定義 + file task 変更
       - ".github/workflows/check.yaml"
 
@@ -81,9 +82,11 @@ mise run check --skip-tools   # task の引数として透過され、意図し�
 description = "PR check gate"
 quiet = true
 shell = "bash -c"
-depends = ["lint", "test-unit"]
+depends = ["lint", "test-unit", "ci:lint:mise-tools"]
 run = "echo 'all checks passed'"
 ```
+
+`ci:lint:mise-tools` は [tools.md](tools.md) の check-tool-pins script を呼ぶ leaf task の例。
 
 ## workflow YAML に残すもの（再実装禁止の境界）
 
@@ -115,6 +118,7 @@ mise run --skip-tools <gate>    # CI 相当
 | ローカル OK、CI で pipefail エラー | CI ゲート task に `shell = "bash -c"` なし |
 | tool バージョン不一致 | workflow にバージョン直書き |
 | task だけ変えた PR が CI 未実行 | `paths` が特定 `.toml` 固定で file task 漏れ |
+| fuzzy pin が merge された | `ci:lint:mise-tools` 未組込、または `check-tool-pins.sh` 未実行 |
 
 ## mise-action の pin
 

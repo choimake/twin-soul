@@ -33,7 +33,7 @@ APM_LEGACY_SKILL_PATHS=1 apm install --target cursor,claude
 
 期待結果:
 
-- gitleaks、actionlint、ShellCheck、typos が成功する
+- gitleaks、actionlint、ShellCheck、typos、mise.toml tool pin 検証が成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリでは組織共通の APM 監査ポリシーを使わないため、`--no-policy` を指定する
 - 生成された `skill` ディレクトリは `skills/` の正本から再生成でき、Git 管理外のまま残る
