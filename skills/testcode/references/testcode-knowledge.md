@@ -35,6 +35,8 @@
 
 - [test-generation.md](test-generation.md)
   - `generate` の進め方、ケース整理、生成時の注意点
+- [tests-express-what.md](tests-express-what.md)
+  - テストが示す層は What（振る舞い）。実装 How のミラーを避ける
 - [test-evaluation.md](test-evaluation.md)
   - `evaluate` と `improve` の基本、品質の見方、coverage の扱い
 - [mutation-testing.md](mutation-testing.md)
