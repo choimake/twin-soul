@@ -19,6 +19,8 @@
 - [documentation-standards.md](documentation-standards.md) - ドキュメント全体の構造と昇格パス
 - [document-consistency.md](document-consistency.md) - コード変更とドキュメント更新の同期
 - [version-pinning.md](version-pinning.md) - tool・依存・イメージのバージョン pin 方針
+- [github-pr-workflow.md](github-pr-workflow.md) - PR 本文はテンプレートに従う
+- [github-issue-workflow.md](github-issue-workflow.md) - Issue 作成とスコープ変更時の運用
 - [when-to-create-decision-records.md](when-to-create-decision-records.md) - DR を作る判断基準
 - [bash-safety.md](bash-safety.md) - Bash コマンド安全性の判断基準
 

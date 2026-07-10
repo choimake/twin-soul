@@ -40,6 +40,7 @@ APM_LEGACY_SKILL_PATHS=1 apm install --target cursor,claude
 
 ## プルリクエストの期待値
 
+- PR 本文は [`.github/pull_request_template.md`](.github/pull_request_template.md) に従う（詳細は [`rules/github-pr-workflow.md`](rules/github-pr-workflow.md)）
 - なぜ変更が必要かを説明する
 - 関連する仕様、判断記録、Issue があればリンクする
 - 実行した検証コマンドを含める

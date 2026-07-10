@@ -20,6 +20,8 @@ AI エージェントが Issue を作成する際、一時領域のパスを参�
 
 Agent は Issue / PR 本文、コメント、PR description の下書きまでを基本とする。GitHub write は人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。
 
+PR 本文の書式は [github-pr-workflow.md](github-pr-workflow.md) と [`.github/pull_request_template.md`](../.github/pull_request_template.md) に従う。
+
 Agent が読めるローカル shell に GitHub write token を置いて `gh` を直実行させる運用は標準案内しない。判断理由は `decisions/0007-withdraw-local-gh-agent-write.md` を参照する。
 
 ## スコープ変更時の運用
