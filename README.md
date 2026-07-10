@@ -21,7 +21,7 @@
 
 ### 使うだけの人向け
 
-利用先リポジトリで APM CLI を使い、`twin-soul` を GitHub から直接導入します。`twin-soul` を clone する必要はありません。この手順は APM CLI `0.12.4` で検証しています。
+利用先リポジトリで APM CLI を使い、`twin-soul` を GitHub から直接導入します。`twin-soul` を clone する必要はありません。この手順は APM CLI `0.24.0` で検証しています（2026-07 時点）。
 
 全 skill をまとめて入れる場合:
 
