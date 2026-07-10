@@ -12,20 +12,21 @@ mise 管理下の tool・ランタイム、Docker ベースイメージ、GitHub
 
 | 対象 | 対象外 |
 | --- | --- |
-| `mise.toml` `[tools]` の tool / ランタイム | lockfile で管理するアプリ依存（`package.json`、`go.mod` 等）の semver range |
-| Docker ベースイメージ | npm backend（`npm:` prefix）で pin する npm パッケージ（`tools.md` 参照。本番では exact pin を推奨） |
+| `mise.toml` および commit 対象の `mise.*.toml`（`*.local.toml` 除く）の **`[tools]` / `[tools.*]` を含むファイル** | lockfile で管理するアプリ依存（`package.json`、`go.mod` 等）の semver range |
+| Docker ベースイメージ | — |
 | GitHub Actions `uses:` | — |
 
 ## 禁止
 
-- `latest` / `@latest` / タグのみの可変参照（npm backend の運用例外は上表）
-- major のみ pin（例: `node = "22"`、`go@1.22`）
+- `latest` / `@latest` / `lts` / `system` / `prefix:` / `ref:` / `sub-1:` 等の fuzzy 指定
+- x.y.z 未満の pin（例: `node = "22"`、`python = "3.12"`、`go = "1.22"`）
+- `[tools]` の配列形式、ネスト `[tools.*]` 以外の迂回記法
 - workflow や Dockerfile に tool バージョンを二重定義して `mise.toml` 等の SSOT からずらすこと
 
 ## 推奨
 
-- tool・ランタイム・CLI・Docker イメージは **具体的なバージョンで pin** する
-- mise 利用プロジェクトでは `mise.toml` `[tools]` を **完全一致 pin** する（詳細手順は [`skills/mise-guide/references/tools.md`](../skills/mise-guide/references/tools.md)）
+- tool・ランタイム・CLI・Docker イメージは **x.y.z 完全一致で pin** する（例: `22.21.1`、`2.12.2`）
+- mise 利用プロジェクトでは `mise.toml` `[tools]` を x.y.z pin とし、[check-tool-pins.sh](../skills/mise-guide/scripts/check-tool-pins.sh) または `ci:lint:mise-tools` で検証する（手順は [`skills/mise-guide/references/tools.md`](../skills/mise-guide/references/tools.md)）
 - GitHub Actions の `uses:` は **full commit SHA pin** する（[`skills/mise-guide/references/ci.md`](../skills/mise-guide/references/ci.md)）
 - ドキュメントに版や数値を書く場合は **時点**（例: 2026-07 時点）を併記する
 - pin した版は定期的に更新する（例: `mise outdated`、Dependabot）

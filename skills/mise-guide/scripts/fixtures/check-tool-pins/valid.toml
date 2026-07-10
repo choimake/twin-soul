@@ -1,0 +1,5 @@
+[tools]
+"pipx:apm-cli" = "0.12.4"
+shellcheck = "0.11.0"
+node = { version = "22.15.0", postinstall = "corepack enable" }
+"aqua:golangci/golangci-lint" = "2.12.2"
