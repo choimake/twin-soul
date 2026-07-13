@@ -1,0 +1,18 @@
+# verification-loop の既定値。
+# 呼び出し引数が最優先。ここでも未設定なら着手前にユーザーへ確認する。
+# モデル識別子は実行ツールが受け付ける文字列をそのまま書く（特定製品の slug はハードコードしない）。
+
+# 実装サブエージェントに渡す model 指定。空なら引数または確認で決める。
+implementer_model: ""
+
+# レビューサブエージェントに渡す model 指定。空なら引数または確認で決める。
+reviewer_model: ""
+
+# 品質ゲート: draft | review | production
+quality_gate: review
+
+# 実装→レビューの最大試行回数
+max_loops: 3
+
+# エラー資産の追記先（利用先リポジトリ相対）。APM 展開先には書かない。
+errors_path: .verification-loop/errors.md

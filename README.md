@@ -143,6 +143,7 @@ mise run ci:apm
 - **skill-creator**: Agent Skill の新規作成、改稿、分割、保存方針整理を行う
 - **testcode**: テストコードの新規作成、既存テストの追加・改善、生成済みテストの評価を扱う
 - **universal-code-reviewer**: コードレビューの汎用チェック観点を適用する
+- **verification-loop**: 実装と独立レビューを別サブエージェントに分担し、合格基準を満たすまで修正ループを回す
 
 ## 関連文書
 
