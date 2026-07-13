@@ -8,6 +8,9 @@ __pycache__/
 .claude/skills/
 .cursor/skills/
 
+# verification-loop の実行時エラー資産
+.verification-loop/
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,vim
 

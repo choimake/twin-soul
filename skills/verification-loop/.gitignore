@@ -1,0 +1,8 @@
+# 実行時エラー資産（コミットしない）
+# 既定の errors_path は利用先リポジトリルートの `.verification-loop/`。
+# ネストした .gitignore はルート相対パスを除外できないため、
+# ここでは skill 配下への誤配置に備えて errors.md のみ除外する。
+# 利用先リポジトリのルート .gitignore では `.verification-loop/` を除外する（本リポジトリのルートも同様）。
+
+# この skill 配下に誤って置いた場合
+errors.md
