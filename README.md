@@ -130,6 +130,7 @@ mise run ci:apm
 
 ここにある skill は、汎用知識だけではなく、このリポジトリで育てた判断や手順を再利用するための入口です。
 
+- **consensus-investigation**: 同一の調査・レビューを複数サブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
 - **gitignore**: `.gitignore` の新規作成、既存見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
