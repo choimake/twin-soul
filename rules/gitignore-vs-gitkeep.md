@@ -6,7 +6,7 @@
 
 ## 判断基準
 
-**「空のディレクトリにファイルが追加されたとき、そのファイルをGit管理対象に含めたいか？」**
+**「空のディレクトリにファイルが追加されたとき、そのファイルを Git 管理対象に含めたいか？」**
 
 - **含めたい** → `.gitkeep` を使う
 - **含めたくない** → `.gitignore` を使う
@@ -43,7 +43,7 @@ memory/
 
 **理由:**
 
-- 生成物はGit管理不要（再生成可能）
+- 生成物は Git 管理不要（再生成可能）
 - チーム間で内容が異なる（環境依存）
 - ファイルサイズが大きい
 
@@ -144,5 +144,5 @@ touch templates/.gitkeep
 
 ## 参考
 
-- [Git公式ドキュメント - gitignore](https://git-scm.com/docs/gitignore)
-- `.gitkeep` はGit公式の機能ではなく、慣習的な名前（`.keep`, `.gitdummy` 等でも可）
+- [Git 公式ドキュメント - gitignore](https://git-scm.com/docs/gitignore)
+- `.gitkeep` は Git 公式の機能ではなく、慣習的な名前（`.keep`, `.gitdummy` 等でも可）

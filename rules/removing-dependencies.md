@@ -47,14 +47,14 @@
 - [ ] **skills/**
   - SKILL.md、references、assets 内の説明
 - [ ] **decisions/**
-  - Decision Record内の言及（履歴として残すべきかを判断）
-  - 削除理由を新しいDRに記録することも検討
+  - Decision Record 内の言及（履歴として残すべきかを判断）
+  - 削除理由を新しい DR に記録することも検討
 
 ### 3. 設定ファイル
 
 - [ ] **.gitignore**
   - 削除ツール固有のパターン
-- [ ] **CI/CD設定**
+- [ ] **CI/CD 設定**
   - GitHub Actions / CircleCI / その他
   - ワークフロー定義
   - タスク定義
@@ -81,7 +81,7 @@ rg "{name}" README.md AGENTS.md rules specs skills mise.toml apm.yml
 
 ## 原則
 
-- **コードを変えたら、ドキュメントも同じPRで更新する**
-- **decisions/は履歴として残す**（過去の判断を消さない）
+- **コードを変えたら、ドキュメントも同じ PR で更新する**
+- **decisions/ は履歴として残す**（過去の判断を消さない）
 - **痕跡がある場合は意図的か確認**（コメントアウト等で一時的に残している可能性）
 - **APM 展開物や旧同期出力は正本にしない**（必要なら `.gitignore` に戻り防止を書く）

@@ -2,15 +2,15 @@
 
 ## 目的
 
-技術選定や設計判断でDecision Record (DR) を残すべきかの基準を明確にし、重要な意思決定を記録として残す。
+技術選定や設計判断で Decision Record (DR) を残すべきかの基準を明確にし、重要な意思決定を記録として残す。
 
 ## 背景
 
-「重要な技術選定や設計判断」という基準では曖昧で、実際にDRを作るべきか迷う場面が多い。判断履歴を残す価値がある状況を具体化し、一貫した記録運用を保つ必要がある。
+「重要な技術選定や設計判断」という基準では曖昧で、実際に DR を作るべきか迷う場面が多い。判断履歴を残す価値がある状況を具体化し、一貫した記録運用を保つ必要がある。
 
 ## Decision Recordを作成する基準
 
-以下の**いずれか1つでも当てはまる**場合は、Decision Recordを作成する。
+以下の**いずれか 1 つでも当てはまる**場合は、Decision Record を作成する。
 
 ### 1. 複数の選択肢を検討した
 
@@ -22,7 +22,7 @@
 - runtime 別コピー運用 vs 正本ディレクトリへの一本化
 - APM で導入する skill と project 固有 skill の分離方針
 
-**DRに書くべき内容:**
+**DR に書くべき内容:**
 
 - 検討した選択肢のリスト
 - 各選択肢のメリット・デメリット
@@ -30,14 +30,14 @@
 
 ### 2. 複数ファイルに影響する変更
 
-変更が3ファイル以上に及ぶ場合、設計意図を記録する。
+変更が 3 ファイル以上に及ぶ場合、設計意図を記録する。
 
 **例:**
 
 - apm.yml + apm.lock.yaml + README.md + specs/ + decisions/
 - `.cursor/rules/` と `.claude/rules/` の削除に伴う AGENTS.md、README.md、rules/、specs/ の一括更新
 
-**DRに書くべき内容:**
+**DR に書くべき内容:**
 
 - 変更の全体像
 - ファイル間の依存関係
@@ -53,7 +53,7 @@
 - `.agents/skills/` を APM 展開物として Git 管理しない理由
 - 全 skill 一括 bundle ではなく subdirectory package として導入する理由
 
-**DRに書くべき内容:**
+**DR に書くべき内容:**
 
 - 標準的な選択肢と、それを採用しなかった理由
 - 意思決定時の制約条件や前提条件
@@ -68,7 +68,7 @@
 - `rules/` を外部配布しないことで利用先リポジトリへの自動適用は弱くなるが、skill の責務を明確にする
 - `.cursor/skills/` 互換を移行期間だけ残し、標準展開先は `.agents/skills/` に寄せる
 
-**DRに書くべき内容:**
+**DR に書くべき内容:**
 
 - 何を優先し、何を犠牲にしたか
 - トレードオフの根拠となった制約条件
@@ -84,7 +84,7 @@
 - skill の配布基盤を APM に移行
 - リポジトリ横断ルールの正本をトップレベル `rules/` に一本化
 
-**DRに書くべき内容:**
+**DR に書くべき内容:**
 
 - 変更コストが高い理由
 - 将来的に変更が必要になる可能性とその条件
@@ -92,17 +92,17 @@
 
 ## Decision Recordを作成しない例
 
-以下のような変更は、DRではなくコミットメッセージやコードコメントで十分。
+以下のような変更は、DR ではなくコミットメッセージやコードコメントで十分。
 
 - タイポ修正
 - 単一ファイル内の軽微なリファクタリング
 - 明らかに正しい修正（バグフィックス、セキュリティパッチ適用など）
-- 既存DRに基づく実装の詳細調整
+- 既存 DR に基づく実装の詳細調整
 - ドキュメントの誤記修正
 
 ## 参考
 
-- `skills/decision-records`: DR作成・更新の実務手順
-- `decisions/0001-document-boundaries.md`: 文書境界の判断記録（DRの例）
-- `decisions/0004-use-apm-for-shared-skill-distribution.md`: APM 移行の判断記録（DRの例）
-- `decisions/0005-rules-and-specs-boundaries.md`: rules/specs 境界の判断記録（DRの例）
+- `skills/decision-records`: DR 作成・更新の実務手順
+- `decisions/0001-document-boundaries.md`: 文書境界の判断記録（DR の例）
+- `decisions/0004-use-apm-for-shared-skill-distribution.md`: APM 移行の判断記録（DR の例）
+- `decisions/0005-rules-and-specs-boundaries.md`: rules/specs 境界の判断記録（DR の例）
