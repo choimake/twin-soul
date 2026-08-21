@@ -1,12 +1,12 @@
 # drawio-architecture テストプロンプト
 
-最初は 2-3 件に絞る。
+最初は 2〜3 件に絞る。
 
 ## セット確認
 
-- Coverage: 新規の構成図描画、スクショ付きの視覚修正、事実 SoT の無い図
+- Coverage: 新規の構成図描画、スクショ付きの視覚修正、事実の正本の無い図
 - Trigger balance: should-trigger と should-not-trigger が混ざっている
-- Near miss: 「構成図」という語はあるが、事実 SoT も `.drawio` も求めていない一般フローチャート依頼が対象外になっている
+- Near miss: 「構成図」という語はあるが、事実の正本も `.drawio` も求めていない一般フローチャート依頼が対象外になっている
 - Diversity check: 同じ言い回しだけを変えた prompt 群になっていない
 - Realism check: `docs/architecture/` やスクショ添付など、実務で出やすい具体がある
 - Overfitting risk: 特定プロダクトのファイル名や製品名に合わせると、他リポジトリで使えない
@@ -50,7 +50,7 @@ docs/architecture/ にある構成の yaml を正本にして、サービス間�
 
 ## プロンプト 3
 
-- Type: 近接（事実 SoT の無い一般フローチャート）
+- Type: 近接（事実の正本の無い一般フローチャート）
 - Should trigger: false
 - 目的: 「構成図」という語があっても、事実の正本も `.drawio` も求めていないときは本 skill の成果物に進まないか
 - 理由: 一般フローチャート / UI 下書きと、構成図の境界を見る
