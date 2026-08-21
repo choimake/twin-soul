@@ -85,7 +85,7 @@ apm install
 前提:
 
 - 先に [AGENTS.md](AGENTS.md) とトップレベルの [rules/](rules/) を読む
-- 変更作業は `.worktrees/` の git worktree で行う。hook が main checkout への編集を止める
+- 変更作業は `.worktrees/` の git worktree で進める。hook が main checkout への編集を止める
 - エージェント作業のメモ・申し送り・学びは `memory/` に残す（gitignore、正本ではない）
 - APM CLI は `mise install` で `pipx:apm-cli` として導入される
 - 貢献前の検証手順は [CONTRIBUTING.md](CONTRIBUTING.md) を読む
@@ -112,7 +112,7 @@ mise run ci:apm
 
 - `skills/`: 実務経験から切り出した作業手順
 - `rules/`: このリポジトリ全体に効く横断方針の正本
-- `AGENTS.md`: エージェント向けの共通方針と文書優先順位
+- `AGENTS.md`: エージェント向けの共通方針とドキュメント優先順位
 - `specs/`: 現在の構成と運用仕様
 - `decisions/`: 大きな判断の記録
 - `memory/`: エージェント作業のローカル記録（gitignore、正本ではない）
@@ -122,7 +122,7 @@ mise run ci:apm
 
 ## 公開時の注意
 
-- このリポジトリは日本語主体で運用します。公開文書、Issue / PR テンプレート、スクリプトの人間向けメッセージも原則として日本語で揃えます。
+- このリポジトリは日本語主体で運用します。公開ドキュメント、Issue / PR テンプレート、スクリプトの人間向けメッセージも原則として日本語で揃えます。
 - 法的な利用条件は [LICENSE](LICENSE) を参照してください。
 - 脆弱性や機密情報漏えいの報告は [SECURITY.md](SECURITY.md) に従ってください。
 - 貢献手順、検証コマンド、APM 展開物の扱いは [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
@@ -133,19 +133,19 @@ mise run ci:apm
 
 ここにある skill は、汎用知識だけではなく、このリポジトリで育てた判断や手順を再利用するための入口です。
 
-- **consensus-investigation**: 同一の調査・レビューを複数サブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
+- **consensus-investigation**: 同一の調査・レビューを複数のサブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
-- **drawio-architecture**: 事実 SoT に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
+- **drawio-architecture**: 事実の正本に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
-- **gitignore**: `.gitignore` の新規作成、既存見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
+- **gitignore**: `.gitignore` の新規作成、既存の見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う
 - **mise-guide**: mise の tool バージョン管理、環境変数、task ランナー、GitHub Actions 連携の設定・相談を扱う
-- **pbi**: プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューを行い、受入基準・合意可能な検証・スコープを品質ゲートする
-- **planner**: 計画ファイルの品質を確認し、必須項目の強制、AI 自動レビュー、Web 検索統合を行う
-- **pragmatic-architect**: プロジェクト固有の Core / Details・依存方向・Legacy Baseline を対話で整理し、中核定義の草案を作る（一般的なコードレビュー用ではない）
-- **readme**: README をプロジェクトの入口文書としてレビュー、作成、改稿する
+- **pbi**: プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューをし、受入基準・合意可能な検証・スコープを品質ゲートする
+- **planner**: 計画ファイルの品質を確認し、必須項目の強制、AI 自動レビュー、Web 検索統合を扱う
+- **pragmatic-architect**: プロジェクト固有の Core / Details、依存方向、Legacy Baseline を対話で整理し、中核定義の草案を作る（一般的なコードレビュー用ではない）
+- **readme**: README をプロジェクトの入口ドキュメントとしてレビュー、作成、改稿する
 - **requirements-definition**: 小規模プロダクト向けの要求定義を整理・レビューする
-- **skill-creator**: Agent Skill の新規作成、改稿、分割、保存方針整理を行う
+- **skill-creator**: Agent Skill の新規作成、改稿、分割、保存方針の整理を扱う
 - **testcode**: テストコードの新規作成、既存テストの追加・改善、生成済みテストの評価を扱う
 - **universal-code-reviewer**: コードレビューの汎用チェック観点を適用する
 - **verification-loop**: 実装と独立レビューを別サブエージェントに分担し、合格基準を満たすまで修正ループを回す

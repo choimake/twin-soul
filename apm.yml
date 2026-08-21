@@ -1,4 +1,4 @@
 name: twin-soul
 version: 1.0.0
-description: 複数プロジェクトへ APM 配布する Cursor / Claude Code 向け skill 集
+description: 複数プロジェクトへ APM で配布する Cursor / Claude Code 向け skill 集
 target: [cursor, claude]
