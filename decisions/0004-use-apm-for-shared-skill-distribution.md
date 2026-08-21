@@ -17,7 +17,7 @@ Superseded in part by: [0008-use-root-skill-collection-for-apm-install.md](0008-
 
 - 配布・固定・監査・対象実行環境ごとの配置を独自実装で持つ必要がある
 - `npx` インストーラーと hub 内 `sync.sh` で役割が分かれ、更新フローが増えている
-- `skills-lock.json` は `twin-soul` 固有の管理情報であり、今後 MCP / プロンプト / 指示文書 などを扱う場合の拡張先が弱い
+- `skills-lock.json` は `twin-soul` 固有の管理情報であり、今後 MCP / プロンプト / 指示ドキュメントなどを扱う場合の拡張先が弱い
 - Cursor / Claude Code 以外のエージェント実行環境へ広げる場合、配置ルールをこちらで追い続ける必要がある
 
 Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディレクトリからのパッケージ導入、`apm.lock.yaml` によるコミット固定、監査、Cursor / Claude Code など複数の実行環境への展開を提供する。`twin-soul` の各 `skills/<skill-name>/SKILL.md` はすでに `name` / `description` フロントマターを持ち、APM のサブディレクトリ単位のパッケージとして扱える。
@@ -26,7 +26,7 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 
 `twin-soul` の `skill` 配布基盤を Microsoft APM に移行する。
 
-以下は採用時点の初期移行方針である。現在の導入手順は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) と `specs/installing-shared-skills.md` を正とする。
+以下は採用時点の初期移行方針である。現在の導入手順は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) と `specs/installing-shared-skills.md` を正本とする。
 
 採用する方針:
 
@@ -38,7 +38,7 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 - プライベートリポジトリとして使う場合は APM の Git 認証（`GITHUB_APM_PAT`、`GITHUB_APM_PAT_{ORG}`、`gh auth login` など）に任せる
 - 独自の `npx` インストーラー、`skills-lock.json` 運用、hub 内 `sync.sh` 差分確認は撤去する
 
-初期移行では、全 `skill` 一括のまとめパッケージ化ではなく、既存 `skills/<skill-name>/` を APM のサブディレクトリ単位のパッケージとして参照する。全 `skill` 一括導入や `rules` / 指示文書の外部配布が必要になった場合は、別途 `.apm/skills/` や `.apm/instructions/` への移行を検討する。
+初期移行では、全 `skill` 一括のまとめパッケージ化ではなく、既存 `skills/<skill-name>/` を APM のサブディレクトリ単位のパッケージとして参照する。全 `skill` 一括導入や `rules` / 指示ドキュメントの外部配布が必要になった場合は、別途 `.apm/skills/` や `.apm/instructions/` への移行を検討する。
 
 注: 上記の「サブディレクトリ単位の package を基本にし、全 skill 一括導入を見送る」初期移行方針は、[0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) で置き換え済みである。現在の導入仕様は `specs/installing-shared-skills.md` を参照する。
 
@@ -56,7 +56,7 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 
 - `apm` CLI がローカル開発環境と CI の前提に加わる
 - Cursor 向けの既定展開先が `.cursor/skills/` ではなく `.agents/skills/` になるため、既存リポジトリでは移行期間の案内が必要になる
-- `sync.sh` は `skills/` だけでなく `rules/` シンボリックリンクと入口文書生成も担っていたため、`rules/` / `AGENTS.md` / `CLAUDE.md` の扱いは APM 配布とは別に整理する必要がある
+- `sync.sh` は `skills/` だけでなく `rules/` シンボリックリンクと入口ドキュメント生成も担っていたため、`rules/` / `AGENTS.md` / `CLAUDE.md` の扱いは APM 配布とは別に整理する必要がある
 - 全 `skill` 一括導入は `npx` 時代より明示的になる。必要な `skill` を `apm.yml` に列挙する運用を基本とし、まとめパッケージ化は必要になってから判断する
 
 注: この注意点は初期移行時点のものであり、現在は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) により、全 skill は root Skill collection、特定 skill は subdirectory package として導入する。

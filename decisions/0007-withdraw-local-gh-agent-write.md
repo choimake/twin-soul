@@ -16,7 +16,7 @@
 
 `twin-soul` では、ローカル `.env` に `GH_TOKEN` / `GH_REPO` / `GH_PROMPT_DISABLED` を置き、エージェントに `gh` 書き込み操作を直実行させる運用を撤回する。
 
-具体的には次を行う。
+具体的には次のとおり。
 
 - `.env.example` に GitHub 書き込み用トークンの設定例を置かない
 - README / CONTRIBUTING / rules から、ローカル `.env` を読み込んで、エージェントに GitHub 書き込み操作を任せる手順を撤去する
