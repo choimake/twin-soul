@@ -1,4 +1,4 @@
-# 変更作業は `.worktrees/` の git worktree で行い、二進制約は hook で強制する
+# 変更作業は `.worktrees/` の git worktree で行い、許可か拒否かではっきり分かれる禁止は hook で強制する
 
 ## ステータス
 
@@ -20,11 +20,11 @@
 twin-soul の変更作業は `.worktrees/` の git worktree で行う。
 
 - Cursor と Claude Code で同じ手順にするため、製品固有の `/worktree` は本経にしない
-- 二進制約（main で編集しない、main で `git add` / `commit` / `push` しない）は hook で止める
+- 許可か拒否かではっきり分かれる禁止（main で編集しない、main で `git add` / `commit` / `push` しない）は hook で止める
 - どの rule を読むかは [AGENTS.md](../AGENTS.md) の短い索引だけにする。本文は `rules/` に残す
 - [0005-rules-and-specs-boundaries.md](0005-rules-and-specs-boundaries.md) は維持する。`.cursor/rules/` と `.claude/rules/` は再導入しない
 - worktree 用 skill は作らない。利用先リポジトリへはこの運用を自動展開しない
-- hook に移すのは二進の禁止だけ。判断が要る rule 本文は移さない。同じ破れが繰り返されたら次の二進制約を検討する
+- hook に移すのは、許可か拒否かではっきり分かれる禁止だけ。判断が要る rule 本文は移さない。同じ破れが繰り返されたら、次の同じ種類の禁止を検討する
 
 hook の入口は Cursor が `.cursor/hooks.json`、Claude Code が `.claude/settings.json`、Codex が `.codex/hooks.json`。判定は `scripts/hooks/guard-main-checkout.py` に一本化する。Codex のファイル編集は `apply_patch` なので、パッチ本文から対象パスを読む。
 

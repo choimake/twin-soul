@@ -8,7 +8,7 @@
 
 main ブランチ上で直接作業すると、調査中の変更と実装中の変更が混ざり、クリーンな状態を保てない。worktree を使えば main を司令塔（調査・plan 作成）として保ちつつ、変更作業を隔離できる。
 
-文書だけの推奨では読まれず破られる。twin-soul では hook で二進制約を止める。
+文書だけの推奨では読まれず破られる。twin-soul では hook で、許可か拒否かではっきり分かれる禁止を止める。
 
 ## 基本ルール
 
@@ -134,7 +134,7 @@ twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkou
 
 hook が壊れたとき、または `python3` が無いときは fail-open（許可して警告）する。作業を止めないため。
 
-他の rule を hook に足すのは、絶対・二進・ツール入力だけで判定でき、文書にしたあと繰り返して破られたときだけ。判断が要る本文は索引と `rules/` に残す。
+他の rule を hook に足すのは、例外がなく、許可か拒否かではっきり分かれ、ツール入力だけで判定でき、文書にしたあと繰り返して破られたときだけ。判断が要る本文は索引と `rules/` に残す。
 
 ローカル Cursor CLI（`agent -p`）は IDE より hook が狭い。`beforeShellExecution` は確認済みの前提。`preToolUse` が飛ばない場合、Write 拒否は IDE 側で効く。判定ロジック自体は `python3 scripts/hooks/guard-main-checkout.py --self-test` で確認する。
 

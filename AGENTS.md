@@ -61,7 +61,7 @@
 - Issue → `rules/github-issue-workflow.md`
 - PR → `rules/github-pr-workflow.md`
 
-hook に移すのは、絶対・二進・ツール入力だけで判定でき、文書にしたあと繰り返して破られた禁止だけ。判断が要る本文は `rules/` に残す。品質は `mise run ci:lint` / `ci:apm` で見る。
+hook に移すのは、例外がなく、許可か拒否かではっきり分かれ、ツール入力だけで判定でき、文書にしたあと繰り返して破られた禁止だけ。判断が要る本文は `rules/` に残す。品質は `mise run ci:lint` / `ci:apm` で見る。
 
 ## 外部プロジェクトへの導入
 
