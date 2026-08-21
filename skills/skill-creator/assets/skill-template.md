@@ -41,7 +41,7 @@ description: >-
 
 ## 検証
 
-- ユーザー意図と異なる misleading な skill や、不正利用を助ける skill になっていない
+- ユーザー意図と異なる誤解を招く（misleading な）skill や、不正利用を助ける skill になっていない
 - `SKILL.md` 自体は使い方に留まり、詳細知識を抱え込んでいない
 - `name` は親ディレクトリ名と一致している
 - 詳細な判断は `references/` を読めば追える
@@ -50,6 +50,6 @@ description: >-
 - YAML frontmatter は `name` と `description` を必須として持つ
 - YAML frontmatter の `description` は 1024 文字以内で、`>-` を使い、plain scalar にしていない
 - `description` は WHAT と WHEN を含み、undertrigger を避ける具体文脈と overtrigger を避ける境界が見える
-- 必要なら 2-3 件の test prompt で trigger、出力、確認質問の妥当性を試せる
+- 必要なら 2〜3 件の test prompt で trigger、出力、確認質問の妥当性を試せる
 - 任意 field や client-specific field を標準 field と混同していない
 - 対象が不明なときの扱いが明確

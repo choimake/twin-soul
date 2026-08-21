@@ -1,7 +1,7 @@
 ---
 name: skill-creator
 description: >-
-  Agent Skill の新規作成、改稿、分割、`skills/` 配下への保存方針整理を行う。`SKILL.md` / `references/` / `assets/` / `scripts/` の役割分担を決めたいとき、既存 skill を共通ルールに合わせて直したいとき、skill 用テンプレートから下書きを作りたいときに使う。
+  Agent Skill の新規作成、改稿、分割、`skills/` 配下への保存方針を整理する。`SKILL.md` / `references/` / `assets/` / `scripts/` の役割分担を決めたいとき、既存 skill を共通ルールに合わせて直したいとき、skill 用テンプレートから下書きを作りたいときに使う。
 ---
 
 # Skill Creator
@@ -23,8 +23,8 @@ SKILL.md は薄く保つ。判断知識の肥大は `references/` へ。迷っ�
 
 1. 対象 skill の名前・保管先・テーマを特定。一意でなければ `@path` や用途を確認し、会話履歴から使った手順・修正指摘・入出力形式を拾う。
 2. 構成レビュー・下書き作成・実ファイル更新のいずれかを判定。`review` / `draft` / `write-file` が明示されていれば優先。
-3. skill が可能にする作業、trigger すべき状況、期待出力、test prompt 要否を確認。ユーザー意図と異なる misleading な skill や不正利用を助ける skill は作らない。
-4. 関係する既存 skill と、必要なリポジトリ 正本（`AGENTS.md`、`rules/`、`specs/` など）だけ確認。全 skill 読了は不要。
+3. skill が可能にする作業、trigger すべき状況、期待出力、test prompt 要否を確認。ユーザー意図と異なる誤解を招く（misleading な）skill や不正利用を助ける skill は作らない。
+4. 関係する既存 skill と、必要なリポジトリの正本（`AGENTS.md`、`rules/`、`specs/` など）だけ確認。全 skill 読了は不要。
 5. 新規か既存更新かを判定しファイル分割方針を決定。`SKILL.md`→workflow、`references/`→判断知識、`assets/`→テンプレート、`scripts/`→実行補助のみ。
 6. `draft` / `write-file` では [assets/skill-template.md](assets/skill-template.md) と [assets/reference-template.md](assets/reference-template.md) を起点に本文を組み立てる。
 7. `SKILL.md` の YAML frontmatter は `name` と `description` を必須にし、`description` には WHAT / WHEN / trigger / boundary と undertrigger を避ける具体文脈を入れる。任意 field や client-specific field は標準 field と混同しない。
