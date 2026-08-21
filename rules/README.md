@@ -6,7 +6,7 @@
 
 - 作業時の禁止・推奨事項
 - レビューや変更時のチェックリスト
-- 複数の skill や文書にまたがって効く運用ルール
+- 複数の skill やドキュメントにまたがって効く運用ルール
 
 ## 置かないもの
 
@@ -24,7 +24,7 @@
 - [github-issue-workflow.md](github-issue-workflow.md) - Issue 作成とスコープ変更時の運用
 - [when-to-create-decision-records.md](when-to-create-decision-records.md) - DR を作る判断基準
 - [bash-safety.md](bash-safety.md) - Bash コマンド安全性の判断基準
-- [worktree-workflow.md](worktree-workflow.md) - 変更作業は `.worktrees/` で行い、hook が main 編集を止める
+- [worktree-workflow.md](worktree-workflow.md) - 変更作業は `.worktrees/` で進め、hook が main 編集を止める
 
 ## 迷ったとき
 

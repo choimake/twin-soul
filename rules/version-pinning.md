@@ -21,7 +21,7 @@ mise 管理下の tool・ランタイム、Docker ベースイメージ、GitHub
 - `latest` / `@latest` / `lts` / `system` / `prefix:` / `ref:` / `sub-1:` 等の fuzzy 指定
 - x.y.z 未満の pin（例: `node = "22"`、`python = "3.12"`、`go = "1.22"`）
 - `[tools]` の配列形式、ネスト `[tools.*]` 以外の迂回記法
-- workflow や Dockerfile に tool バージョンを二重定義して `mise.toml` 等の SSOT からずらすこと
+- workflow や Dockerfile に tool バージョンを二重定義して `mise.toml` 等の正本からずらすこと
 
 ## 推奨
 

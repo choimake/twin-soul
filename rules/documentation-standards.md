@@ -33,7 +33,7 @@ AI エージェントとの協働で生まれるナレッジは、置き場を�
 
 ### バージョン管理外の作業領域
 
-このリポジトリでは `memory/` を作業領域とする。gitignore 対象であり、共有の source of truth ではない。正は `rules/`、`specs/`、`decisions/` の適切な場所に寄せる。
+このリポジトリでは `memory/` を作業領域とする。gitignore 対象であり、共有の正本ではない。正本は `rules/`、`specs/`、`decisions/` の適切な場所に寄せる。
 
 - `memory/lessons.md` — 同じ過ちを繰り返さない学び
 - `memory/handoff.md` — 進行中作業の申し送り
@@ -65,7 +65,7 @@ DR（Decision Record）作成
 
 - `memory/` にしかない知見で運用に効くものは要約して正式ドキュメントに昇格
 - 昇格したら `memory/` の重複は削るか、正式ドキュメントへのリンクだけ残す
-- 二重管理を避ける: 正は常に `rules/`、`specs/`、`decisions/` の適切な場所に寄せる
+- 二重管理を避ける: 正本は常に `rules/`、`specs/`、`decisions/` の適切な場所に寄せる
 
 ## レビュープロセス
 
@@ -105,15 +105,15 @@ DR（Decision Record）作成
 
 ### specs の更新
 
-1. まず source of truth（コード・設定・OpenAPI 等）を更新
+1. まず正本（コード・設定・OpenAPI 等）を更新
 2. 生成物があれば再生成
 3. 手書きは補足に限定
 
 ### rules の更新
 
 1. 作業時に守る方針として使える粒度にする
-2. 現在仕様の長い説明は `specs/` へ逃がす
-3. 判断理由や方針変更の履歴は `decisions/` へ逃がす
+2. 現在仕様の長い説明は `specs/` へ移す
+3. 判断理由や方針変更の履歴は `decisions/` へ移す
 
 ### decisions の更新
 
