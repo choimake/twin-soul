@@ -24,6 +24,7 @@
 - `.cursor/skills/` - 旧 Cursor パス互換の展開物
 - `apm_modules/` - APM のローカルキャッシュ
 - `.cursor/plans/` - Cursor のローカル plan 作業領域
+- `memory/` - エージェント作業のローカル記録
 
 **設定例:**
 
@@ -35,6 +36,9 @@
 
 # APM の local cache
 apm_modules/
+
+# Agent local working memory（正本ではない）
+memory/
 ```
 
 **理由:**

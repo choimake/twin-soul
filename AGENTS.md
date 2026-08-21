@@ -31,6 +31,17 @@
 - `specs/`: 現在の構成と仕様
 - `README.md`: 使い方の導線
 - `decisions/`: 判断理由の記録
+- `memory/`: エージェント作業のローカル記録（gitignore、正本ではない）
+
+## 作業メモリ
+
+- `memory/` は gitignore。共有の source of truth ではない
+- 作業開始時に `memory/lessons.md` と `memory/handoff.md` を読む。無ければ作る
+- 今回の作業に関係する `memory/notes/` だけ追加で読む
+- 作業終了時、または長い作業の区切りで残す。学びは `lessons.md`、申し送りは `handoff.md`、作業メモは `notes/`
+- 書かないもの: 秘密情報、会話の全文、正式文書のコピー
+- チーム運用に効く知見は `memory/` に溜めず、`rules/` / `specs/` / `decisions/` / skill へ昇格する
+- 雛形と詳細判断は `rules/working-memory.md`
 
 ## 外部プロジェクトへの導入
 

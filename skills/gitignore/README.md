@@ -54,6 +54,6 @@ bash skills/gitignore/scripts/fetch-gitignore.sh auto .
 - 判断知識 hub: [`references/gitignore-knowledge.md`](references/gitignore-knowledge.md)
 - レビュールール: [`references/rules/`](references/rules/)
 - レビュー出力テンプレート: [`assets/review-output-template.md`](assets/review-output-template.md)
-- custom block 例: [`assets/mise-local-overrides.gitignore`](assets/mise-local-overrides.gitignore)
+- custom block 例: [`assets/mise-local-overrides.gitignore`](assets/mise-local-overrides.gitignore)、[`assets/memory.gitignore`](assets/memory.gitignore)
 - 検証用 prompt: [`assets/test-prompts.md`](assets/test-prompts.md)
 - helper script: [`scripts/fetch-gitignore.sh`](scripts/fetch-gitignore.sh)
