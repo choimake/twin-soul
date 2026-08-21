@@ -13,13 +13,13 @@
 - Cursor 標準の `/worktree` と `.cursor/worktrees.json`（配置は通常 `~/.cursor/worktrees`）
 - 既存方針どおりリポジトリ内 `.worktrees/` + `git worktree add`
 - `.cursor/rules/` を再導入して本文を always-on 注入する
-- 文書と skill だけ足して強制はしない
+- ドキュメントと skill だけ足して強制はしない
 
 ## 判断
 
 twin-soul の変更作業は `.worktrees/` の git worktree で行う。
 
-- Cursor と Claude Code で同じ手順にするため、製品固有の `/worktree` は本経にしない
+- Cursor と Claude Code で同じ手順にするため、製品固有の `/worktree` は正本にしない
 - 許可か拒否かではっきり分かれる禁止（main で編集しない、main で `git add` / `commit` / `push` しない）は hook で止める
 - どの rule を読むかは [AGENTS.md](../AGENTS.md) の短い索引だけにする。本文は `rules/` に残す
 - [0005-rules-and-specs-boundaries.md](0005-rules-and-specs-boundaries.md) は維持する。`.cursor/rules/` と `.claude/rules/` は再導入しない
@@ -39,7 +39,7 @@ hook の入口は Cursor が `.cursor/hooks.json`、Claude Code が `.claude/set
 デメリット:
 
 - hook 破損や `python3` 未導入時は fail-open なので、止めきれない
-- ローカル Cursor CLI は `preToolUse` を飛ばすことがあり、Write 拒否は IDE 側が本経になる
+- ローカル Cursor CLI は `preToolUse` を飛ばすことがあり、Write 拒否は IDE 側が正本になる
 - shell のリダイレクト書き込みは file hook を迂回する
 
 影響:

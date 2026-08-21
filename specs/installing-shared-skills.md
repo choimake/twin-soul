@@ -1,6 +1,6 @@
 # Installing Skills
 
-この文書は、`twin-soul` から別プロジェクトへ skill を導入するときの APM 運用を整理する。
+このドキュメントは、`twin-soul` から別プロジェクトへ skill を導入するときの APM 運用を整理する。
 
 ## 目的
 
@@ -9,13 +9,13 @@
 - 利用先リポジトリの project 固有 skill を壊さない
 - `apm.lock.yaml` で導入内容を再現可能にする
 
-この文書の手順は APM CLI `0.24.0` で検証する（2026-07 時点）。
+このドキュメントの手順は APM CLI `0.24.0` で検証する（2026-07 時点）。
 
 ## 使い方
 
 ### 全 skill を入れる
 
-第三者が `twin-soul` の skill をまとめて使う場合は、利用先リポジトリで root package を指定する。`twin-soul` は `skills/<skill-name>/SKILL.md` が並ぶ Skill collection として扱われ、APM が nested skill を target runtime へ展開する。
+第三者が `twin-soul` の skill をまとめて使う場合は、利用先リポジトリで root package を指定する。`twin-soul` は `skills/<skill-name>/SKILL.md` が並ぶ Skill collection として扱われ、APM が nested skill を対象ランタイムへ展開する。
 
 ```bash
 cd /path/to/target-project
@@ -40,9 +40,9 @@ apm install
 ```
 
 - `twin-soul` を clone していない環境でも使える
-- GitHub リポジトリから直接取得し、APM が target runtime へ展開する
+- GitHub リポジトリから直接取得し、APM が対象ランタイムへ展開する
 - プライベートリポジトリの場合は Git 認証が必要
-- バージョン固定は `#v1.0.0`、commit 固定は `#<sha>` のように dependency ref へ付ける
+- バージョン固定は `#v1.0.0`、commit 固定は `#<sha>` のように依存の ref に付ける
 - `.cursor/skills/` を前提にした利用先では、移行期間だけ `APM_LEGACY_SKILL_PATHS=1 apm install` を使える
 
 ### 特定 skill だけ入れる
@@ -76,11 +76,11 @@ dependencies:
 
 この方式は導入単位が明示的で、チームで用途を絞る場合に更新範囲を小さくできる。
 
-`skills/drawio-architecture` は subdirectory package の `apm.yml` で draw.io MCP（`https://mcp.draw.io/mcp`）を宣言する。利用先でこの package を direct dependency にすると、`apm install` が Cursor（`.cursor/mcp.json`）と Claude Code（`.mcp.json`）へ書く。root collection だけで全 skill を入れた場合は MCP は付かない。そのときは skill が導入手順を案内する。
+`skills/drawio-architecture` は subdirectory package の `apm.yml` で draw.io MCP（`https://mcp.draw.io/mcp`）を宣言する。利用先でこの package を直接依存にすると、`apm install` が Cursor（`.cursor/mcp.json`）と Claude Code（`.mcp.json`）へ書く。root collection だけで全 skill を入れた場合は MCP は付かない。そのときは skill が導入手順を案内する。
 
 ### このリポジトリを clone して開発するとき（任意）
 
-ローカル authoring 用にも、ルートの `apm.yml` は Skill collection として扱う。`dependencies.apm` に `path: ./skills/...` を列挙すると、remote package として導入されたときに consumer filesystem への local path dependency と見なされるため使わない。
+ローカルで skill を書くときにも、ルートの `apm.yml` は Skill collection として扱う。`dependencies.apm` に `path: ./skills/...` を列挙すると、remote package として導入されたときに利用先のファイルシステム上のローカルパス依存と見なされるため使わない。
 
 ```bash
 apm install --target cursor,claude
@@ -90,19 +90,19 @@ apm install --target cursor,claude
 
 - 導入は利用先リポジトリの `apm.lock.yaml` に解決結果を書き出す
 - `apm.lock.yaml` は git コミット対象である
-- APM は resolved commit、virtual path、deployed files を記録し、再実行時の cleanup に使う
-- skill と同名の local file がある場合、APM の collision detection に従う。意図的に上書きする場合だけ `--force` を使う
+- APM は解決済み commit、仮想パス、展開済みファイルを記録し、再実行時のクリーンアップに使う
+- skill と同名のローカルファイルがある場合、APM の衝突検出に従う。意図的に上書きする場合だけ `--force` を使う
 
 ## 対象パス
 
 - `.agents/skills/<skill-name>`
 - `.claude/skills/<skill-name>`
 
-APM の既定では、Cursor 向け skill は cross-client 標準の `.agents/skills/` に展開される。Claude Code は `.claude/skills/` に展開される。既存の `.cursor/skills/` が必要なリポジトリでは `--legacy-skill-paths` または `APM_LEGACY_SKILL_PATHS=1` を使う。
+APM の既定では、Cursor 向け skill はクライアント横断の標準である `.agents/skills/` に展開される。Claude Code は `.claude/skills/` に展開される。既存の `.cursor/skills/` が必要なリポジトリでは `--legacy-skill-paths` または `APM_LEGACY_SKILL_PATHS=1` を使う。
 
-全 skill 導入では、APM が root package を Skill collection として解釈し、`skills/<skill-name>/` をそれぞれ target の skill ディレクトリへ展開する。特定 skill の導入では `choimake/twin-soul/skills/<skill-name>#<ref>` のサブディレクトリ package として導入する。
+全 skill 導入では、APM が root package を Skill collection として解釈し、`skills/<skill-name>/` をそれぞれ対象ランタイムの skill ディレクトリへ展開する。特定 skill の導入では `choimake/twin-soul/skills/<skill-name>#<ref>` のサブディレクトリ package として導入する。
 
-skill 内の `references/`、`assets/`、`scripts/` などの下位構成は deploy 側で固定しない。
+skill 内の `references/`、`assets/`、`scripts/` などの下位構成は展開側で固定しない。
 
 ## 更新フロー
 
@@ -114,22 +114,22 @@ skill 内の `references/`、`assets/`、`scripts/` などの下位構成は dep
 
 ### remote package の local_path dependency が拒否される
 
-次のようなエラーが出る場合、remote package として読み込まれた `apm.yml` が `path: ./skills/...` のような local path dependency を宣言している。
+次のようなエラーが出る場合、remote package として読み込まれた `apm.yml` が `path: ./skills/...` のようなローカルパス依存を宣言している。
 
 ```text
 Refusing to install local_path dependency './skills/planner' declared by remote package 'twin-soul': remote packages cannot reference paths on the consumer filesystem.
 ```
 
-remote package では consumer filesystem 上の local path を参照できない。`twin-soul` では root package を Skill collection として扱い、全 skill は `choimake/twin-soul#main`、特定 skill は `choimake/twin-soul/skills/<skill-name>#main` で導入する。
+remote package では利用先のファイルシステム上のローカルパスを参照できない。`twin-soul` では root package を Skill collection として扱い、全 skill は `choimake/twin-soul#main`、特定 skill は `choimake/twin-soul/skills/<skill-name>#main` で導入する。
 
 ## npx / skills-lock.json からの移行
 
-以前の installer は `.cursor/skills/` と `.claude/skills/` に copy し、`skills-lock.json` に管理対象を記録していた。APM 移行後は `apm.yml` と `apm.lock.yaml` を正とする。
+以前の installer は `.cursor/skills/` と `.claude/skills/` にコピーし、`skills-lock.json` に管理対象を記録していた。APM 移行後は `apm.yml` と `apm.lock.yaml` を正本とする。
 
 1. 利用先リポジトリに `apm.yml` を追加する
 2. 必要な skill を `dependencies.apm` に列挙する
 3. `apm install` を実行する
-4. 動作確認後、旧 `skills-lock.json` と旧 copy の skill を削除する
+4. 動作確認後、旧 `skills-lock.json` と旧コピーの skill を削除する
 
 旧 `.cursor/skills/` を即時に消せない場合は、移行期間だけ `APM_LEGACY_SKILL_PATHS=1 apm install` を使い、段階的に `.agents/skills/` へ寄せる。
 

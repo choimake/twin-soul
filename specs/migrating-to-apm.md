@@ -1,6 +1,6 @@
 # Migrating To APM
 
-この文書は、`npx --yes github:choimake/twin-soul` で skill を導入していた利用先リポジトリを Microsoft APM に移す手順をまとめる。
+このドキュメントは、`npx --yes github:choimake/twin-soul` で skill を導入していた利用先リポジトリを Microsoft APM に移す手順をまとめる。
 
 ## 前提
 
@@ -43,11 +43,11 @@
 
 3. `apm.lock.yaml` をコミットする。
 4. Cursor / Claude Code から対象 skill が見えることを確認する。
-5. 問題なければ旧 `skills-lock.json` と旧 copy の skill を削除する。
+5. 問題なければ旧 `skills-lock.json` と旧コピーの skill を削除する。
 
 ## 旧パスを使うリポジトリ
 
-APM の既定では Cursor 向け skill は `.agents/skills/` に展開される。既存リポジトリ が `.cursor/skills/` を前提にしている場合は、移行期間だけ次を使う。
+APM の既定では Cursor 向け skill は `.agents/skills/` に展開される。既存リポジトリが `.cursor/skills/` を前提にしている場合は、移行期間だけ次を使う。
 
 ```bash
 APM_LEGACY_SKILL_PATHS=1 apm install
