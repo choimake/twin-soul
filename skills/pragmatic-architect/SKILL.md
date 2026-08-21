@@ -16,11 +16,11 @@ description: >-
 - 依存方向整理・Core 汚染防止の境界合意時
 - レガシー負債の棚卸しと Legacy Baseline への切り分け時
 - `.architecture-core.md` 草案の対話作成時
-- 既存コード・文書から中核定義を開始するとき
+- 既存コード・ドキュメントから中核定義を開始するとき
 
 ## 手順
 
-1. 対象プロジェクトと既存資料（README・主要ディレクトリ・設計文書）の範囲を特定。
+1. 対象プロジェクトと既存資料（README・主要ディレクトリ・設計ドキュメント）の範囲を特定。
 2. コードとドキュメントから Core / Details / 依存方向の仮説を作成。
 3. 現状解析結果と密結合の具体例を箇条書きで示したうえで確認質問を 3〜5 個返す。質問はオープンクエスチョン禁止。事実提示つきのトレードオフ質問のみ。
 4. 回答をもとに Core / Details / Dependency Direction / Contamination Examples / Allowed Exceptions / Legacy Baseline を整理。Legacy Baseline（既存負債の棚上げ）と Allowed Exceptions（合意済み例外）は混同しない。

@@ -14,7 +14,7 @@ mise は asdf / nvm / direnv / make の代替となる複数言語対応ツー�
 
 1. **Tool versions** — node, python, go 等のインストールと pin（固定）
 2. **Environment variables** — プロジェクト単位の env（`mise.toml` + local override）
-3. **Tasks** — プロジェクトタスクランナー（CI ゲートの SSOT に使う）
+3. **Tasks** — プロジェクトタスクランナー（CI ゲートの正本に使う）
 
 **言語**: 説明・提案は **日本語**（コマンド・識別子・設定キーは英語のまま）。
 
@@ -24,7 +24,7 @@ mise は asdf / nvm / direnv / make の代替となる複数言語対応ツー�
 
 | 用語 | 意味 | 表記 |
 | --- | --- | --- |
-| SSOT | 単一情報源。二重定義しない | `SSOT` |
+| 正本 | 単一情報源。二重定義しない | 本文は「正本」。英語略称は `SSOT` |
 | pin | tool バージョンを config に固定すること | 動詞 `pin`、説明では「固定」と併記可 |
 | ゲート（gate） | CI/PR の検査入口 task | 本文は「ゲート task」、プレースホルダは `<gate>` |
 | leaf task | 実コマンドを持つ末端 task | `leaf task` |
@@ -47,9 +47,9 @@ task 追加でレイアウトが不明なら **先に task-layout.md**。
 ## 基本原則
 
 1. **scope を確認**: `mise use`（project → `./mise.toml`）か `mise use -g`（global）かを実行前に確認する。
-2. **`mise use --pin` を優先**: install + x.y.z pin を一度に行う。`mise install` 単体は既存 config の install のみ（新規 tool の pin には使わない）。`[settings] pin = true` は `mise use` を exact にしやすくする補助で、検証の代替ではない（[tools.md](references/tools.md)）。
+2. **`mise use --pin` を優先**: install + x.y.z pin を一度にする。`mise install` 単体は既存 config の install のみ（新規 tool の pin には使わない）。`[settings] pin = true` は `mise use` を exact にしやすくする補助で、検証の代替ではない（[tools.md](references/tools.md)）。
 3. **`[tools]` は x.y.z 完全一致 pin のみ**: `latest` / `lts` / `prefix:` / 2 セグメント以下（`22`、`3.12`）は禁止。横断方針は [rules/version-pinning.md](../../rules/version-pinning.md)（skill 単体導入時は `rules/` 非同梱に注意）。
-4. **`mise.toml` を SSOT**: tool バージョンを workflow 等に二重定義しない。
+4. **`mise.toml` を正本とする**: tool バージョンを workflow 等に二重定義しない。
 5. **機密情報は gitignore 対象**: `mise.local.toml` / `.env`。コミット可能な上書き設定ファイル（`mise.production.toml` 等）にも機密情報を置かない。
 6. **CI ゲートは mise task のみ**: lint/test の再実装を workflow に書かない。ローカル `mise run <gate>`、CI `mise run --skip-tools <gate>`（[ci.md](references/ci.md)）。
 7. **task 引数は `usage`**: task **引数**としての `$1` / `$@` / 非推奨 `{{arg()}}` は使わない（env 展開 `$VAR` は可）。
@@ -61,6 +61,6 @@ task 追加でレイアウトが不明なら **先に task-layout.md**。
 ## エージェント向け安全制約
 
 - **`mise trust` / `MISE_TRUSTED_CONFIG_PATHS`**: 任意の clone 先を一括で trust しない。config / task の内容を確認してから trust する。
-- **`mise env` / `mise env --json`**: 機密情報を含む可能性がある場合、出力をチャットやログに載せない。キー名の確認は `mise config ls` 等で行う。値の確認は人間がローカルで直接行う。
+- **`mise env` / `mise env --json`**: 機密情報を含む可能性がある場合、出力をチャットやログに載せない。キー名は `mise config ls` 等で確認する。値は人間がローカルで直接確認する。
 - **`mise set` / `mise set -g`**: いずれも機密情報を書かない。`mise set` はプロジェクト `mise.toml` へ書き込み、コミット対象となる。機密情報は `mise.local.toml` / `.env`（gitignore 対象）にのみ手動で書く。
 - **tool 追加時**: `mise use --pin <tool>@x.y.z` で pin する。`mise install <tool>` 単体や fuzzy 指定（`@22`、`latest`）は使わない。変更後は skill 内 `bash scripts/check-tool-pins.sh`（skill ルート基準）または利用先プロジェクトの `ci:lint:mise-tools` / `mise run ci:lint` で検証する。

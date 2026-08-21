@@ -18,7 +18,7 @@ mise はプロジェクト単位の環境変数を管理できる（direnv の�
 原則:
 
 - **code / config 分離**: 開発者・マシンごとに異なる値は gitignore 対象へ。
-- **`mise.toml` が SSOT**: tool バージョンとチーム共有 env のデフォルト。
+- **`mise.toml` が正本**: tool バージョンとチーム共有 env のデフォルト。
 - **コミット可能な上書き設定ファイルにも機密情報を置かない**（`mise.production.toml` 等）。本番の機密情報は Secret Manager / CI secrets のみ。
 - **ローカル開発の機密情報は `mise.local.toml` / `.env`**（gitignore 対象）のみ。`mise.toml` には置かない。
 - プレースホルダであっても機密情報を `mise.toml` にコミットしない。

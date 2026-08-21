@@ -6,8 +6,8 @@
 
 ## 原則
 
-1. **コマンドの SSOT**: ゲートを mise task に定義。ローカル `mise run <gate>`、CI `mise run --skip-tools <gate>`。
-2. **tool バージョンの SSOT**: pin は `mise.toml` `[tools]` のみ。
+1. **コマンドの正本**: ゲートを mise task に定義。ローカル `mise run <gate>`、CI `mise run --skip-tools <gate>`。
+2. **tool バージョンの正本**: pin は `mise.toml` `[tools]` のみ。
 3. **CI では必要 tool だけ install**: `mise-action` の `install_args`。
 4. **二重 install 禁止**: action 後は `--skip-tools`。
 

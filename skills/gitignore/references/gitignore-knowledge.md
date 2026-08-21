@@ -17,7 +17,7 @@
 
 呼び出し側は、必要に応じて次を渡せる。
 
-- 対象リポジトリ や `@path`
+- 対象リポジトリや `@path`
 - 明示された技術スタック、OS、IDE、ツール
 - 既存 `.gitignore` の有無
 - `review` / `draft` / `write-file`
@@ -67,7 +67,7 @@ template 候補は次の順で決める。
 4. `preserve-handwritten-rules.md`
 5. `protect-shared-env-examples.md`
 
-各ルールは個別に評価し、違反があれば 優先度（重大 / 提案 / 任意）付きで指摘する。優先度の詳細は各 rule file の「指摘する基準」を参照。
+各ルールは個別に評価し、違反があれば優先度（重大 / 提案 / 任意）付きで指摘する。優先度の詳細は各 rule file の「指摘する基準」を参照。
 
 ## 出力モードごとの期待
 

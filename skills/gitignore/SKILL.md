@@ -27,7 +27,7 @@ compatibility: Requires network access for gitignore.io
 3. 既存 `.gitignore` と判断に必要な最小限の手掛かりだけ読む。必要なら `scripts/fetch-gitignore.sh detect <target-path>` で候補を先出し。詳細は [references/auto-detection.md](references/auto-detection.md) を参照。
 4. ユーザー指定・リポジトリの手掛かり・自動推定結果をもとに `gitignore.io` テンプレート候補を決定。取得には [references/helper-script.md](references/helper-script.md) の `detect|auto|list` を使用。template 選定は [references/template-selection.md](references/template-selection.md)、custom ルールは [references/custom-rules.md](references/custom-rules.md) を参照。
 5. 出力生成: `review`→不足・過剰・推奨テンプレート一覧と必要なら custom ルールを返す。`draft`→テンプレート取得結果に custom block を追加して file-ready な `.gitignore` 案を返す。既存 file 更新は [references/existing-gitignore.md](references/existing-gitignore.md)、出力形式は [references/output-modes.md](references/output-modes.md) を参照。
-6. 自動レビュー（`review` および `draft` 時）: `references/rules/` をファイル名順で適用し、[assets/review-output-template.md](assets/review-output-template.md) 形式で結果を添付。重大指摘あり→本文案を修正して同一ターン内で再レビュー（最大 2 回）。重大なし→「レビュー合格。ユーザー承認を求めます」。
+6. 自動レビュー（`review` および `draft` 時）: `references/rules/` をファイル名順で適用し、[assets/review-output-template.md](assets/review-output-template.md) 形式で結果を添付。重大指摘あり→本文案を修正して同一ターン内で再レビュー（最大 2 回）。重大なし→「レビュー合格。ユーザー承認を求める」。
 7. `write-file`→保存先が明示された場合のみ実行。保存前に rules レビュー合格を確認。既存手書きルールを保持して更新。generated block と custom block の由来が混ざらない書き方を優先。
 8. 取得失敗・template 不明時は使えそうな template 名・fallback 方針・追加確認事項だけ返す。
 
@@ -44,7 +44,7 @@ compatibility: Requires network access for gitignore.io
 
 ## 検証
 
-- `SKILL.md` は workflow に留まり、詳細知識を `references/` へ逃がしている
+- `SKILL.md` は workflow に留まり、詳細知識を `references/` へ移している
 - hub から各 reference へリンクが通る
 - `references/rules/` を辞書順で適用できる
 - 新規下書き・レビュー返答は `assets/review-output-template.md` を起点にできる

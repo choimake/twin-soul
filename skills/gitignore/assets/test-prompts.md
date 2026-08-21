@@ -1,12 +1,12 @@
 # Gitignore テストプロンプト
 
-最初は 3-4 件に絞る。
+最初は 3〜4 件に絞る。
 
 ## セット確認
 
-- Coverage: リポジトリ 自動推定、新規作成、既存更新、custom 手書きルールをそれぞれ見られるようにする
+- Coverage: リポジトリ自動推定、新規作成、既存更新、custom 手書きルールをそれぞれ見られるようにする
 - Diversity check: 言語、OS、依頼の粒度を変え、同じ言い換えだけの prompt 群にしない
-- Overfitting risk: Node 系の定番ケースだけに最適化して、曖昧なリポジトリ や既存 `.gitignore` 更新を落とさないかを見る
+- Overfitting risk: Node 系の定番ケースだけに最適化して、曖昧なリポジトリや既存 `.gitignore` 更新を落とさないかを見る
 - Review loop: `draft` / `review` 後に `references/rules/` が適用され、`assets/review-output-template.md` 形式で結果が返るか
 
 ## プロンプト 1
