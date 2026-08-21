@@ -1,0 +1,4 @@
+# Agent local working memory
+# Official docs stay in rules/, specs/, decisions/, and skills/.
+# Ignore the local working notes themselves.
+memory/

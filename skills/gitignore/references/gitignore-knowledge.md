@@ -52,7 +52,7 @@ template 候補は次の順で決める。
 |---|---|
 | template 選定 | [template-selection.md](template-selection.md) |
 | リポジトリ探索・自動推定 | [auto-detection.md](auto-detection.md) |
-| mise 等 custom ルール | [custom-rules.md](custom-rules.md) |
+| mise / memory 等 custom ルール | [custom-rules.md](custom-rules.md) |
 | 既存 file 更新 | [existing-gitignore.md](existing-gitignore.md) |
 | draft / write-file / fallback | [output-modes.md](output-modes.md) |
 | script 実行 | [helper-script.md](helper-script.md) |
