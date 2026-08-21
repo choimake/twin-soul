@@ -26,7 +26,7 @@ Coverage は手段、品質は Mutation Testing・Assertion 強度・Test Smell 
 5. `generate`→ケース一覧をもとに file-ready なテスト案を作成。`evaluate`→実行可否・assertion の質・edge case・外部依存・coverage 偏重の有無を確認。`improve`→弱い assertion・surviving mutant・test smell を起点に追加・修正案を返す。
 6. mutation testing や自動評価が未導入でも必要性と導入順を分けて返す。coverage だけで十分と断定しない。
 
-詳細判断と各観点の入口は [references/testcode-knowledge.md](references/testcode-knowledge.md) を参照。必要に応じて `references/` 配下の分割文書を並列確認。
+詳細判断と各観点の入口は [references/testcode-knowledge.md](references/testcode-knowledge.md) を参照。必要に応じて `references/` 配下の分割ドキュメントを並列確認。
 
 ## 期待する出力
 

@@ -1,6 +1,6 @@
 # Universal Code Reviewer
 
-`universal-code-reviewer` は、コードレビュー時の汎用チェック観点をそろえ、スコープを絞ったまま一貫した指摘を返すための skill です。
+`universal-code-reviewer` は、コードレビュー時の汎用チェック観点をそろえ、スコープを絞ったまま一貫した指摘を返すための skill である。
 
 ## 概要
 

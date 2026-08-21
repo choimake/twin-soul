@@ -23,7 +23,7 @@ description: >-
 3. 入力から主アクター・ゴール・対応ストーリーを特定する。ストーリーに書かれていない成立前提は当て推量で埋めず、「暗黙の前提」として A 番号で明示するか、ユーザーに確認する。
 4. [assets/use-case-template.md](assets/use-case-template.md) を起点に本文を組み立てる。書式の選択（fully dressed / 簡略版）や任意項目の追加判断は [references/use-case-description-knowledge.md](references/use-case-description-knowledge.md) を参照する。
 5. `references/rules/` 配下のルールをファイル名順で適用し、重大 / 提案 / 任意 で指摘する。
-6. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大 あり→修正を促す、無し→ユーザー承認を求める。
+6. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大あり→修正を促す、無し→ユーザー承認を求める。
 7. `write-file` では保存先が明示されていればそのパスへ保存する。未指定なら、本文生成前にユーザーへ保存先を確認する（既定ディレクトリは設けず、特定ツール依存のパスも推定しない）。
 
 詳細判断は [references/use-case-description-knowledge.md](references/use-case-description-knowledge.md) を参照する。
@@ -36,7 +36,7 @@ description: >-
 
 ## 検証
 
-- `SKILL.md` は workflow に留まり、詳細知識を `references/use-case-description-knowledge.md` に逃がしている
+- `SKILL.md` は workflow に留まり、詳細知識を `references/use-case-description-knowledge.md` に移している
 - 判断基準とルール本文は `references/` を読めば追える
 - 新規下書きは `assets/use-case-template.md`、レビュー返答は `assets/review-output-template.md` を起点にできる
 - `description` は WHAT と WHEN を含み、trigger 語（ユースケース・基本フロー・代替フロー・例外フロー・アクター）と対象外（ユースケース図・要求定義全体・PBI）が見える

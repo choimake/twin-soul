@@ -1,14 +1,14 @@
 ---
 name: pbi
 description: >-
-  プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューを行う。受入基準・確認方法・スコープを軽量に整理する。バックログ、ユーザーストーリー、受入基準、受け入れ条件、INVEST の整理時に使う。実装手順、変更ファイル一覧、CI やコマンド検証を主体とする計画書は本 skill の対象外。
+  プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューする。受入基準・確認方法・スコープを軽量に整理する。バックログ、ユーザーストーリー、受入基準、受け入れ条件、INVEST の整理時に使う。実装手順、変更ファイル一覧、CI やコマンド検証を主体とする計画書は本 skill の対象外。
 ---
 
 # PBI
 
 ## 目的
 
-PBI 文書の構造と受入品質を保ち、手戻りを防ぐ最小限の記述（背景・目的、受入基準、確認方法、メモ・論点）を揃える。
+PBI ドキュメントの構造と受入品質を保ち、手戻りを防ぐ最小限の記述（背景・目的、受入基準、確認方法、メモ・論点）を揃える。
 
 ## 使う場面
 
@@ -22,7 +22,7 @@ PBI 文書の構造と受入品質を保ち、手戻りを防ぐ最小限の記�
 2. 出力モードを判定する。`review` / `draft` / `write-file` が明示されていれば優先。未指定なら、既存 PBI パスあり→`review`、無し→`draft`。
 3. [assets/pbi-template.md](assets/pbi-template.md) を起点に、既定では軽量な必須セクションだけを埋める。抽象レイアウトとの対応、Web 検索ロジック、保存先未指定時の扱いは [references/pbi-knowledge.md](references/pbi-knowledge.md) を参照する。
 4. `references/rules/` 配下のルールをファイル名順で適用し、重大 / 提案 / 任意 で指摘する。
-5. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大 あり→修正を促す、無し→ユーザー承認を求める。
+5. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大あり→修正を促す、無し→ユーザー承認を求める。
 6. `write-file` では保存先が明示されていればそのパスへ保存する。未指定なら、本文生成前にユーザーへ保存先を確認する（既定ディレクトリは設けず、特定ツール依存のパスも推定しない）。
 
 詳細判断は [references/pbi-knowledge.md](references/pbi-knowledge.md) を参照する。
@@ -35,7 +35,7 @@ PBI 文書の構造と受入品質を保ち、手戻りを防ぐ最小限の記�
 
 ## 検証
 
-- `SKILL.md` は workflow に留まり、詳細知識を `references/pbi-knowledge.md` に逃がしている
+- `SKILL.md` は workflow に留まり、詳細知識を `references/pbi-knowledge.md` に移している
 - 判断基準とルール本文は `references/` を読めば追える
 - 新規下書きは `assets/pbi-template.md`、レビュー返答は `assets/review-output-template.md` を起点にできる
 - `description` は WHAT と WHEN を含み、trigger 語（PBI・バックログ・受入基準・ユーザーストーリー）と対象外（実装手順・コマンド検証主体の計画書）が見える

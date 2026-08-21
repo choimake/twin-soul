@@ -83,7 +83,7 @@
 
 ログ保存先:
 
-- 原則として、承認された外部保管先、暗号化 storage、監査ログ基盤などリポジトリ 外の保存先を使う
+- 原則として、承認された外部保管先、暗号化 storage、監査ログ基盤などリポジトリ外の保存先を使う
 - リポジトリ配下に一時出力する場合は、実行前に `.gitignore` 対象であることを確認する
 - 変更前の記録（before snapshot）、変更後の記録（after snapshot）、backup、rollback 入力は PII や復旧情報を含みやすいため、誤コミット防止を必須ゲートとして扱う
 - ログ保存先には access control、retention、encryption、削除期限、閲覧者を明記する

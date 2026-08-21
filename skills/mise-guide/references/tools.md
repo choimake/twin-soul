@@ -130,7 +130,7 @@ mise use --pin "aqua:golangci/golangci-lint@2.12.2"
 
 - CI の `install_args`、`mise which`、shim 解決は同じ文字列を使う。
 - `golangci-lint` だけ渡すと別 tool になり、`No version is set for shim: golangci-lint` で落ちる。
-- **tool バージョンの SSOT は `mise.toml` `[tools]` のみ**。workflow にバージョン番号を書かない。
+- **tool バージョンの正本は `mise.toml` `[tools]` のみ**。workflow にバージョン番号を書かない。
 
 ### pin 検証（check-tool-pins）
 
@@ -142,7 +142,7 @@ bash scripts/check-tool-pins.sh path/to/mise.toml  # 明示パス
 bash scripts/run-check-tool-pins-tests.sh          # fixture 一括
 ```
 
-利用先リポジトリ（twin-soul 等）では `mise.toml` task 経由が SSOT:
+利用先リポジトリ（twin-soul 等）では `mise.toml` task 経由を正本とする:
 
 ```bash
 mise run ci:lint:mise-tools

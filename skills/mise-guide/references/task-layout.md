@@ -141,7 +141,7 @@ includes = [
 
 ## やってはいけないこと
 
-- commit する task の `run` や `env` ブロックに secrets を埋め込まない（SSOT 違反かつ漏洩リスク）
+- commit する task の `run` や `env` ブロックに secrets を埋め込まない（正本の二重定義かつ漏洩リスク）
 - workflow YAML と task の両方に同じ lint/test を書かない（[ci.md](ci.md)）
 - includes 先に `[tasks.xxx]` と書く（動かない）
 - `includes` を設定しているのに「実行可能ファイルも自動検出される」と想定する

@@ -1,6 +1,6 @@
 # Gitignore Skill
 
-`gitignore` skill は、`.gitignore` の新規作成、既存 `.gitignore` の見直し、`gitignore.io` テンプレートの取得、リポジトリからの template 候補の自動推定をまとめて扱います。`gitignore.io` にない tool についても、custom 手書きルールを足す前提で扱えます。
+`gitignore` skill は、`.gitignore` の新規作成、既存 `.gitignore` の見直し、`gitignore.io` テンプレートの取得、リポジトリからの template 候補の自動推定をまとめて扱う。`gitignore.io` にない tool についても、custom 手書きルールを足す前提で扱える。
 
 ## 概要
 
