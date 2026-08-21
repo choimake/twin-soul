@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "bash scripts/hooks/guard-main-checkout.sh --runtime cursor --event preToolUse",
+        "matcher": "Write|StrReplace|Delete|EditNotebook"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "bash scripts/hooks/guard-main-checkout.sh --runtime cursor --event beforeShellExecution"
+      }
+    ]
+  }
+}

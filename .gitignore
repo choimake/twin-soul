@@ -5,6 +5,10 @@
 # skills/gitignore/assets/memory.gitignore から同期
 memory/
 
+# git worktree 作業領域
+# skills/gitignore/assets/worktrees.gitignore から同期
+.worktrees/
+
 __pycache__/
 *.pyc
 

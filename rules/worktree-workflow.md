@@ -2,29 +2,40 @@
 
 ## 目的
 
-git worktree を使った並列開発フローの推奨パターンを定める。使うかはプロジェクト次第。
+変更作業を main checkout から隔離し、調査・plan と実装を混ぜない。
 
 ## 背景
 
 main ブランチ上で直接作業すると、調査中の変更と実装中の変更が混ざり、クリーンな状態を保てない。worktree を使えば main を司令塔（調査・plan 作成）として保ちつつ、変更作業を隔離できる。
 
+文書だけの推奨では読まれず破られる。twin-soul では hook で二進制約を止める。
+
 ## 基本ルール
 
-worktree を採用する場合は、次のルールを守る。
+twin-soul では必須。
 
-- **worktree 推奨**: コード・インフラ・ドキュメントを問わず、変更作業は worktree で行う
+- コード・インフラ・ドキュメントを問わず、変更作業は `.worktrees/` の git worktree で行う
 - **1 worktree = 1 ブランチ = 1 PR**
-- **main で直接変更しない**
+- **main checkout では編集しない**
+
+main でよいもの:
+
+- 調査と読み取り
+- plan 作成（`.cursor/plans/`）
+- `memory/` への作業記録
+- `git worktree add|list|prune|remove`
 
 ## ディレクトリ配置
 
-リポジトリ内の `.worktrees/` に配置する（`.gitignore` で除外する）。
+リポジトリ内の `.worktrees/` に置く（`.gitignore` で除外する）。
 
 ```
 .worktrees/
   wt-feat-add-auth/
   wt-docs-update-readme/
 ```
+
+Cursor 標準の `/worktree`（`~/.cursor/worktrees`）は本経にしない。配置先が違い、Cursor の自動 cleanup 対象にもなり得る。隔離だけなら使ってよいが、このリポジトリの正は `.worktrees/` である。
 
 ## ブランチ命名
 
@@ -99,8 +110,50 @@ git worktree list
 - **高リスクファイルの同時編集を避ける**: CI 設定、ルートの設定ファイル、共通ドキュメント等
 - **マージ後**: 他の worktree で `git rebase origin/main` を実行して追従
 
-## Hook による自動ブロック（任意）
+## Hook
 
-main worktree 上の PR 対象ファイルへの直接編集を hook で自動ブロックすると効果的。許可パターン（worktree 内、作業領域）と禁止パターン（それ以外すべて）を定義する。
+twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkout.py](../scripts/hooks/guard-main-checkout.py)。
 
-実装は各プロジェクトの環境・ツールに合わせる（例: Claude Code の PreToolUse hook、Git の pre-commit hook 等）。
+入口:
+
+- Cursor: [../.cursor/hooks.json](../.cursor/hooks.json) の `preToolUse` と `beforeShellExecution`
+- Claude Code: [../.claude/settings.json](../.claude/settings.json) の `PreToolUse`
+- Codex: [../.codex/hooks.json](../.codex/hooks.json) の `PreToolUse`（`apply_patch` と `Bash`）
+
+拒否するもの:
+
+- main checkout 上の、許可リスト外ファイルへの Write / StrReplace / Delete（Claude 側は Edit / Write / MultiEdit）
+- main 上の `git add` / `commit` / `push` / `rebase` / `merge`
+- worktree セッションから親 checkout への漏れ書き
+
+許可するもの:
+
+- `memory/`、`.cursor/plans/`、`.worktrees/` 配下
+- 読み取り専用 git と `git worktree add|list|prune|remove`
+- worktree 内での編集と git 書き込み
+
+hook が壊れたとき、または `python3` が無いときは fail-open（許可して警告）する。作業を止めないため。
+
+他の rule を hook に足すのは、絶対・二進・ツール入力だけで判定でき、文書にしたあと繰り返して破られたときだけ。判断が要る本文は索引と `rules/` に残す。
+
+ローカル Cursor CLI（`agent -p`）は IDE より hook が狭い。`beforeShellExecution` は確認済みの前提。`preToolUse` が飛ばない場合、Write 拒否は IDE 側で効く。判定ロジック自体は `python3 scripts/hooks/guard-main-checkout.py --self-test` で確認する。
+
+## 残リスク
+
+- `cat > file` や `tee` など、shell 経由のファイル書き込みは file hook を迂回する
+- Cursor 標準 worktree の自動 cleanup は manager 外の worktree も対象になり得る。`.worktrees/` を `~/.cursor/worktrees` と混ぜない
+
+## ローカル確認
+
+```bash
+python3 scripts/hooks/guard-main-checkout.py --self-test
+bash scripts/hooks/smoke-hook-stdin.sh
+bash scripts/hooks/smoke-codex-cli.sh
+bash scripts/hooks/smoke-cursor-cli.sh
+```
+
+`smoke-hook-stdin.sh` は Cursor と同じ JSON を hook に流して deny/allow を見る。認証は不要。
+
+`smoke-codex-cli.sh` は `mktemp` した使い捨て repo で `codex exec` を回す。`codex login` が要る。CI には入れない。
+
+`smoke-cursor-cli.sh` は同じく使い捨て repo で `agent -p` を回す。`agent login` または `CURSOR_API_KEY` が要る。CI には入れない。

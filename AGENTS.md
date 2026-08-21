@@ -43,6 +43,26 @@
 - チーム運用に効く知見は `memory/` に溜めず、`rules/` / `specs/` / `decisions/` / skill へ昇格する
 - 雛形と詳細判断は `rules/working-memory.md`
 
+## 変更作業
+
+- 変更は `.worktrees/` の git worktree で行う。main checkout では編集しない
+- 例外: `memory/` と調査・plan 作成（`.cursor/plans/`）
+- hook が main 上の編集と `git add` / `commit` / `push` を止める
+- 手順は `rules/worktree-workflow.md`
+
+## 関連する rule の読み方
+
+今回の作業に関係する `rules/` だけ先に読む。全部は読まない。
+
+- ファイルを変更する → `rules/worktree-workflow.md`
+- 文書を足す / 直す → `rules/documentation-standards.md`, `rules/document-consistency.md`
+- DR が要るか迷う → `rules/when-to-create-decision-records.md`
+- 破壊的な shell → `rules/bash-safety.md`
+- Issue → `rules/github-issue-workflow.md`
+- PR → `rules/github-pr-workflow.md`
+
+hook に移すのは、絶対・二進・ツール入力だけで判定でき、文書にしたあと繰り返して破られた禁止だけ。判断が要る本文は `rules/` に残す。品質は `mise run ci:lint` / `ci:apm` で見る。
+
 ## 外部プロジェクトへの導入
 
 - 他プロジェクトへ全 skill を入れるときは、利用先リポジトリで `apm install choimake/twin-soul#<ref> --target cursor,claude` を実行するか、`apm.yml` に `choimake/twin-soul#<ref>` を宣言して `apm install` を実行する

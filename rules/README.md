@@ -24,9 +24,12 @@
 - [github-issue-workflow.md](github-issue-workflow.md) - Issue 作成とスコープ変更時の運用
 - [when-to-create-decision-records.md](when-to-create-decision-records.md) - DR を作る判断基準
 - [bash-safety.md](bash-safety.md) - Bash コマンド安全性の判断基準
+- [worktree-workflow.md](worktree-workflow.md) - 変更作業は `.worktrees/` で行い、hook が main 編集を止める
 
 ## 迷ったとき
 
 「作業者が守るべきこと」なら `rules/` に置く。「今どう構成されているか」なら `specs/` に置く。「なぜそう決めたか」なら `decisions/` に置く。
+
+絶対・二進で安く判定でき、繰り返して破られた禁止だけ hook に移す。判断が要る本文はここに残す。
 
 詳細な境界は [../specs/document-boundaries.md](../specs/document-boundaries.md) を参照する。

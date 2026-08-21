@@ -1,0 +1,27 @@
+{
+  "description": "main checkout への編集と git 書き込みを止める",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/hooks/guard-main-checkout.sh --runtime claude --event preToolUse",
+            "statusMessage": "main checkout への編集を検査中"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/hooks/guard-main-checkout.sh --runtime claude --event beforeShellExecution",
+            "statusMessage": "main checkout の git 書き込みを検査中"
+          }
+        ]
+      }
+    ]
+  }
+}
