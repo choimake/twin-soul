@@ -131,6 +131,7 @@ mise run ci:apm
 ここにある skill は、汎用知識だけではなく、このリポジトリで育てた判断や手順を再利用するための入口です。
 
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
+- **drawio-architecture**: 事実 SoT に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
 - **gitignore**: `.gitignore` の新規作成、既存見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う

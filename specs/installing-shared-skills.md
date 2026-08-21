@@ -76,6 +76,8 @@ dependencies:
 
 この方式は導入単位が明示的で、チームで用途を絞る場合に更新範囲を小さくできる。
 
+`skills/drawio-architecture` は subdirectory package の `apm.yml` で draw.io MCP（`https://mcp.draw.io/mcp`）を宣言する。利用先でこの package を direct dependency にすると、`apm install` が Cursor（`.cursor/mcp.json`）と Claude Code（`.mcp.json`）へ書く。root collection だけで全 skill を入れた場合は MCP は付かない。そのときは skill が導入手順を案内する。
+
 ### このリポジトリを clone して開発するとき（任意）
 
 ローカル authoring 用にも、ルートの `apm.yml` は Skill collection として扱う。`dependencies.apm` に `path: ./skills/...` を列挙すると、remote package として導入されたときに consumer filesystem への local path dependency と見なされるため使わない。

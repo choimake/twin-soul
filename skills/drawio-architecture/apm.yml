@@ -1,0 +1,10 @@
+name: drawio-architecture
+version: 1.0.0
+description: 事実の正本に基づく native draw.io 構成図
+target: [cursor, claude]
+dependencies:
+  mcp:
+    - name: drawio
+      registry: false
+      transport: http
+      url: https://mcp.draw.io/mcp
