@@ -30,3 +30,17 @@ skill が `mise` を扱うときは、`gitignore.io` の本文に後付けの cu
 - Claude Code Auto Memory（`~/.claude/projects/.../memory/`）とは別物として扱う
 
 skill がエージェント作業領域を扱うときは、`gitignore.io` の本文に後付けの custom block として足す。
+
+## `worktrees`
+
+変更作業用の git worktree は共有の source of truth ではない。ディレクトリごと ignore する。
+
+推奨ルールは [../assets/worktrees.gitignore](../assets/worktrees.gitignore) を使う。
+
+意図:
+
+- `.worktrees/` 配下はローカルの隔離 checkout なので ignore する
+- Cursor 標準の `~/.cursor/worktrees` とは別物として扱う
+- 手順の正は `rules/worktree-workflow.md` に置く
+
+skill がエージェント作業領域を扱うときは、`gitignore.io` の本文に後付けの custom block として足す。

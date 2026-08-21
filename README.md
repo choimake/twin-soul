@@ -85,6 +85,7 @@ apm install
 前提:
 
 - 先に [AGENTS.md](AGENTS.md) とトップレベルの [rules/](rules/) を読む
+- 変更作業は `.worktrees/` の git worktree で行う。hook が main checkout への編集を止める
 - エージェント作業のメモ・申し送り・学びは `memory/` に残す（gitignore、正本ではない）
 - APM CLI は `mise install` で `pipx:apm-cli` として導入される
 - 貢献前の検証手順は [CONTRIBUTING.md](CONTRIBUTING.md) を読む
@@ -115,7 +116,7 @@ mise run ci:apm
 - `specs/`: 現在の構成と運用仕様
 - `decisions/`: 大きな判断の記録
 - `memory/`: エージェント作業のローカル記録（gitignore、正本ではない）
-- `scripts/`: `ci/`（ローカル静的チェック）の補助スクリプト
+- `scripts/`: `ci/`（ローカル静的チェック）と `hooks/`（main checkout 編集の防御）の補助スクリプト
 
 `skill` は `skills/<skill-name>/SKILL.md` を起点にし、必要なときだけ `assets/`、`references/`、`scripts/` を足します。`skill` 内の判断観点や補助知識は各 `skill` 配下の `references/` に置き、リポジトリ全体の横断方針を置くトップレベル `rules/` とは分けて扱います。`references/` 配下の下位構成は `skill` ごとに決めてよく、たとえば `universal-code-reviewer` では個別ルール群を `references/rules/` に置きます。
 
