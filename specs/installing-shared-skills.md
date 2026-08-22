@@ -122,6 +122,14 @@ Refusing to install local_path dependency './skills/planner' declared by remote 
 
 remote package では利用先のファイルシステム上のローカルパスを参照できない。`twin-soul` では root package を Skill collection として扱い、全 skill は `choimake/twin-soul#main`、特定 skill は `choimake/twin-soul/skills/<skill-name>#main` で導入する。
 
+### `apm install` は成功したが `apm audit` の drift だけ失敗する
+
+`apm install` と `apm audit` は別物である。前者は skill を展開する。後者は、今ディスクにある展開物が lockfile から作り直したものと一字一句同じかを見る検査である。
+
+skill が `rules/` など skill ディレクトリ外へ相対リンクしていると、APM は展開時にそのリンクを `apm_modules/` 向きへ書き換える。audit は scratch に入れ直して作業ツリーと diff するため、この書き換えが人手の改変のように見え、drift で失敗する。skill が欠けている、壊れている、という意味ではない。
+
+直し方は利用先ではなく配布元（このリポジトリ）である。利用側では `apm install` が成功していれば導入自体は足りる。配布元では skill の相対リンクを `skills/<skill-name>/` 内に閉じる。
+
 ## npx / skills-lock.json からの移行
 
 以前の installer は `.cursor/skills/` と `.claude/skills/` にコピーし、`skills-lock.json` に管理対象を記録していた。APM 移行後は `apm.yml` と `apm.lock.yaml` を正本とする。

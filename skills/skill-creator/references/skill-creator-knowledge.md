@@ -99,7 +99,8 @@ skill-name/
 - `skill-name/` は skill の配布・導入・レビューの単位にする
 - `SKILL.md` の `name` は親ディレクトリ名と一致させる
 - category 用の親ディレクトリがある場合でも、skill の identity は `SKILL.md` を直接含むディレクトリ名と `name` で決まる
-- skill は、利用先リポジトリにこのリポジトリの `specs/` や `decisions/` がなくても成立するよう、必要知識を skill 配下へ閉じる
+- skill は、利用先リポジトリにこのリポジトリの `specs/` や `decisions/`、`rules/` がなくても成立するよう、必要知識を skill 配下へ閉じる
+- skill 配下の markdown 相対リンクは `skills/<skill-name>/` 内に閉じる。トップレベル `rules/` や他 skill へ `../` で繋がない。APM が展開時に `apm_modules/` 向きへ書き換え、`apm audit` が drift と誤判定するため
 - このリポジトリでは `skills/<skill-name>/` を skill の正本とし、`.agents/skills/`、`.cursor/skills/`、`.claude/skills/` などの導入先・展開先は正本として扱わない
 
 ## 安全原則
@@ -443,3 +444,4 @@ description 評価用 prompt:
 - client-specific field を標準 field と混同していない
 - 用語が一貫している
 - トップレベル `rules/` と skill 配下の `references/` の役割がドキュメント上で混同されていない
+- skill 配下の markdown 相対リンクが `skills/<skill-name>/` の外へ出ていない

@@ -48,7 +48,7 @@ task 追加でレイアウトが不明なら **先に task-layout.md**。
 
 1. **scope を確認**: `mise use`（project → `./mise.toml`）か `mise use -g`（global）かを実行前に確認する。
 2. **`mise use --pin` を優先**: install + x.y.z pin を一度にする。`mise install` 単体は既存 config の install のみ（新規 tool の pin には使わない）。`[settings] pin = true` は `mise use` を exact にしやすくする補助で、検証の代替ではない（[tools.md](references/tools.md)）。
-3. **`[tools]` は x.y.z 完全一致 pin のみ**: `latest` / `lts` / `prefix:` / 2 セグメント以下（`22`、`3.12`）は禁止。横断方針は [rules/version-pinning.md](../../rules/version-pinning.md)（skill 単体導入時は `rules/` 非同梱に注意）。
+3. **`[tools]` は x.y.z 完全一致 pin のみ**: `latest` / `lts` / `prefix:` / 2 セグメント以下（`22`、`3.12`）は禁止。詳細と Docker / GitHub Actions の対象は [tools.md](references/tools.md) に従う。
 4. **`mise.toml` を正本とする**: tool バージョンを workflow 等に二重定義しない。
 5. **機密情報は gitignore 対象**: `mise.local.toml` / `.env`。コミット可能な上書き設定ファイル（`mise.production.toml` 等）にも機密情報を置かない。
 6. **CI ゲートは mise task のみ**: lint/test の再実装を workflow に書かない。ローカル `mise run <gate>`、CI `mise run --skip-tools <gate>`（[ci.md](references/ci.md)）。

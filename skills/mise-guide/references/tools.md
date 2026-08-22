@@ -25,7 +25,7 @@ mise outdated              # アップデート可能な tool
 
 ### 3. インストールと pin（固定）
 
-**プロジェクト `[tools]` では x.y.z 完全一致 pin のみ**（例: `22.15.0`）。`latest` / `lts` / `prefix:` / 2 セグメント以下は [rules/version-pinning.md](../../../rules/version-pinning.md) に従い禁止。**ネスト表 `[tools.*]` も `version = "x.y.z"` 必須**（flat `[tools]` への統一を推奨）。
+**プロジェクト `[tools]` では x.y.z 完全一致 pin のみ**（例: `22.15.0`）。`latest` / `lts` / `prefix:` / 2 セグメント以下は禁止。**ネスト表 `[tools.*]` も `version = "x.y.z"` 必須**（flat `[tools]` への統一を推奨）。
 
 **プロジェクト単位**（カレントの `./mise.toml` に書き込む）:
 

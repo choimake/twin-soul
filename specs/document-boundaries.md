@@ -24,6 +24,7 @@
 - `skills/` は外部プロジェクトへ展開する skill の正本とする
 - 1 つの skill は `skills/<skill-name>/` を単位にして APM で配布できる構成にする
 - skill は `SKILL.md` を入口にし、必要な知識は同じ skill 配下の `references/`、`assets/`、`scripts/` に閉じる
+- skill 配下の markdown 相対リンクは `skills/<skill-name>/` 内に閉じる。`rules/` や他 skill へ `../` で繋がない
 - 利用先リポジトリに `specs/` や `decisions/` が存在しなくても、skill 自体の説明と workflow が成立している必要がある
 
 外部プロジェクトへの導入方法と配布単位は [installing-shared-skills.md](installing-shared-skills.md) を参照する。
@@ -46,6 +47,7 @@
 - `rules/` はリポジトリ横断で守る方針、チェックリスト、禁止・推奨事項を置く正本とする
 - `.cursor/rules/` や `.claude/rules/` には同期コピーや symlink を置かず、必要な内容はトップレベル `rules/` に集約する
 - `rules/` は APM で外部プロジェクトへ導入する skill の配布対象ではない
+- skill から `rules/` へ相対リンクしない。APM が展開時に `apm_modules/` 向きへ書き換え、`apm audit` が drift と誤判定する
 - 抽象原則を再利用資産として扱いたい場合は、まず `skills/` で単体展開可能な workflow や補助知識に落とせるかを検討する
 - `rules/` を将来 APM instructions などとして外部配布する場合は、別途 `specs/` と `decisions/` で位置づけを更新する
 
