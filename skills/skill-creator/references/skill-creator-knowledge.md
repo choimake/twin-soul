@@ -130,7 +130,7 @@ skill の内容は、`description` や依頼内容からユーザーが予期で
 - 目安として 5000 token 未満に収め、毎回読むべき中核手順だけを置く
 - 毎回使う短い手順（目安 10 行）は `references/` に逃がさない。SKILL.md に残す
 - 詳細資料へのリンクには「いつ読むか」を添える
-- 他 skill の手順は写さない。パスを渡して読ませる
+- skill は単体で成立させる。他 skill の手順を写し込まない。読ませないと動かない形にしない
 
 ### `references/` に書くもの
 
@@ -331,7 +331,7 @@ test prompt の下書きには [../assets/test-prompt-template.md](../assets/tes
 
 1. `SKILL.md` に長い判断知識が入り込んでいないかを見る。毎回使う短い手順まで逃がしていないかも見る。
 2. テンプレート化できる部分を `assets/` へ逃がす。
-3. 判断基準や分類ロジックを `references/` へ逃がす。他 skill の手順は写さず、パスを渡す。
+3. 判断基準や分類ロジックを `references/` へ逃がす。他 skill に依存させない。この skill だけで追えるようにする。
 4. 入口として必要な文章だけを `SKILL.md` に残す。
 5. `description` が WHAT と WHEN を含み、トリガー語を持つか確認する。
 6. フィードバックを個別例に貼り付けず、同系統の依頼に効く形へ一般化する。
@@ -344,7 +344,7 @@ test prompt の下書きには [../assets/test-prompt-template.md](../assets/tes
 - 1 つの test prompt だけに合わせて、他の依頼で不自然になる修正
 - `SKILL.md` に詳細な例外や背景を積み上げる修正
 - 毎回使う短い手順を `references/` だけに置く修正
-- 他 skill の手順をここに再掲する修正
+- 他 skill を読ませないと動かない修正、または他 skill の手順を丸ごと写す修正
 - 近接 skill との境界を曖昧にする広すぎる description
 - script 化すべき繰り返し処理を、長い文章指示だけで押し切る修正
 
