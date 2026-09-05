@@ -100,7 +100,7 @@ skill-name/
 - `SKILL.md` の `name` は親ディレクトリ名と一致させる
 - category 用の親ディレクトリがある場合でも、skill の identity は `SKILL.md` を直接含むディレクトリ名と `name` で決まる
 - skill は、利用先リポジトリにこのリポジトリの `specs/` や `decisions/` がなくても成立するよう、必要知識を skill 配下へ閉じる
-- このリポジトリでは `skills/<skill-name>/` を skill の正本とし、`.agents/skills/`、`.cursor/skills/`、`.claude/skills/` などの導入先・展開先は正本として扱わない
+- このリポジトリでは `skills/<skill-name>/` を skill の正本とし、各 client の導入先・展開先は正本として扱わない
 
 ## 安全原則
 
@@ -128,7 +128,9 @@ skill の内容は、`description` や依頼内容からユーザーが予期で
 - 外部参照は 1 段深さに留める
 - 500 行未満を維持する前提で圧縮する
 - 目安として 5000 token 未満に収め、毎回読むべき中核手順だけを置く
+- 毎回使う短い手順（目安 10 行）は `references/` に逃がさない。SKILL.md に残す
 - 詳細資料へのリンクには「いつ読むか」を添える
+- skill は単体で成立させる。他 skill の手順を写し込まない。読ませないと動かない形にしない
 
 ### `references/` に書くもの
 
@@ -242,7 +244,8 @@ Agent Skills 標準にない field は、利用先 client の拡張として扱�
 
 - file scoping 用 field（例: `paths`、legacy の `globs`）は、その client が対応していると分かる場合だけ使う
 - slash command 的に明示実行だけへ寄せる field（例: `disable-model-invocation`）は、その client が対応していると分かる場合だけ使う
-- skill の標準テンプレートへ client-specific field を常設しない
+- 合議・反省のような重い起動は、勝手に発火させず明示呼び出しに寄せる
+- skill の標準テンプレートへ client-specific field を常設しない。`disable-model-invocation` もテンプレに常設しない
 - client-specific field を入れる場合は、`compatibility` や `metadata` で前提を補足するか、利用先 project の導入手順に寄せる
 
 ## 反復ループ
@@ -326,19 +329,22 @@ test prompt の下書きには [../assets/test-prompt-template.md](../assets/tes
 
 ## 既存 skill の改稿方針
 
-1. `SKILL.md` に長い判断知識が入り込んでいないかを見る。
+1. `SKILL.md` に長い判断知識が入り込んでいないかを見る。毎回使う短い手順まで逃がしていないかも見る。
 2. テンプレート化できる部分を `assets/` へ逃がす。
-3. 判断基準や分類ロジックを `references/` へ逃がす。
+3. 判断基準や分類ロジックを `references/` へ逃がす。他 skill に依存させない。この skill だけで追えるようにする。
 4. 入口として必要な文章だけを `SKILL.md` に残す。
 5. `description` が WHAT と WHEN を含み、トリガー語を持つか確認する。
 6. フィードバックを個別例に貼り付けず、同系統の依頼に効く形へ一般化する。
-7. 使われていない指示、重複した指示、過度に狭い MUST を削る。
+7. 迷ったら足さず削る。使われていない指示、重複した指示、過度に狭い MUST を削る。
 8. 重要な制約や手順は、短い理由を添えて agent が判断できる形にする。
+9. 学びの書き戻し先はこの skill。他ツールの skill 作成手順に渡さない。
 
 改稿時に避けること:
 
 - 1 つの test prompt だけに合わせて、他の依頼で不自然になる修正
 - `SKILL.md` に詳細な例外や背景を積み上げる修正
+- 毎回使う短い手順を `references/` だけに置く修正
+- 他 skill を読ませないと動かない修正、または他 skill の手順を丸ごと写す修正
 - 近接 skill との境界を曖昧にする広すぎる description
 - script 化すべき繰り返し処理を、長い文章指示だけで押し切る修正
 
@@ -407,7 +413,7 @@ description 評価用 prompt:
 
 - ユーザーが保存先の `@path` やファイルパスを明示したときだけ使う
 - 実ファイルを書いた後に、作成先と構成判断を短く報告する
-- `skills/` を更新した場合は、最後に `mise run ci:apm`（または `apm install --target cursor,claude && apm audit --ci --no-policy`）で APM 配布前提を確認する
+- `skills/` を更新した場合は、最後に `mise run ci:apm` で APM 配布前提を確認する
 - 保存先が明示されていない場合は `write-file` に入らず、`draft` にフォールバックする
 
 ## 応答時の明示事項
