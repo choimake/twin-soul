@@ -9,7 +9,7 @@
 - 環境:
 - 実行予定時間:
 - 関連 issue / incident / request:
-- script の場所（Script path）:
+- script の場所:
 - script version / commit SHA:
 
 ## 対象範囲
@@ -39,9 +39,9 @@
 - [ ] ログと記録に secrets や不要な PII が出ない
 - [ ] 監視 dashboard / alert が用意されている
 - [ ] 停止条件に合意している
-- [ ] rollback / roll-forward の担当者が対応可能である
+- [ ] rollback / 補正して進める担当者が対応可能である
 
-## 事前確認実行（dry-run）
+## 事前確認
 
 ### コマンド
 
@@ -58,7 +58,7 @@ command --dry-run --scope "[scope]" --log-dir "[log-dir]"
 - エラー候補:
 - 変更前の記録ファイル:
 - 変更予定後の記録ファイル:
-- summary file（概要ファイル）:
+- 概要ファイル:
 
 ### 事前確認結果
 
@@ -67,7 +67,7 @@ command --dry-run --scope "[scope]" --log-dir "[log-dir]"
 - コマンド:
 - ログディレクトリ:
 - 概要:
-- 判断: proceed / revise / stop
+- 判断: 進める / 直す / 止める
 
 ## ログ設計
 
@@ -75,8 +75,8 @@ command --dry-run --scope "[scope]" --log-dir "[log-dir]"
 
 ### ログディレクトリ
 
-- Path（保存先パス）:
-- 保存先: approved external storage / encrypted bucket / audit log system / temporary local path
+- 保存先パス:
+- 保存先: 承認済みの外部保管 / 暗号化 bucket / 監査ログ基盤 / 一時的なローカルパス
 - リポジトリ配下に置く場合、`.gitignore` 確認済み: yes / no / not applicable
 - 保存期間:
 - アクセス制御:
@@ -86,51 +86,66 @@ command --dry-run --scope "[scope]" --log-dir "[log-dir]"
 
 ### 必要ファイル
 
-- `run-summary.json` or `run-summary.md`: 実行 ID（run id）、mode、environment、executor、script version、件数、結果
+- `run-summary.json` or `run-summary.md`: 実行 ID、mode、environment、executor、script version、件数、結果
 - `before.jsonl` or `before.csv`: 検証 / rollback に必要な対象識別子と変更前の状態
-- `planned-after.jsonl` or `planned-after.csv`: dry-run で確認した変更予定後の状態
-- `attempted.jsonl`: 更新を試みた対象識別子、試行時刻、分割単位 ID（batch id）、resume cursor
+- `planned-after.jsonl` or `planned-after.csv`: 事前確認で見た変更予定後の状態
+- `attempted.jsonl`: 更新を試みた対象識別子、試行時刻、分割単位 ID、再開位置
 - `after.jsonl` or `after.csv`: 実行後の実際の状態
-- `errors.jsonl`: 失敗した対象、エラーメッセージ、retry 可否、次アクション
-- `checkpoint.json`: 最後に永続化できた分割単位（batch）、件数、resume cursor、未完了項目
+- `errors.jsonl`: 失敗した対象、エラーメッセージ、再試行可否、次アクション
+- `checkpoint.json`: 最後に永続化できた分割単位、件数、再開位置、未完了項目
+- `batch-<n>-before.jsonl` / `batch-<n>-after.jsonl`: バッチごとの変更前後
 - `verification.md`: 実行後検証の結果
 
 ### 書き込みタイミングと永続化
 
-- mutation 前に、対象識別子と変更前の状態を `before` へ書き込み flush する。
-- mutation 呼び出しの直前に、`attempted` へ書き込み flush する。
-- mutation 結果が返った直後に、`after` または `errors` へ書き込み flush する。
-- 分割単位（batch）の終わりごとに、件数と次の resume cursor を `checkpoint` に書き込む。
+- 更新前に、対象識別子と変更前の状態を `before` へ書き切る。
+- 更新呼び出しの直前に、`attempted` へ書き切る。
+- 更新結果が返った直後に、`after` または `errors` へ書き切る。
+- 分割単位の終わりごとに、そのバッチの変更前後、件数、次の再開位置を `checkpoint` と `batch-<n>-*` に書く。
 - 実行後に `attempted` と `after` / `errors` を照合し、終了状態のログがない対象を調査する。
 - 一時的にローカルファイルを使った場合は、run を閉じる前に承認済みの保管先へアップロードする。
 
 ### 秘匿情報の扱い
 
-- Secrets（秘匿情報）:
+- 秘匿情報:
 - PII:
 - mask する値:
 - hash する値:
 - omit する値:
 - 生値が必要な場合の例外承認:
 
-## 再実行しても壊れない性質（冪等性）と再開
+## 冪等と再開
 
-- 再実行しても壊れないようにする方針（idempotency strategy）:
+- 冪等の方針:
 - 二重実行された場合の挙動:
-- 処理済み marker / 再実行用の識別子（idempotency key）:
-- 再開位置（resume cursor）:
+- 処理済みマーカー / 再実行用の識別子:
+- 再開位置:
 - 部分失敗時の扱い:
-- 再試行方針（retry policy）:
+- 再試行方針:
 
-## 多重実行・競合防止（lock / concurrency）と API 制限
+## クラッシュ地点からの再実行
 
-- 多重実行・競合防止の方針（lock strategy）:
+既定の 4 点から再実行し、同じ終状態に収束することを確認する。
+
+| 地点 | 直前の状態 | 再実行後に揃うこと | 確認日 |
+| ---- | ---------- | ------------------ | ------ |
+| 更新前 | `before` 済み、更新なし | | |
+| 試行記録の直後 | `attempted` 済み、更新の成否は未確定 | | |
+| 変更後の書き込み前 | 更新済み、`after` なし | | |
+| バッチ境界 | そのバッチの変更前後と再開位置済み | | |
+
+- 収束しない地点:
+- 直した設計:
+
+## 多重実行の防止と API 制限
+
+- 多重実行を防ぐ方針:
 - 競合しうる書き込み処理 / jobs:
-- 分割単位のサイズ（batch size）:
-- 分割実行の間隔（sleep between batches）:
+- 分割単位のサイズ:
+- 分割実行の間隔:
 - 最大実行時間:
-- API / provider の rate limit:
-- replication lag や整合性に関する考慮:
+- API / provider の制限:
+- 複製遅延や整合性に関する考慮:
 
 ## 実行計画
 
@@ -145,7 +160,7 @@ command --execute --scope "[scope]" --log-dir "[log-dir]"
 
 1. 開始を周知し、承認済みであることを確認する。
 2. 環境、commit SHA、対象範囲、ログディレクトリを確認する。
-3. 最新の dry-run 結果が想定対象範囲と一致していることを確認する。
+3. 最新の事前確認結果が想定対象範囲と一致していることを確認する。
 4. 監視を開始する。
 5. 実行コマンドを実行する。
 6. 実行中は停止条件に該当しないか確認する。
@@ -158,19 +173,19 @@ command --execute --scope "[scope]" --log-dir "[log-dir]"
 - 想定外の対象件数:
 - エラー件数の閾値:
 - latency / error rate の閾値:
-- DB load / replication lag の閾値:
-- API rate limit / provider error の閾値:
+- DB load / 複製遅延の閾値:
+- API 制限 / provider error の閾値:
 - ログ / 記録ファイルの欠落:
 - 手動中止時の連絡先:
 
-## 復旧方針（Rollback / Roll-forward）
+## 復旧方針
 
 ### 方針
 
-- 採用する方針: rollback / roll-forward / restore from backup / manual remediation
+- 採用する方針: rollback / 補正して進める / backup から戻す / 手動復旧
 - 判断理由:
 - rollback 可能な期限:
-- 変更前/変更後の記録（before/after logs）から必要な入力:
+- 変更前後の記録から必要な入力:
 - 担当者:
 
 ### Rollback コマンドまたは手順
@@ -180,7 +195,7 @@ command --execute --scope "[scope]" --log-dir "[log-dir]"
 command --rollback --input "[before-log]" --log-dir "[rollback-log-dir]"
 ```
 
-### Roll-forward 手順
+### 補正して進める手順
 
 - 補正内容:
 - 検証:
@@ -196,11 +211,12 @@ command --rollback --input "[before-log]" --log-dir "[rollback-log-dir]"
 - [ ] error logs と alerts を確認済み
 - [ ] 残った失敗に担当者と次アクションがある
 - [ ] ログ、記録ファイル、承認、検証メモが保存されている
+- [ ] クラッシュ地点 4 点からの再実行が収束している
 
 ## 最終報告
 
-- Run id（実行 ID）:
-- 結果: success / partial / failed / rolled back / rolled forward
+- 実行 ID:
+- 結果: 成功 / 一部成功 / 失敗 / 巻き戻し / 補正して進めた
 - 開始日時:
 - 終了日時:
 - 実行者:
