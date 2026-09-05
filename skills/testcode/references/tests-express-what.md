@@ -1,7 +1,7 @@
-# テストは What を示す
+# テストは振る舞いを示す
 
 この資料は、テストコードが担う情報の層を整理する。
-テストは実装手順（How）ではなく、期待する振る舞い（What）を示す。
+テストは実装手順ではなく、期待する振る舞いを示す。
 
 ## ねらい
 
@@ -10,13 +10,13 @@
 
 ## 判断基準
 
-- テスト名やケース名が、入力条件と期待結果（What）を表しているか
+- テスト名やケース名が、入力条件と期待結果（振る舞い）を表しているか
 - assertion が、利用者から観測できる振る舞いまたは契約を検証しているか
 - private な手順や一時変数の値への依存が、検証の主眼になっていないか
 
 ## 良い例と悪い例
 
-### 悪い例（How を写している）
+### 悪い例（実装手順を写している）
 
 ```text
 should_call_validate_then_save_then_publish
@@ -24,7 +24,7 @@ should_call_validate_then_save_then_publish
 
 内部呼び出し順の検証が主眼である。利用者にとっての成果が分からない。
 
-### 良い例（What を示している）
+### 良い例（振る舞いを示している）
 
 ```text
 should_reject_save_when_user_lacks_write_permission
@@ -34,11 +34,11 @@ should_reject_save_when_user_lacks_write_permission
 
 ## 生成・評価への使い方
 
-- `generate`: ケース一覧を期待振る舞いの言葉で先に書き、その後でテスト本文へ落とす
-- `evaluate` / `improve`: 通るが実装詳細に依存しているテストを、What 視点へ書き換える候補とする
+- `generate`: ケース一覧を期待振る舞いの言葉で先に書く。実装の鏡になるケースは捨て、テストを増やさない
+- `evaluate` / `improve`: 通るが実装詳細に依存しているテストを、振る舞いの視点へ書き換える候補とする
 
 関連:
 
-- ケース列挙の手順は [test-generation.md](test-generation.md)
+- ケース列挙と足さない 3 種は [test-generation.md](test-generation.md)
 - assertion の強さは [test-evaluation.md](test-evaluation.md)
 - 実装詳細への密結合は [test-smells.md](test-smells.md) の観点と合わせて見る
