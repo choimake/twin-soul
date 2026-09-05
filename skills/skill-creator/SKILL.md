@@ -8,7 +8,7 @@ description: >-
 
 ## 目的
 
-SKILL.md は薄く保つ。判断知識の肥大は `references/` へ。迷ったら足さず削る。skill は単体で成立させる。他 skill の手順を写し込まない。毎回使う短い手順は SKILL.md に残す。学びの書き戻し先はこの skill。Cursor の `create-skill` に渡さない。
+SKILL.md は薄く保つ。判断知識の肥大は `references/` へ。迷ったら足さず削る。skill は単体で成立させる。他 skill の手順を写し込まない。毎回使う短い手順は SKILL.md に残す。学びの書き戻し先はこの skill。
 
 ## 使う場面
 
@@ -30,7 +30,7 @@ SKILL.md は薄く保つ。判断知識の肥大は `references/` へ。迷っ�
 7. `SKILL.md` の YAML frontmatter は `name` と `description` を必須にし、`description` には WHAT / WHEN / trigger / boundary と undertrigger を避ける具体文脈を入れる。任意 field や client-specific field は標準 field と混同しない。合議・反省のような重い起動は明示呼び出しに寄せる。`disable-model-invocation` はテンプレに常設しない。
 8. 少数の test prompt で試行し結果から改善点を反映。個別例に過適合せず、迷ったら足さず削る。重要な指示は理由も書く。
 9. `scripts/` は原則追加せず、手順が壊れやすい・繰り返し実行する・検証が必要な場合のみ追加。eval / benchmark の仕組みは通常 workflow に必須化せず、必要な skill だけ任意で追加する。
-10. `review`→分割方針と不足点のみ返す。`draft`→短い要約後に file-ready な本文案を返す。`write-file`→保存先が明示された場合のみ実行、`skills/` 更新後は `mise run ci:apm`（または `apm install --target cursor,claude && apm audit --ci --no-policy`）で確認。
+10. `review`→分割方針と不足点のみ返す。`draft`→短い要約後に file-ready な本文案を返す。`write-file`→保存先が明示された場合のみ実行、`skills/` 更新後は `mise run ci:apm` で確認する。
 
 詳細判断とファイル分割ルールは [references/skill-creator-knowledge.md](references/skill-creator-knowledge.md) を参照。
 

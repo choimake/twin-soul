@@ -100,7 +100,7 @@ skill-name/
 - `SKILL.md` の `name` は親ディレクトリ名と一致させる
 - category 用の親ディレクトリがある場合でも、skill の identity は `SKILL.md` を直接含むディレクトリ名と `name` で決まる
 - skill は、利用先リポジトリにこのリポジトリの `specs/` や `decisions/` がなくても成立するよう、必要知識を skill 配下へ閉じる
-- このリポジトリでは `skills/<skill-name>/` を skill の正本とし、`.agents/skills/`、`.cursor/skills/`、`.claude/skills/` などの導入先・展開先は正本として扱わない
+- このリポジトリでは `skills/<skill-name>/` を skill の正本とし、各 client の導入先・展開先は正本として扱わない
 
 ## 安全原則
 
@@ -337,7 +337,7 @@ test prompt の下書きには [../assets/test-prompt-template.md](../assets/tes
 6. フィードバックを個別例に貼り付けず、同系統の依頼に効く形へ一般化する。
 7. 迷ったら足さず削る。使われていない指示、重複した指示、過度に狭い MUST を削る。
 8. 重要な制約や手順は、短い理由を添えて agent が判断できる形にする。
-9. 学びの書き戻し先はこの skill。Cursor の `create-skill` に渡さない。
+9. 学びの書き戻し先はこの skill。他ツールの skill 作成手順に渡さない。
 
 改稿時に避けること:
 
@@ -413,7 +413,7 @@ description 評価用 prompt:
 
 - ユーザーが保存先の `@path` やファイルパスを明示したときだけ使う
 - 実ファイルを書いた後に、作成先と構成判断を短く報告する
-- `skills/` を更新した場合は、最後に `mise run ci:apm`（または `apm install --target cursor,claude && apm audit --ci --no-policy`）で APM 配布前提を確認する
+- `skills/` を更新した場合は、最後に `mise run ci:apm` で APM 配布前提を確認する
 - 保存先が明示されていない場合は `write-file` に入らず、`draft` にフォールバックする
 
 ## 応答時の明示事項
