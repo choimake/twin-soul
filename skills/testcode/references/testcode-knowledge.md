@@ -10,7 +10,7 @@
 
 - テストコード生成を、対象理解なしの一発生成として扱わず、ケース整理を挟んだ workflow として扱う
 - 生成したテストを、`通るかどうか` だけでなく `何を保証しているか` で評価する
-- coverage 偏重を避け、必要に応じて mutation testing や test smell の観点へ広げる
+- coverage だけを追うのを避け、必要に応じて mutation testing や test smell の観点へ広げる
 - `SKILL.md` には trigger と手順だけを残し、並列に見たい判断観点は `references/` の別ドキュメントへ分ける
 
 ## 呼び出し側が渡せる入力
@@ -34,9 +34,9 @@
 ## 参照する文書
 
 - [test-generation.md](test-generation.md)
-  - `generate` の進め方、ケース整理、生成時の注意点
+  - `generate` の進め方、ケース整理、足さない 3 種
 - [tests-express-what.md](tests-express-what.md)
-  - テストが示す層は What（振る舞い）。実装 How のミラーを避ける
+  - テストが示す層は振る舞い。実装手順の鏡を避ける
 - [test-evaluation.md](test-evaluation.md)
   - `evaluate` と `improve` の基本、品質の見方、coverage の扱い
 - [mutation-testing.md](mutation-testing.md)

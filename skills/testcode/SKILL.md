@@ -13,7 +13,7 @@ Coverage は手段、品質は Mutation Testing・Assertion 強度・Test Smell 
 ## 使う場面
 
 - 新規ユニットテスト・テストケース作成時
-- 既存テストの coverage・assertion・edge case の見直し時
+- 既存テストの coverage・assertion・境界と例外の見直し時
 - 生成済みテストの品質評価・採用判断時
 - surviving mutant・弱い assertion・test smell 起点の追加ケース検討時
 
@@ -23,14 +23,15 @@ Coverage は手段、品質は Mutation Testing・Assertion 強度・Test Smell 
 2. `generate` / `evaluate` / `improve` を判定。未指定なら新規作成→`generate`、品質確認→`evaluate`、改善提案→`improve`。
 3. 対象ファイルと判断に必要な最小限の関連コードだけ読む。公開 API・分岐・例外・既存テストの有無を先に押さえる。
 4. 期待動作とケース一覧を整理してから本文に入る。正常系・境界値・異常系・環境依存を分ける。
-5. `generate`→ケース一覧をもとに file-ready なテスト案を作成。`evaluate`→実行可否・assertion の質・edge case・外部依存・coverage 偏重の有無を確認。`improve`→弱い assertion・surviving mutant・test smell を起点に追加・修正案を返す。
+5. `generate`→ケース一覧をもとに、保存できる形のテスト案を作成する。モックばかり・実装の鏡・タイミング依存のテストは足さない。該当するならケースを捨て、テストを増やさない。詳細は [references/test-generation.md](references/test-generation.md) を参照。`evaluate`→実行可否・assertion の質・境界と例外・外部依存・カバレッジだけを追っていないかを確認。`improve`→弱い assertion・surviving mutant・test smell を起点に追加・修正案を返す。
 6. mutation testing や自動評価が未導入でも必要性と導入順を分けて返す。coverage だけで十分と断定しない。
 
 詳細判断と各観点の入口は [references/testcode-knowledge.md](references/testcode-knowledge.md) を参照。必要に応じて `references/` 配下の分割ドキュメントを並列確認。
 
 ## 期待する出力
 
-- テスト生成前のケース整理、または file-ready なテストコード案
+- テスト生成前のケース整理、または保存できる形のテストコード案
 - 生成済みテストの品質評価と弱い点の理由
 - coverage・mutation testing・test smell の使い分けを踏まえた改善提案
 - 即対応すべき点と後で導入してよい評価手段の切り分け
+- generate で悪いテストを足さなかった場合は、捨てたケースと代わりの検証
