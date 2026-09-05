@@ -8,7 +8,7 @@ description: >-
 
 ## 目的
 
-品質ゲート: 受け入れ条件・検証手順の欠落は重大として扱う。承認・採否を作業項目にしない。検証は不合格時の観測を書く。数値・上限・契約の断定は公式本文の引用で裏を取る。網羅性より「手戻りを防ぐ最小限の品質」を優先する。
+品質ゲート: 受け入れ条件・検証手順の欠落は重大として扱う。承認・採否を作業項目にしない。検証は不合格時の観測を書く。`mise run ci:lint` やテスト緑だけでは検証完了にしない。1〜2 ファイルでやり方が自明なら plan を書かない。動くか・見た目・API の未決は先に小さく試作する。数値・上限・契約の断定は公式本文の引用で裏を取る。網羅性より「手戻りを防ぐ最小限の品質」を優先する。
 
 ## 使う場面
 
@@ -23,12 +23,13 @@ description: >-
 
 1. 対象 plan を特定。既存 plan file の `@path` があれば優先、なければ新規作成として扱う。
 2. 依頼が相談・方法論系か実装 plan 系かを判定。相談系は [references/planner-knowledge.md](references/planner-knowledge.md) の方法論フローに従い、実装 plan・変更ファイル一覧はスコープ外と明示する。
-3. `review` / `draft` / `write-file` を判定。未指定なら既存 plan file あり→`review`、なし→`draft`。
-4. `draft` / `write-file` の場合、タスク内容から Web 検索キーワードを抽出しベストプラクティスを検索。数値・上限・API 契約など採否が変わる断定は、採用 URL を WebFetch し、確認日と本文の一句を plan に残す。
-5. 実装 plan 系のみ [assets/plan-template.md](assets/plan-template.md) を起点に必須セクション（背景, 目的, 受け入れ条件, ベストプラクティス, 実装方針, 変更対象ファイル, 検証, リスクと対策）を埋める。
-6. `references/rules/` 配下のルールをファイル名順で適用し品質チェック。
-7. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大指摘あり→修正促す、なし→ユーザー承認を求める。
-8. `write-file` では保存先が明示されていればそのパスへ保存する。未指定なら、本文生成前にユーザーへ保存先を確認する。
+3. 実装 plan でも、1〜2 ファイルでやり方が自明なら plan を書かず、その旨を伝えて終了する。動くか・見た目・API の未決は本文に残さず、先に小さく試作する。詳細は knowledge の「Plan生成の進め方」を参照。
+4. `review` / `draft` / `write-file` を判定。未指定なら既存 plan file あり→`review`、なし→`draft`。
+5. `draft` / `write-file` の場合、タスク内容から Web 検索キーワードを抽出しベストプラクティスを検索。数値・上限・API 契約など採否が変わる断定は、採用 URL を WebFetch し、確認日と本文の一句を plan に残す。
+6. 実装 plan 系のみ [assets/plan-template.md](assets/plan-template.md) を起点に必須セクション（背景, 目的, 受け入れ条件, ベストプラクティス, 実装方針, 変更対象ファイル, 検証, リスクと対策）を埋める。
+7. `references/rules/` 配下のルールをファイル名順で適用し品質チェック。
+8. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大指摘あり→修正促す、なし→ユーザー承認を求める。
+9. `write-file` では保存先が明示されていればそのパスへ保存する。未指定なら、本文生成前にユーザーへ保存先を確認する。
 
 詳細判断は [references/planner-knowledge.md](references/planner-knowledge.md) を参照。
 
