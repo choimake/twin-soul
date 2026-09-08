@@ -136,6 +136,7 @@ mise run ci:apm
 - **consensus-investigation**: 同一の調査・レビューを複数のサブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
 - **drawio-architecture**: 事実の正本に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
+- **eli5**: 前提知識ゼロでもわかるように、大きな絵と少ない言葉で説明する
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
 - **gitignore**: `.gitignore` の新規作成、既存の見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う
