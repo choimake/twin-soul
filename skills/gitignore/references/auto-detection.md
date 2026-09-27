@@ -4,9 +4,9 @@
 
 ## 優先する流れ
 
-1. `scripts/fetch-gitignore.sh detect <target-path>` で候補を見る
+1. `bash <skill のパス>/scripts/fetch-gitignore.sh detect <target-path>` で候補を見る
 2. 会話で明示された stack や IDE があれば上書き、または追加する
-3. 必要なら `scripts/fetch-gitignore.sh auto <target-path> <extra...>` で本文を取得する
+3. 必要なら `bash <skill のパス>/scripts/fetch-gitignore.sh auto <target-path> <extra...>` で本文を取得する
 4. 取得結果をそのまま貼らず、既存 `.gitignore` や project 固有ルールと突き合わせる
 
 自動推定は「最初の候補出し」を速くするためのものであり、最終判断の代替ではない。
