@@ -63,4 +63,4 @@ task 追加でレイアウトが不明なら **先に task-layout.md**。
 - **`mise trust` / `MISE_TRUSTED_CONFIG_PATHS`**: 任意の clone 先を一括で trust しない。config / task の内容を確認してから trust する。
 - **`mise env` / `mise env --json`**: 機密情報を含む可能性がある場合、出力をチャットやログに載せない。キー名は `mise config ls` 等で確認する。値は人間がローカルで直接確認する。
 - **`mise set` / `mise set -g`**: いずれも機密情報を書かない。`mise set` はプロジェクト `mise.toml` へ書き込み、コミット対象となる。機密情報は `mise.local.toml` / `.env`（gitignore 対象）にのみ手動で書く。
-- **tool 追加時**: `mise use --pin <tool>@x.y.z` で pin する。`mise install <tool>` 単体や fuzzy 指定（`@22`、`latest`）は使わない。変更後は skill 内 `bash scripts/check-tool-pins.sh`（skill ルート基準）または利用先プロジェクトの `ci:lint:mise-tools` / `mise run ci:lint` で検証する。
+- **tool 追加時**: `mise use --pin <tool>@x.y.z` で pin する。`mise install <tool>` 単体や fuzzy 指定（`@22`、`latest`）は使わない。変更後はプロジェクトルートで `bash <skill のパス>/scripts/check-tool-pins.sh`、または利用先プロジェクトの `ci:lint:mise-tools` / `mise run ci:lint` で検証する。
