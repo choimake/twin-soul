@@ -9,7 +9,6 @@
 - 選定 template がリポジトリ内の手掛かりと整合しているか
 - 会話で明示された stack / IDE / OS 以外の template を無根拠に含めていないか
 - 個人設定（特定 editor の local 設定など）を project 共有 `.gitignore` に入れすぎていないか
-- `docker` template を、言語別 template で足せる場合に安易に選んでいないか
 
 ## 指摘する基準
 

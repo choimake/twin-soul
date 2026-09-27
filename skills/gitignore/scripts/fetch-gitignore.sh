@@ -9,11 +9,11 @@ TEMPLATES=""
 print_usage() {
   cat <<'EOF'
 使い方:
-  bash skills/gitignore/scripts/fetch-gitignore.sh list
-  bash skills/gitignore/scripts/fetch-gitignore.sh detect [target_path] [extra_templates...]
-  bash skills/gitignore/scripts/fetch-gitignore.sh auto [target_path] [extra_templates...]
-  bash skills/gitignore/scripts/fetch-gitignore.sh macos visualstudiocode node
-  bash skills/gitignore/scripts/fetch-gitignore.sh macos,visualstudiocode,node
+  bash <skill のパス>/scripts/fetch-gitignore.sh list
+  bash <skill のパス>/scripts/fetch-gitignore.sh detect [target_path] [extra_templates...]
+  bash <skill のパス>/scripts/fetch-gitignore.sh auto [target_path] [extra_templates...]
+  bash <skill のパス>/scripts/fetch-gitignore.sh macos visualstudiocode node
+  bash <skill のパス>/scripts/fetch-gitignore.sh macos,visualstudiocode,node
 
 Commands:
   list    利用可能な github/gitignore templates を表示する。
