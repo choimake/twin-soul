@@ -23,7 +23,7 @@ on:
     paths:
       - "src/**"
       - "mise.toml"
-      - "skills/mise-guide/scripts/**"       # tool pin 検証 script
+      - "<skill のパス>/scripts/**"          # tool pin 検証 script
       - ".mise/tasks/**"              # ゲート定義 + file task 変更
       - ".github/workflows/check.yaml"
 
