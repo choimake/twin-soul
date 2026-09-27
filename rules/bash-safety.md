@@ -53,7 +53,7 @@ Agent が読めるローカル shell に GitHub write token を置いて実行�
 ### パッケージ管理
 
 ```bash
-mise install, mise run ci:apm, pipx install, apm install
+mise install, pipx install, apm install
 ```
 
 ### Docker
