@@ -74,7 +74,7 @@ Agent は PR title / description の下書きまでを作成する。PR 作成�
 
 ### PR 作成後の CI 確認（必須）
 
-PR 作成後、CI が通ることを確認してから報告する。
+CI は main への push と main 向け PR で走り、feature ブランチへの push だけでは走らない。push を報告したあと、人間が PR を作成したら CI が通ることを確認する。
 
 1. `gh run watch --exit-status` で CI 完了を待つ
 2. CI が失敗した場合:
