@@ -22,7 +22,7 @@
 ### 悪い例
 
 ```gitignore
-# Python だけのリポジトリなのに Java / Ruby / PHP template を全部含める
+# Python だけのリポジトリなのに Java / Ruby / Composer template を全部含める
 ```
 
 ### 良い例

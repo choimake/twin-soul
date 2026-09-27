@@ -100,6 +100,8 @@ chmod -R 777               # 過剰な権限付与
 curl, wget
 ```
 
+skill が外部の情報を要るときは、接続先を 1 つに固定した `git clone` で取る（例: `skills/gitignore` は `github/gitignore` を clone して読む）。script の中から curl を呼んで deny を迂回しない。
+
 ## 条件付き許可
 
 条件を満たす場合のみ許可。

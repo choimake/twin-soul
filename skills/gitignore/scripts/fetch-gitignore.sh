@@ -2,7 +2,8 @@
 
 set -eu
 
-API_BASE="https://www.toptal.com/developers/gitignore/api"
+REPO_URL="https://github.com/github/gitignore.git"
+TEMPLATES_DIR="${GITIGNORE_TEMPLATES_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/twin-soul/github-gitignore}"
 TEMPLATES=""
 
 print_usage() {
@@ -15,12 +16,15 @@ print_usage() {
   bash skills/gitignore/scripts/fetch-gitignore.sh macos,visualstudiocode,node
 
 Commands:
-  list    利用可能な gitignore.io templates を表示する。
+  list    利用可能な github/gitignore templates を表示する。
   detect  現在の OS とリポジトリの目印から候補 template を推定する。
   auto    template を推定し、追加指定を merge してから .gitignore content を取得する。
 
 補足:
-  - template names は spaces または commas で区切れる。
+  - template は github/gitignore を git clone --depth 1 した cache から読む。
+    cache の場所は GITIGNORE_TEMPLATES_DIR（既定: ${XDG_CACHE_HOME:-~/.cache}/twin-soul/github-gitignore）。
+    最新にしたいときは cache ディレクトリを消して再実行する。
+  - template names は spaces または commas で区切れる。大文字小文字は区別しない。
   - 推定では package.json、pyproject.toml、go.mod、Cargo.toml、.vscode、
     .idea、pom.xml、build.gradle、*.tf などの一般的な files を見る。
   - host OS を推定できる場合は、対応する OS template も追加する。
@@ -147,7 +151,6 @@ detect_templates() {
   fi
 
   if has_match "$target_path" -name composer.json; then
-    append_template "php"
     append_template "composer"
   fi
 
@@ -177,13 +180,98 @@ detect_templates() {
   fi
 }
 
+ensure_templates() {
+  if [ -d "$TEMPLATES_DIR" ]; then
+    if ! git --git-dir="$TEMPLATES_DIR/.git" rev-parse --verify -q HEAD >/dev/null 2>&1; then
+      echo "template の cache が壊れています: ${TEMPLATES_DIR}" >&2
+      echo "対応: このディレクトリを消して再実行してください。" >&2
+      exit 1
+    fi
+    return 0
+  fi
+
+  require_command git "github/gitignore の templates を cache へ clone するため"
+  mkdir -p "$(dirname "$TEMPLATES_DIR")"
+  git clone --quiet --depth 1 "$REPO_URL" "$TEMPLATES_DIR" >&2
+}
+
+list_templates() {
+  ensure_templates
+  find "$TEMPLATES_DIR" -name .git -prune -o -type f -name '*.gitignore' -print \
+    | sed 's#.*/##; s#\.gitignore$##' \
+    | tr '[:upper:]' '[:lower:]' \
+    | sort -u
+}
+
+# root、Global/、community/ の順に探し、最初に見つかった file を返す。
+resolve_template() {
+  name="$1"
+
+  case "$name" in
+    *[!a-z0-9._+-]*) return 1 ;;
+  esac
+
+  for search_dir in "$TEMPLATES_DIR" "$TEMPLATES_DIR/Global"; do
+    found="$(find "$search_dir" -maxdepth 1 -type f -iname "${name}.gitignore" -print 2>/dev/null | head -n 1)"
+    if [ -n "$found" ]; then
+      printf '%s\n' "$found"
+      return 0
+    fi
+  done
+
+  found="$(find "$TEMPLATES_DIR/community" -type f -iname "${name}.gitignore" -print 2>/dev/null | sort | head -n 1)"
+  if [ -n "$found" ]; then
+    printf '%s\n' "$found"
+    return 0
+  fi
+
+  return 1
+}
+
 fetch_templates() {
   if [ -z "$TEMPLATES" ]; then
     echo "指定された template 名がありません。" >&2
     exit 1
   fi
 
-  curl -fsSL "${API_BASE}/${TEMPLATES}"
+  ensure_templates
+
+  files=""
+  missing=""
+  old_ifs=$IFS
+  IFS=','
+  for template in $TEMPLATES; do
+    if file="$(resolve_template "$template")"; then
+      files="${files}${file}
+"
+    else
+      missing="${missing} ${template}"
+    fi
+  done
+  IFS=$old_ifs
+
+  if [ -n "$missing" ]; then
+    echo "github/gitignore に見つからない template があります:${missing}" >&2
+    echo "対応: 'list' で名前を確認してください。" >&2
+    exit 1
+  fi
+
+  commit="$(git -C "$TEMPLATES_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  printf '# Generated from https://github.com/github/gitignore (commit %s)\n' "$commit"
+  printf '# Templates: %s\n' "$TEMPLATES"
+
+  old_ifs=$IFS
+  IFS='
+'
+  for file in $files; do
+    title="$(basename "$file" .gitignore)"
+    printf '\n### %s ###\n' "$title"
+    cat "$file"
+    if [ -n "$(tail -c 1 "$file")" ]; then
+      printf '\n'
+    fi
+  done
+  IFS=$old_ifs
 }
 
 if [ "$#" -eq 0 ]; then
@@ -191,7 +279,6 @@ if [ "$#" -eq 0 ]; then
   exit 1
 fi
 
-require_command curl "gitignore.io から template list と .gitignore content を取得するため"
 require_command awk "template names の normalize と deduplicate を行うため"
 require_command find "detect / auto で language、IDE、tool markers を scan するため"
 require_command sed "normalization 中に空の template names を除去するため"
@@ -200,7 +287,7 @@ require_command uname "host operating system template を推定するため"
 
 case "$1" in
   list|--list)
-    curl -fsSL "${API_BASE}/list?format=lines"
+    list_templates
     ;;
   detect)
     shift
