@@ -142,7 +142,7 @@ bash <skill のパス>/scripts/check-tool-pins.sh path/to/mise.toml  # 明示パ
 bash <skill のパス>/scripts/run-check-tool-pins-tests.sh          # fixture 一括
 ```
 
-利用先リポジトリ（twin-soul 等）では `mise.toml` task 経由を正本とする:
+利用先リポジトリでは `mise.toml` task 経由を正本とする（script のパスは skill の展開先に合わせる）:
 
 ```bash
 mise run ci:lint:mise-tools
@@ -153,7 +153,7 @@ CI 組み込み例:
 ```toml
 [tasks."ci:lint:mise-tools"]
 description = "mise.toml [tools] が x.y.z pin か検証する"
-run = "bash skills/mise-guide/scripts/check-tool-pins.sh"
+run = "bash <skill のパス>/scripts/check-tool-pins.sh"
 ```
 
 推奨 setting（補助。検証の代替ではない）:
