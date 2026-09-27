@@ -1,3 +1,2 @@
 # Local git worktrees for isolated change work.
-# Official workflow stays in rules/worktree-workflow.md.
 .worktrees/

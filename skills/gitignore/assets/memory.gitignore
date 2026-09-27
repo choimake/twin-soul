@@ -1,4 +1,4 @@
 # Agent local working memory
-# Official docs stay in rules/, specs/, decisions/, and skills/.
+# Shared docs stay in the repository's versioned files.
 # Ignore the local working notes themselves.
 memory/

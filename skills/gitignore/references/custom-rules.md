@@ -41,6 +41,6 @@ skill がエージェント作業領域を扱うときは、テンプレート�
 
 - `.worktrees/` 配下はローカルの隔離 checkout なので ignore する
 - Cursor 標準の `~/.cursor/worktrees` とは別物として扱う
-- 手順の正本は `rules/worktree-workflow.md` に置く
+- 手順の正本は利用先リポジトリの worktree 運用ルールに置く
 
 skill がエージェント作業領域を扱うときは、テンプレート本文に後付けの custom block として足す。
