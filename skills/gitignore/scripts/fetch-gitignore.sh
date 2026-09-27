@@ -23,7 +23,7 @@ Commands:
 補足:
   - template は github/gitignore を git clone --depth 1 した cache から読む。
     cache の場所は GITIGNORE_TEMPLATES_DIR（既定: ${XDG_CACHE_HOME:-~/.cache}/twin-soul/github-gitignore）。
-    最新にしたいときは cache ディレクトリを消して再実行する。
+    実行のたびに浅く fetch して最新にする。更新できないときは警告を出して cache を使う。
   - template names は spaces または commas で区切れる。大文字小文字は区別しない。
   - 推定では package.json、pyproject.toml、go.mod、Cargo.toml、.vscode、
     .idea、pom.xml、build.gradle、*.tf などの一般的な files を見る。
@@ -180,6 +180,15 @@ detect_templates() {
   fi
 }
 
+update_templates() {
+  if git -C "$TEMPLATES_DIR" fetch --quiet --depth 1 origin HEAD >/dev/null 2>&1; then
+    git -C "$TEMPLATES_DIR" reset --quiet --hard FETCH_HEAD
+    return 0
+  fi
+
+  echo "github/gitignore を更新できませんでした。cache の commit $(git -C "$TEMPLATES_DIR" rev-parse --short HEAD) を使います。" >&2
+}
+
 ensure_templates() {
   if [ -d "$TEMPLATES_DIR" ]; then
     if ! git --git-dir="$TEMPLATES_DIR/.git" rev-parse --verify -q HEAD >/dev/null 2>&1; then
@@ -187,6 +196,7 @@ ensure_templates() {
       echo "対応: このディレクトリを消して再実行してください。" >&2
       exit 1
     fi
+    update_templates
     return 0
   fi
 

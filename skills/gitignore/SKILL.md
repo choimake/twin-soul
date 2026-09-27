@@ -2,7 +2,7 @@
 name: gitignore
 description: >-
   `.gitignore` の新規作成、既存 `.gitignore` の見直し、GitHub 公式 `github/gitignore` からのテンプレート取得（`gitignore.io` 相当）、リポジトリからの template 自動推定、OS・言語・IDE ごとの ignore 項目整理を扱う。`github/gitignore` や `gitignore.io` のテンプレートで必要なものを集めたいときや、`mise` のように template がない tool の手書き ignore を足したいときに使う。project ルートの `.gitignore` 作成・見直しに限定し、`.gitattributes` や git hook 設定は対象外。
-compatibility: Requires git and network access to github.com for the first template fetch
+compatibility: Requires git and network access to github.com to fetch templates; falls back to the local cache when offline
 ---
 
 # Gitignore

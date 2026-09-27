@@ -38,9 +38,9 @@ bash skills/gitignore/scripts/fetch-gitignore.sh auto .
 
 ## 取得元と cache
 
-- 取得元は `https://github.com/github/gitignore.git`。初回だけ `git clone --depth 1` し、以後は cache を読む
+- 取得元は `https://github.com/github/gitignore.git`。初回は `git clone --depth 1` し、以後は実行のたびに `git fetch --depth 1` で cache を最新にする
+- ネットにつながらないなどで更新できないときは、警告を出して手元の cache で続ける
 - cache の場所は `GITIGNORE_TEMPLATES_DIR`（既定: `${XDG_CACHE_HOME:-~/.cache}/twin-soul/github-gitignore`）
-- 最新のテンプレートにしたいときは cache ディレクトリを消して再実行する
 - clone が途中で止まるなどして cache が壊れていると、その旨を出して終了コード 1 で止まる。cache ディレクトリを消して再実行する
 - 見つからない template 名があると、名前を挙げて終了コード 1 で止まる。`list` で名前を確かめる
 
