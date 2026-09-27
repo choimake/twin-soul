@@ -118,7 +118,7 @@ plan file を書かず **調査メモのみ** 返す場合もある（`draft` �
 ## Web検索統合のロジック
 
 1. タスク説明文から技術キーワードを抽出する（例: "React", "API", "TypeScript", "authentication"）。
-2. 検索クエリは「技術キーワード + best practices + 2026」の形式にする。
+2. 検索クエリは「技術キーワード + best practices + 現在の年」の形式にする。
 3. 検索結果から信頼性の高いソース（公式ドキュメント、Thoughtbot、Atlassian、Martin Fowler、Anthropic など）を優先する。
 4. 最大 3〜5 件に絞り、ベストプラクティスセクションに統合する。
 5. 各ベストプラクティスはリンク形式で記述する（例: `[Title - Source](URL): 説明`）。
