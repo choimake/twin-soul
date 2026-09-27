@@ -7,7 +7,7 @@
 ## チェック観点
 
 - 既存の手書きルールや project 固有ルールをむやみに消していないか
-- `gitignore.io` の生成ブロックと手書きルールを区別して読んでいるか
+- テンプレート由来の生成ブロックと手書きルールを区別して読んでいるか
 - 何を追加し、何を維持し、何を削るかを分けて提案しているか
 - 判別しにくい項目を理由なく削除していないか
 
@@ -22,7 +22,7 @@
 ### 悪い例
 
 ```gitignore
-# 既存 file を gitignore.io の出力で全面置換し、
+# 既存 file をテンプレートの出力で全面置換し、
 # project 固有の /secrets/local/ ルールを削除
 ```
 
@@ -39,5 +39,5 @@
 
 ## 補足
 
-- `# Created by https://www.toptal.com/developers/gitignore/api/...` の見出し以降にも手書きルールがあり得る
+- `# Generated from https://github.com/github/gitignore ...` や `# Created by https://www.toptal.com/developers/gitignore/api/...` の見出し以降にも手書きルールがあり得る
 - 全面置換ではなく、差分ベースで扱う

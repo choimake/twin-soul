@@ -21,11 +21,11 @@
 - `go.mod`: `go`
 - `Cargo.toml`: `rust`
 - `Gemfile`: `ruby`
-- `composer.json`: `php`、`composer`
+- `composer.json`: `composer`
 - `pom.xml`: `java`
 - `build.gradle`、`build.gradle.kts`、`gradlew`: `gradle`、`java`
 - `.vscode/`、`*.code-workspace`: `visualstudiocode`
-- `.idea/`、`*.iml`: `jetbrains` または個別 IDE template
+- `.idea/`、`*.iml`: `jetbrains`
 - `*.xcodeproj`、`*.xcworkspace`: `xcode`
 - `terraform/`、`*.tf`、`.terraform.lock.hcl`: `terraform`
 

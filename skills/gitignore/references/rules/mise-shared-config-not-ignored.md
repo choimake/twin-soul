@@ -36,4 +36,4 @@ mise.*.local.toml
 ## 補足
 
 - 推奨ルールは [../../assets/mise-local-overrides.gitignore](../../assets/mise-local-overrides.gitignore) を起点にする
-- custom block は `gitignore.io` 由来 block の後ろに足す
+- custom block はテンプレート由来 block の後ろに足す

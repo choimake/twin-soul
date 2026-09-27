@@ -1,6 +1,6 @@
 # custom 手書きルール
 
-template がない tool は、`gitignore.io` の候補とは別に custom 手書きルールとして足す。繰り返し使う block は `assets/` に置き、`draft` や `write-file` ではそこを起点にする。
+template がない tool は、テンプレート候補とは別に custom 手書きルールとして足す。繰り返し使う block は `assets/` に置き、`draft` や `write-file` ではそこを起点にする。
 
 ## `mise`
 
@@ -15,7 +15,7 @@ template がない tool は、`gitignore.io` の候補とは別に custom 手書
 - `mise.local.toml` と `mise.<env>.local.toml` はローカル専用なので ignore する
 - `.mise.*` 系は標準運用としては広げず、必要なリポジトリでだけ個別に足す
 
-skill が `mise` を扱うときは、`gitignore.io` の本文に後付けの custom block として足す。
+skill が `mise` を扱うときは、テンプレート本文に後付けの custom block として足す。
 
 ## `memory`
 
@@ -29,7 +29,7 @@ skill が `mise` を扱うときは、`gitignore.io` の本文に後付けの cu
 - `.gitkeep` は置かない。クローン後は手順で再作成する
 - Claude Code Auto Memory（`~/.claude/projects/.../memory/`）とは別物として扱う
 
-skill がエージェント作業領域を扱うときは、`gitignore.io` の本文に後付けの custom block として足す。
+skill がエージェント作業領域を扱うときは、テンプレート本文に後付けの custom block として足す。
 
 ## `worktrees`
 
@@ -43,4 +43,4 @@ skill がエージェント作業領域を扱うときは、`gitignore.io` の�
 - Cursor 標準の `~/.cursor/worktrees` とは別物として扱う
 - 手順の正本は `rules/worktree-workflow.md` に置く
 
-skill がエージェント作業領域を扱うときは、`gitignore.io` の本文に後付けの custom block として足す。
+skill がエージェント作業領域を扱うときは、テンプレート本文に後付けの custom block として足す。
