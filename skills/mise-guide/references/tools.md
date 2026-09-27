@@ -177,7 +177,7 @@ pin = true   # mise use 時に --pin をデフォルト化（--fuzzy で上書�
 ### Node.js
 
 - `.nvmrc` / `.node-version`（`mise settings add idiomatic_version_file_enable_tools node`）
-- デフォルト npm パッケージ: `~/.default-npm-packages`（非推奨。2026.11 から警告、2027.11 廃止予定。代替: `"npm:typescript" = "5.7.2"` のように npm バックエンド + x.y.z pin）
+- デフォルト npm パッケージ: `~/.default-npm-packages`（非推奨。代替: `"npm:typescript" = "5.7.2"` のように npm バックエンド + x.y.z pin）
 - corepack: `node.corepack = true`（設定）または `postinstall = "corepack enable"` — **postinstall に機密情報や未確認の `curl | sh` を書かない**
 
 ### Python
