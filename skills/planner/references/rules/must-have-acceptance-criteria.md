@@ -35,9 +35,9 @@
 ```markdown
 ## 受け入れ条件
 
-- [ ] `skills/planner/SKILL.md` が作成され、目的 / 使う場面 / 手順 / 期待する出力 / 検証 の5セクションを含む
-- [ ] `skills/planner/assets/plan-template.md` が作成され、必須セクション（背景, 目的, 受け入れ条件, ベストプラクティス, 検証）を含む
-- [ ] `apm install --dry-run --target cursor,claude` で `skills/planner` が導入対象として検証されることを確認
+- [ ] `POST /password-reset` に未登録メールを送ると 404 ではなく 202 を返す
+- [ ] リセットトークンは発行から 30 分で失効し、失効後は 410 を返す
+- [ ] 既存の `auth` テストがすべて通る
 ```
 
 ## 補足
