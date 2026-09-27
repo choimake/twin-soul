@@ -36,14 +36,12 @@
 
 ### 新規作成ファイル
 
-- `skills/planner/SKILL.md` - メイン定義（500行未満）
-- `skills/planner/assets/plan-template.md` - plan fileテンプレート
-- `skills/planner/references/planner-knowledge.md` - 判断基準と詳細ロジック
+- `src/auth/password_reset.ts` - トークン発行と検証
+- `tests/auth/password_reset.test.ts` - 失効と未登録メールのケース
 
 ### 既存ファイル更新
 
-- `README.md` - skillsリストに `planner` を追加
-- `apm.yml` - package metadata や target を必要に応じて更新
+- `src/routes/auth.ts` - `/password-reset` ルートを追加
 ```
 
 ## 補足
