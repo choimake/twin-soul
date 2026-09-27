@@ -78,7 +78,7 @@ Agent Skill は、特定の作業を毎回ゼロから説明しなくてよい�
 2. `review` / `draft` / `write-file` が明示されていれば、それを優先する。未指定なら依頼内容から推定する。
 3. 対象 skill や用途が曖昧なら、skill 名、想定ユースケース、保存先のどれかを確認する。
 4. 対象が曖昧な間は、確認質問だけを返し、具体的な本文作成には入らない。
-5. 対象が決まったら、その skill に関係する既存 skill と、必要なリポジトリの正本（例: `AGENTS.md`、`rules/`、`specs/`）だけを確認すると明示する。
+5. 対象が決まったら、その skill に関係する既存 skill と、必要なリポジトリの正本（例: `AGENTS.md`、`rules/`、`specs/`）だけを確認する。
 6. `skills/` 配下の全件読了を前提にしない。まずは用途、ファイル名、トリガー語で関連 skill を絞る。
 7. スコープ拡張が必要な場合は、まず現スコープで足りない理由と、追加で読みたいファイルを説明する。
 
@@ -244,7 +244,7 @@ Agent Skills 標準にない field は、利用先 client の拡張として扱�
 
 - file scoping 用 field（例: `paths`、legacy の `globs`）は、その client が対応していると分かる場合だけ使う
 - slash command 的に明示実行だけへ寄せる field（例: `disable-model-invocation`）は、その client が対応していると分かる場合だけ使う
-- 合議・反省のような重い起動は、勝手に発火させず明示呼び出しに寄せる
+- 合議調査（consensus-investigation）のように複数のサブエージェントを起動する重い skill は、勝手に発火させず明示呼び出しに寄せる
 - skill の標準テンプレートへ client-specific field を常設しない。`disable-model-invocation` もテンプレに常設しない
 - client-specific field を入れる場合は、`compatibility` や `metadata` で前提を補足するか、利用先 project の導入手順に寄せる
 
@@ -421,7 +421,6 @@ description 評価用 prompt:
 対象が未指定のとき:
 
 - まず skill 名、用途、保存先のどれを先に決めるか確認する短い質問だけを返す
-- 対象が決まったら、関連 skill と必要なリポジトリの正本だけを確認して進めると添える
 
 `scripts/` を追加しない判断をした場合は、次を地の文で明示してよい。
 
