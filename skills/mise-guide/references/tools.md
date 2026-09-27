@@ -137,7 +137,7 @@ mise use --pin "aqua:golangci/golangci-lint@2.12.2"
 `[tools]` が x.y.z pin か機械検証する script:
 
 ```bash
-bash <skill のパス>/scripts/check-tool-pins.sh                    # プロジェクトルートで実行（カレントの [tools] を含む mise*.toml のみ。env-only は skip）
+bash <skill のパス>/scripts/check-tool-pins.sh                    # プロジェクトルートで実行（カレントの mise.toml と mise.*.toml。*.local.toml は除外、[tools] の無いファイルは skip）
 bash <skill のパス>/scripts/check-tool-pins.sh path/to/mise.toml  # 明示パス
 bash <skill のパス>/scripts/run-check-tool-pins-tests.sh          # fixture 一括
 ```
