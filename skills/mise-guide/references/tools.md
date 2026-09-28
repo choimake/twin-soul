@@ -170,7 +170,7 @@ pin = true   # mise use 時に --pin をデフォルト化（--fuzzy で上書�
 | `mise exec <tool>@<ver> -- <cmd>` | 一時的に特定 tool 版で実行 | `mise exec node@20 -- node -v` |
 | `mise exec -- <cmd>` | プロジェクト env（`mise.local.toml` 等）を載せて随時実行 | `mise exec -- gh issue list` |
 
-`--` の有無で意味が変わる。git/gh 向けは [env.md](env.md) を参照。
+`--` の前に `<tool>@<ver>` を書くかどうかで意味が変わる。git/gh 向けは [env.md](env.md) を参照。
 
 ## 言語別メモ
 

@@ -60,7 +60,6 @@ dir = "{{cwd}}"
 sources = ["src/**/*"]
 outputs = ["dist/**/*"]
 quiet = false
-shell = "bash -c"                 # CI ゲート task に限定（下記）
 ```
 
 ### depends と env の落とし穴
@@ -122,7 +121,7 @@ arg "<env>" help="Target environment" {
 }
 '''
 run = '''
-set -euo pipefail
+set -eu
 ./scripts/deploy.sh "${usage_env?}"
 '''
 ```
@@ -180,7 +179,7 @@ go test ./...
 """
 ```
 
-ローカル専用 task（deploy / e2e 等）で macOS 既定 `sh` のまま動作するなら `shell` は省略してよい。bash 固有の記法を使う場合は CI ゲート task 側に寄せる。
+ローカル専用 task（deploy / e2e 等）で macOS 既定 `sh` のまま動作するなら `shell` は省略してよい。bash 固有の記法が要るなら、`#!/usr/bin/env bash` 付きの file task にする（下記「file task テンプレ」）。
 
 ## `$MISE_PROJECT_ROOT`
 
