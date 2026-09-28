@@ -37,8 +37,10 @@ gh pr list, gh pr view, gh issue list, gh issue view, gh repo view
 ### Git（書き込み）
 
 ```bash
-git commit, git push, git push origin <branch>
+git push, git push origin <branch>
 ```
+
+push は毎回、実行前にユーザーに確認する。worktree の作業ブランチへの `git commit` は確認なしでよい。ローカルに留まり、取り消せるため。
 
 ### GitHub CLI（書き込み）
 

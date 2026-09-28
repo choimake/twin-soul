@@ -70,6 +70,8 @@ git commit -m "<scope>: 説明"
 git push -u origin <scope>/<short-name>
 ```
 
+commit は確認なしでよい。push は、CI 失敗時の修正コミットも含めて毎回、実行前にユーザーに確認する。
+
 Agent は PR title / description の下書きまでを作成する。PR 作成そのものは、人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。
 
 ### PR 作成後の CI 確認（必須）
