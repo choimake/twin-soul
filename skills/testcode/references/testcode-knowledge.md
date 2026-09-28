@@ -2,7 +2,7 @@
 
 この資料は `testcode` skill の入口となる判断知識をまとめたものである。`SKILL.md` は使い方に留め、詳細判断はこの資料と分割した `references/` の各ドキュメントを起点にする。
 
-テンプレート:
+skill 自体を試す test prompt（将来の評価テンプレートや rubric の起点）:
 
 - [../assets/test-prompt-template.md](../assets/test-prompt-template.md)
 
@@ -11,7 +11,6 @@
 - テストコード生成を、対象理解なしの一発生成として扱わず、ケース整理を挟んだ workflow として扱う
 - 生成したテストを、`通るかどうか` だけでなく `何を保証しているか` で評価する
 - coverage だけを追うのを避け、必要に応じて mutation testing や test smell の観点へ広げる
-- `SKILL.md` には trigger と手順だけを残し、並列に見たい判断観点は `references/` の別ドキュメントへ分ける
 
 ## 呼び出し側が渡せる入力
 
@@ -47,28 +46,6 @@
   - エラー・ログ・例外メッセージを完全一致で検証する方針
 - [sources.md](sources.md)
   - 出典と深掘り用 URL
-
-## ファイル分割ルール
-
-### `SKILL.md`
-
-- 目的、使う場面、手順、期待する出力 だけを置く
-- mode の入口説明に留め、評価基準は抱え込まない
-
-### `references/`
-
-- 入口となるドキュメントはこの `testcode-knowledge.md`
-- 並列に見たい観点は別ドキュメントへ分ける
-- URL は `sources.md` にまとめ、判断の本文から切り離す
-
-### `assets/`
-
-- skill 自体を試す test prompt
-- 将来の評価テンプレートや rubric の起点
-
-### `scripts/`
-
-追加しない（generate/evaluate/improve はテキストで運用可能。coverage や mutation の集計などを繰り返し自動化したくなったら `scripts/` を足す）。
 
 ## 応答時の明示事項
 
