@@ -55,8 +55,8 @@ Decision Record は、現在守るルールの要約ではなく、判断理由�
 意味変更を含む更新では、既存 Accepted DR を直接最新化しない。
 
 - 新しい DR を追加して supersede する
-- 新しい DR に `Supersedes: <DR名>` を書く
-- 古い DR に `Superseded by: <新DR名>` を追記する
+- 新しい DR に置き換え元（例: `Supersedes: <DR名>`）を書く。表記は保管先の既存 DR に合わせる
+- 古い DR に置き換え先（例: `Superseded by: <新DR名>`）を追記する
 - 関連 DR がある場合は `関連する DR` に記録する
 
 ## 新規追加の進め方

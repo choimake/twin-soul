@@ -19,7 +19,7 @@ Proposed / Accepted / Deprecated / Superseded
 ## 関連する DR
 
 - 関連する DR があればここにリンクや参照を書く
-- supersede する場合は `Supersedes: <DR名>` を書く
+- supersede する場合は置き換え元（例: `Supersedes: <DR名>`）を書く。表記は保管先の既存 DR に合わせる
 
 <!-- 必要に応じて `Supersedes: <DR名>` を追記する。 -->
 <!-- 古い DR を更新するときは `Superseded by: <新DR名>` を追記する。 -->
