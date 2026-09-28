@@ -58,6 +58,9 @@
 - ドキュメントを足す / 直す → `rules/documentation-standards.md`, `rules/document-consistency.md`
 - DR が要るか迷う → `rules/when-to-create-decision-records.md`
 - 破壊的な shell → `rules/bash-safety.md`
+- tool・依存・Docker イメージ・GitHub Actions の版を足す / 変える → `rules/version-pinning.md`
+- 依存ツール・skill・配布方式を消す → `rules/removing-dependencies.md`
+- `.gitignore` / `.gitkeep` を足す / 直す → `rules/gitignore-vs-gitkeep.md`
 - Issue → `rules/github-issue-workflow.md`
 - PR → `rules/github-pr-workflow.md`
 
@@ -70,14 +73,14 @@ hook に移すのは、例外がなく、許可か拒否かではっきり分か
 - `apm.lock.yaml` は利用先リポジトリでコミットし、全員・CI が同じ resolved commit を使う
 - プライベートリポジトリとして使う場合は `GITHUB_APM_PAT`、`GITHUB_APM_PAT_{ORG}`、または `gh auth login` などの Git 認証を用意する
 - 利用先リポジトリでは project 固有 skill を併置してよい
-- 利用先リポジトリの skill は直接編集せず、このリポジトリ側を更新して `apm install --update` または `apm deps update` を実行する
+- 利用先リポジトリの skill は直接編集せず、このリポジトリ側を更新して `apm update` を実行する
 - 詳しい導入手順は `specs/installing-shared-skills.md` を参照する
 
 ## 変更手順
 
 1. `skills/`、`rules/`、`AGENTS.md`、必要なら `specs/` を編集する
 2. このリポジトリで `mise run ci:lint`、`mise run ci:apm` を実行して静的チェックと APM 配布前提を確認する（`ci:apm` は展開先を実際に同期したうえで audit する）
-3. skill を使っている利用先リポジトリでは `apm install --update`、`apm update`、または `apm deps update` を実行する
+3. skill を使っている利用先リポジトリでは `apm update` を実行する（確認プロンプトを出さずに回すときは `apm update --yes`）
 4. README や補助資料が古くなったら更新する
 
 ## Runtime Notes

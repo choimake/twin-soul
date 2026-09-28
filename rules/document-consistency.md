@@ -22,10 +22,12 @@
 
 - README.md
 - AGENTS.md
+- CONTRIBUTING.md
+- .github/ の Issue / PR テンプレート
 - rules/
 - specs/
 - decisions/（判断理由や履歴が必要な場合）
-- skills/ 配下の README / references / assets
+- skills/ 配下の SKILL.md / README / references / assets
 - 設定ファイルのコメント（mise.toml, apm.yml, .github/workflows/ 等）
 
 ### 2. ドキュメントは「現在の姿」を反映する
@@ -63,7 +65,7 @@
 rg "旧技術名|旧パス" --glob '!decisions/**'
 
 # 特定ファイルを対象に検索
-rg "旧技術名|旧パス" README.md AGENTS.md rules specs skills mise.toml apm.yml
+rg "旧技術名|旧パス" README.md AGENTS.md CONTRIBUTING.md .github rules specs skills mise.toml apm.yml
 ```
 
 ### レビュー時の観点
