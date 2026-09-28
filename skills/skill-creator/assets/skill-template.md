@@ -41,17 +41,5 @@ description: >-
 
 ## 検証
 
-- ユーザー意図と異なる誤解を招く（misleading な）skill や、不正利用を助ける skill になっていない
-- `SKILL.md` 自体は使い方に留まり、詳細知識を抱え込んでいない
-- 迷ったら足さず削っている。この skill だけで成立している。他 skill の手順を写していない
-- 毎回使う短い手順は SKILL.md に残している
-- `name` は親ディレクトリ名と一致している
-- 詳細な判断は `references/` を読めば追える
-- 参照ファイルには「いつ読むか」が `SKILL.md` から分かる
-- 新規作成や改稿では `assets/` のテンプレートを起点にできる
-- YAML frontmatter は `name` と `description` を必須として持つ
-- YAML frontmatter の `description` は 1024 文字以内で、`>-` を使い、plain scalar にしていない
-- `description` は WHAT と WHEN を含み、undertrigger を避ける具体文脈と overtrigger を避ける境界が見える
-- 必要なら 2〜3 件の test prompt で trigger、出力、確認質問の妥当性を試せる
-- 任意 field や client-specific field を標準 field と混同していない
-- 対象が不明なときの扱いが明確
+- [この skill を使った作業の成果物が満たす条件。手順と期待する出力から書く]
+- [対象や入力が不明なときの扱いなど、境界で守ること]

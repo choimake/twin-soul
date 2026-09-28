@@ -120,7 +120,7 @@ skill の内容は、`description` や依頼内容からユーザーが予期で
 - いつ使うか
 - どの順で進めるか
 - 何を返すか
-- どの状態なら完成と言えるか
+- この skill を使った作業の成果物が満たす条件と、境界で守ること（`## 検証`）。skill 自体の構成は「完了チェック」で見る
 
 `SKILL.md` は入口に徹する。
 
@@ -436,10 +436,14 @@ description 評価用 prompt:
 - `description` は trigger 語と近接 task との境界を含む
 - `description` は undertrigger を避ける具体文脈を含み、overtrigger しない境界も持つ
 - `SKILL.md` は薄く、詳細を `references/` へ逃がしている
+- 毎回使う短い手順は `SKILL.md` に残している
+- 迷ったら足さず削っている。この skill だけで成立し、他 skill の手順を写していない
+- `SKILL.md` の `## 検証` は、この skill を使った作業の成果物と境界の項目だけで、skill 自体の構成の確認を含めていない
 - 詳細参照には、そのファイルをいつ読むかが書かれている
 - unsafe / 誤解を招く（misleading な）skill を作らない安全原則が守られている
 - テンプレートは `assets/` にあり、`draft` の起点にできる
 - `scripts/` は必要性があるときだけ追加している
+- 必要なら 2〜3 件の test prompt で trigger、出力、確認質問の妥当性を試している
 - eval / benchmark は必要な skill にだけ任意追加し、通常 workflow に必須化していない
 - client-specific field を標準 field と混同していない
 - 用語が一貫している
