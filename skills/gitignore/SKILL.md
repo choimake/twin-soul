@@ -9,7 +9,7 @@ compatibility: Requires git and network access to github.com to fetch templates;
 
 ## 目的
 
-生成由来と手書きの境界を壊さない。追跡すべきソースや機密の ignore 漏れはコスト大。粒度より境界の明確さを優先。
+生成由来と手書きの境界を壊さない。追跡すべきソースを ignore することと、機密を含む file を ignore し漏らすことはコスト大。粒度より境界の明確さを優先。
 
 ## 使う場面
 
