@@ -40,9 +40,8 @@
 ```markdown
 ## ベストプラクティス
 
-- [Planning ベストプラクティス - Atlassian](https://www.atlassian.com/agile/project-management/planning): アジャイル開発における計画の立て方
-- [受け入れ条件 - Thoughtbot](https://thoughtbot.com/blog/acceptance-criteria): 良い受け入れ条件の書き方
-- [Decision Records - Michael Nygard](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions): 設計判断の記録方法
+- [Forgot Password Cheat Sheet - OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html): 登録有無で応答を変えない、トークンを 1 回限りにして期限を設ける
+- [Authentication Cheat Sheet - OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html): 認証まわりの実装全般の指針
 ```
 
 ### クラウド quota / SLA の書き方
