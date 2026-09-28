@@ -8,6 +8,9 @@ implementer_model: ""
 # レビューサブエージェントに渡す model 指定。空なら引数または確認で決める。
 reviewer_model: ""
 
+# 実行検証サブエージェントに渡す model 指定。空なら reviewer_model を使う。
+verifier_model: ""
+
 # 品質ゲート: draft | review | production
 quality_gate: review
 
@@ -16,3 +19,6 @@ max_loops: 3
 
 # エラー資産の追記先（利用先リポジトリ相対）。APM 展開先には書かない。
 errors_path: .verification-loop/errors.md
+
+# 試行ごとの指示・報告・スコアカード・コマンド記録の置き場（利用先リポジトリ相対）。Git 管理外にする。
+runs_dir: .verification-loop/runs
