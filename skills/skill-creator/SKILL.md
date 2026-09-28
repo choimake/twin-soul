@@ -1,14 +1,14 @@
 ---
 name: skill-creator
 description: >-
-  Agent Skill の新規作成、改稿、分割、`skills/` 配下への保存方針を整理する。`SKILL.md` / `references/` / `assets/` / `scripts/` の役割分担を決めたいとき、既存 skill を共通ルールに合わせて直したいとき、skill 用テンプレートから下書きを作りたいときに使う。
+  Agent Skill の新規作成、改稿、分割、`skills/` 配下への保存方針を整理する。`SKILL.md` / `references/` / `assets/` / `scripts/` の役割分担を決めたいとき、既存 skill を共通ルールに合わせて直したいとき、skill 用テンプレートから下書きを作りたいときに使う。リポジトリ全体に効く横断方針（トップレベル `rules/`）の作成・改稿は対象外。
 ---
 
 # Skill Creator
 
 ## 目的
 
-SKILL.md は薄く保つ。判断知識の肥大は `references/` へ。迷ったら足さず削る。skill は単体で成立させる。他 skill の手順を写し込まない。毎回使う短い手順は SKILL.md に残す。学びの書き戻し先はこの skill。
+SKILL.md は薄く保つ。skill は単体で成立させる。他 skill の手順を写し込まない。学びの書き戻し先はこの skill。
 
 ## 使う場面
 
