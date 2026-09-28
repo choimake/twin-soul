@@ -104,7 +104,7 @@ mise run ci:apm
 
 期待する結果:
 
-- gitleaks、actionlint、ShellCheck、typos、mise.toml の tool pin 検証、main checkout 防御 hook の自己テストが成功する
+- [`mise.toml`](mise.toml) の `ci:lint` にある検査がすべて成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリは組織共通の APM 監査ポリシーを使わないため、監査では `--no-policy` を指定する
 
