@@ -33,6 +33,8 @@
 
 ## サポート
 
+<!-- リンク先は、対象リポジトリに実在する文書だけ残す。 -->
+
 - 詳細ドキュメント: [`docs/...`](docs/)
 - 貢献ルール: [`CONTRIBUTING.md`](CONTRIBUTING.md)
 - 行動規範: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
