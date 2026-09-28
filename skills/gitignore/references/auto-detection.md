@@ -17,7 +17,7 @@
 
 - 現在のホスト OS: `macos` / `linux` / `windows`
 - `package.json`、`pnpm-workspace.yaml`、`yarn.lock`: `node`
-- `pyproject.toml`、`requirements.txt`、`Pipfile`、`poetry.lock`、`.venv/`: `python`
+- `pyproject.toml`、`requirements.txt`、`Pipfile`、`poetry.lock`: `python`
 - `go.mod`: `go`
 - `Cargo.toml`: `rust`
 - `Gemfile`: `ruby`
@@ -27,6 +27,6 @@
 - `.vscode/`、`*.code-workspace`: `visualstudiocode`
 - `.idea/`、`*.iml`: `jetbrains`
 - `*.xcodeproj`、`*.xcworkspace`: `xcode`
-- `terraform/`、`*.tf`、`.terraform.lock.hcl`: `terraform`
+- `*.tf`、`*.tfvars`、`.terraform.lock.hcl`: `terraform`
 
 手掛かりが弱い場合は、無理に決め打ちせず確認質問を返す。検出精度より安全性を優先し、曖昧なものは広げすぎない。

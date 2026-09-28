@@ -21,7 +21,6 @@
 - `github/gitignore` を clone できない
 - 自動推定の結果が OS しか出ず、言語や IDE が絞れない
 - template 名が不明で候補が複数ある
-- `mise` のように template が存在せず、custom ルールが必要
 - リポジトリの手掛かりが弱く、複数スタックがあり得る
 - 既存 `.gitignore` のローカルルールが多く、機械的な統合が危険
 
