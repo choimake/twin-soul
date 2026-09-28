@@ -179,7 +179,7 @@ go test ./...
 """
 ```
 
-ローカル専用 task（deploy / e2e 等）で macOS 既定 `sh` のまま動作するなら `shell` は省略してよい。bash 固有の記法が要るなら、`#!/usr/bin/env bash` 付きの file task にする（下記「file task テンプレ」）。
+ローカル専用 task（deploy / e2e 等）で macOS 既定 `sh` のまま動作するなら `shell` は省略してよい。bash 固有の記法が要るなら、`#!/usr/bin/env bash` 付きの file task にする（`chmod +x` と includes の条件は上記「file task（実行可能スクリプト形式）」）。
 
 ## `$MISE_PROJECT_ROOT`
 
