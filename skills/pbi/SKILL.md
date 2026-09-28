@@ -30,13 +30,11 @@ PBI ドキュメントの構造と受入品質を保ち、手戻りを防ぐ最�
 ## 期待する出力
 
 - PBI 下書き、またはレビュー結果（重大 / 提案 / 任意）
-- `draft` / `write-file` 時は Web 検索で得た補足参照の統合
+- `draft` / `write-file` 時に Web 検索で補足参照を得た場合は、その統合
 - `write-file` 時は保存先パスの明示
 
 ## 検証
 
-- `SKILL.md` は workflow に留まり、詳細知識を `references/pbi-knowledge.md` に移している
-- 判断基準とルール本文は `references/` を読めば追える
-- 新規下書きは `assets/pbi-template.md`、レビュー返答は `assets/review-output-template.md` を起点にできる
-- `description` は WHAT と WHEN を含み、trigger 語（PBI・バックログ・受入基準・ユーザーストーリー）と対象外（実装手順・コマンド検証主体の計画書）が見える
 - 対象未指定時は新規 / 既存レビュー / 保存先のどれかを短く確認してから本文生成に入る
+- レビュー結果は `assets/review-output-template.md` の形式で、重大 / 提案 / 任意 に分けて返している
+- `write-file` では保存先パスを明示している
