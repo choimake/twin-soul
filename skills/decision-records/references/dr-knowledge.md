@@ -73,7 +73,7 @@ Decision Record は、現在守るルールの要約ではなく、判断理由�
 1. 更新対象が軽微修正か意味変更かを先に判定する。
 2. 軽微修正なら既存 DR を直接更新してよい。
 3. 意味変更なら、新しい DR を追加して supersede する。
-4. supersede する場合は、新しい DR に `Supersedes`、古い DR に `Superseded by` を書く。
+4. supersede する場合は、新しい DR に置き換え元、古い DR に置き換え先を書く。表記は「更新判断」のとおり保管先の既存 DR に合わせる。
 5. ユーザーが既存 Accepted DR の上書きを希望しても、意味変更がある場合は直接更新を提案せず、supersede へ誘導する。
 6. `draft` または `write-file` なら、テンプレートに沿って新しい DR の本文を作る。
 
@@ -109,5 +109,5 @@ Decision Record は、現在守るルールの要約ではなく、判断理由�
 
 - 意味変更を含むため、既存 Accepted DR を直接最新化しない
 - 新しい DR を追加して supersede する
-- 新しい DR に `Supersedes`、古い DR に `Superseded by` を書く
+- 新しい DR に置き換え元、古い DR に置き換え先を書く（表記は保管先の既存 DR に合わせる）
 - 直接更新は意味が変わらない軽微修正だけに限る
