@@ -1,7 +1,7 @@
 ---
 name: migrations-script
 description: >-
-  運用中システムで一度きり実行する migration script、data fix、backfill、infra resource 更新、one-off script の計画・作成・レビューを支援する。dry-run、再実行しても壊れない性質（冪等性）、変更前/変更後の記録（before/after log）、rollback、監査ログ、実行後検証が必要なときに使う。
+  運用中システムで一度きり実行する migration script、data fix、backfill、infra resource 更新、one-off script の計画・作成・レビューを支援する。dry-run、再実行しても壊れない性質（冪等性）、変更前/変更後の記録（before/after log）、rollback、監査ログ、実行後検証が必要なときに使う。アプリの通常の schema migration（column 追加など）の作成は対象外。
 ---
 
 # Migrations Script
@@ -39,10 +39,5 @@ description: >-
 
 ## 検証
 
-- `SKILL.md` 自体は使い方に留まり、詳細知識を抱え込んでいない
-- 詳細な判断は `references/` を読めば追える
-- 実行手順書の下書きでは `assets/` のテンプレートを起点にできる
-- YAML frontmatter の `description` は `>-` を使い、plain scalar にしていない
-- `description` は WHAT と WHEN を含み、trigger 語と境界が見える
-- migration script の本番実行を、ユーザー承認なしに進めない境界が明確である
-- クラッシュ地点からの再実行と、バッチごとの変更前後が必須ゲートにある
+- migration script の本番実行を、ユーザー承認なしに進めていない
+- 下書きにはクラッシュ地点からの再実行とバッチごとの変更前後が入り、レビューではその欠落を指摘している
