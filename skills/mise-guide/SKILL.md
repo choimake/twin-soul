@@ -5,7 +5,7 @@ description: >-
   mise.toml の編集・mise use / run / exec の使い方・task 定義や quiet の設定・
   GitHub Actions との連携・task レイアウト（A/B/B'/C）を相談・実装したいときに使う。
   mise.local.toml, task 定義, task 分割, mise run/exec がキーワード。
-  Dockerfile-only・nvm/pyenv 単体・デプロイ本体は対象外。説明は日本語。
+  Dockerfile-only・nvm/pyenv 単体・デプロイ本体は対象外。
 ---
 
 # mise — 開発環境マネージャ
