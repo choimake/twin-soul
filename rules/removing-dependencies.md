@@ -76,7 +76,7 @@
 rg "{name}" --glob '!decisions/**'
 
 # 特定ディレクトリのみを対象に検索
-rg "{name}" README.md AGENTS.md rules specs skills mise.toml apm.yml
+rg "{name}" README.md AGENTS.md CONTRIBUTING.md .github rules specs skills mise.toml apm.yml
 ```
 
 ## 原則

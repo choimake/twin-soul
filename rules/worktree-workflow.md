@@ -78,11 +78,11 @@ Agent は PR title / description の下書きまでを作成する。PR 作成�
 
 CI は main への push と main 向け PR で走り、feature ブランチへの push だけでは走らない。push を報告したあと、人間が PR を作成したら CI が通ることを確認する。
 
-1. `gh run watch --exit-status` で CI 完了を待つ
+1. `gh run list --branch <scope>/<short-name> --limit 1` で run ID を調べ、`gh run watch <run-id> --exit-status` で CI 完了を待つ。`gh run watch` と `gh run view` は、run ID を省くと対話端末以外ではエラーになる
 2. CI が失敗した場合:
-   - `gh run view --log-failed` でログを確認し原因を特定
+   - `gh run view <run-id> --log-failed` でログを確認し原因を特定
    - 修正コミットを push
-   - 再度 `gh run watch --exit-status` で確認
+   - 新しい run の ID で再度 `gh run watch <run-id> --exit-status` を実行して確認
    - **最大 3 回**まで修正ループを繰り返す
 3. 3 回修正しても解決しない場合はユーザーに報告して判断を仰ぐ
 4. すべて合格した状態でユーザーに報告

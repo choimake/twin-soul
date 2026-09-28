@@ -104,7 +104,7 @@ mise run ci:apm
 
 期待する結果:
 
-- gitleaks, actionlint, ShellCheck, typos が成功する
+- gitleaks、actionlint、ShellCheck、typos、mise.toml の tool pin 検証、main checkout 防御 hook の自己テストが成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリは組織共通の APM 監査ポリシーを使わないため、監査では `--no-policy` を指定する
 
@@ -149,6 +149,7 @@ mise run ci:apm
 - **skill-creator**: Agent Skill の新規作成、改稿、分割、保存方針の整理を扱う
 - **testcode**: テストコードの新規作成、既存テストの追加・改善、生成済みテストの評価を扱う
 - **universal-code-reviewer**: コードレビューの汎用チェック観点を適用する
+- **use-case-description**: ユーザーストーリーなどから、アクター・事前/事後条件・基本/代替/例外フローを備えたユースケース記述を起案・レビューする
 - **verification-loop**: 実装と独立レビューを別サブエージェントに分け、親が実ファイルとコマンド出力を見て合否を決める。合格まで修正ループを回す
 
 ## 関連文書
