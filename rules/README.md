@@ -25,6 +25,7 @@
 - [when-to-create-decision-records.md](when-to-create-decision-records.md) - DR を作る判断基準
 - [bash-safety.md](bash-safety.md) - Bash コマンド安全性の判断基準
 - [worktree-workflow.md](worktree-workflow.md) - 変更作業は `.worktrees/` で進め、hook が main 編集を止める
+- [verify-before-changing-skills.md](verify-before-changing-skills.md) - skill を変える前に、今の main で問題が起きることを確かめる
 
 ## 迷ったとき
 
