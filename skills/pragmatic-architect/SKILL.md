@@ -1,7 +1,7 @@
 ---
 name: pragmatic-architect
 description: >-
-  プロジェクト固有のアーキテクチャ中核（Core / Details）を見極め、依存方向・汚染の禁止・Legacy Baseline・Allowed Exceptions を含む草案を対話で作成する。アーキテクチャ整理、依存方向の整理、Core の定義、現実的な境界の合意、レガシー負債の棚上げ方針、ROI を踏まえた判断が必要なときに使う。一般的なコードレビューや lint ではなく、プロジェクト固有の中核定義を固める task で使う。
+  業務ロジックに DB・外部 API・フレームワークの処理が混ざってきたときに、どこに境界を引くか、何を中核にして依存の向きをどう揃えるか、レガシーな部分や技術的負債のどれを今直してどれを棚上げするかを、ユーザーと対話で決める。結果は Core / Details・依存方向・汚染の禁止・Legacy Baseline・Allowed Exceptions を含む `.architecture-core.md` 草案にまとめる。境界の引き方、層の分け方、依存方向の整理、技術的負債の扱い方を相談されたときに使う。コードレビュー、lint、個別の不具合修正では使わない。
 ---
 
 # Pragmatic Architect
