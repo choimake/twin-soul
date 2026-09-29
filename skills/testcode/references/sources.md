@@ -22,5 +22,5 @@
 
 ## メッセージ検証
 
-- [pytest documentation: pytest.raises](https://docs.pytest.org/en/6.2.x/reference.html?highlight=raises)
+- [pytest documentation: pytest.raises](https://docs.pytest.org/en/stable/reference/reference.html#pytest.raises)
 - [testthat: Do you expect an error, warning, message, or other condition?](https://testthat.r-lib.org/reference/expect_error.html)

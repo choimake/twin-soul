@@ -27,6 +27,7 @@ mise はプロジェクト単位の環境変数を管理できる（direnv の�
 
 ```gitignore
 mise.local.toml
+mise.*.local.toml
 .env
 .env.local
 ```
