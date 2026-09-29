@@ -27,6 +27,7 @@ git -C "$sandbox" worktree add -b docs/hook-smoke .worktrees/wt-smoke >/dev/null
 mkdir -p "$sandbox/scripts/hooks"
 cp "$root/scripts/hooks/guard-main-checkout.py" "$sandbox/scripts/hooks/"
 
+# 一時ディレクトリの下に作るので、使い捨てリポジトリとして許可される
 other="$(mktemp -d "${TMPDIR:-/tmp}/twin-soul-hook-other.XXXXXX")"
 git -C "$other" init -q
 
@@ -101,7 +102,7 @@ print(json.dumps({
 PY
 )" allow
 
-run_case allow-other-repo-edit preToolUse "$(
+run_case allow-disposable-repo-edit preToolUse "$(
   python3 - <<PY
 import json
 print(json.dumps({
@@ -112,7 +113,7 @@ print(json.dumps({
 PY
 )" allow
 
-run_case allow-other-repo-commit beforeShellExecution "$(
+run_case allow-disposable-repo-commit beforeShellExecution "$(
   python3 - <<PY
 import json
 print(json.dumps({

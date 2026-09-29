@@ -127,13 +127,14 @@ twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkou
 - main checkout 上の、許可リスト外ファイルへの Write / StrReplace / Delete（Claude 側は Edit / Write / MultiEdit）
 - main 上の `git add` / `commit` / `push` / `rebase` / `merge`
 - worktree セッションから親 checkout への漏れ書き
+- twin-soul 以外で、一時ディレクトリの外にあるリポジトリへの編集と git 書き込み
 
 許可するもの:
 
 - `memory/`、`.cursor/plans/`、`.worktrees/` 配下
 - 読み取り専用 git と `git worktree add|list|prune|remove`
 - worktree 内での編集と git 書き込み
-- twin-soul 以外のリポジトリでの編集と git 書き込み（`git -C <別のリポジトリ>` を含む。検証用の使い捨てリポジトリなど）
+- 一時ディレクトリ（`/tmp`、`$TMPDIR`）の下にある使い捨てリポジトリでの編集と git 書き込み（`git -C <使い捨てリポジトリ>` を含む）。skill の動作確認に使う検証用リポジトリはここに作る
 
 hook が壊れたとき、または `python3` が無いときは fail-open（許可して警告）する。作業を止めないため。
 
