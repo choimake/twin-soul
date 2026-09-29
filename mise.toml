@@ -27,6 +27,10 @@ run = "bash scripts/ci/run-shellcheck.sh"
 description = "main checkout 防御 hook の判定自己テストと stdin smoke"
 run = "python3 scripts/hooks/guard-main-checkout.py --self-test && bash scripts/hooks/smoke-hook-stdin.sh"
 
+[tasks."ci:lint:skill-scripts"]
+description = "skill に同梱した script のテストを実行する"
+run = "python3 skills/verification-loop/scripts/test_check_evidence.py && bash skills/mise-guide/scripts/run-check-tool-pins-tests.sh"
+
 [tasks."ci:apm"]
 description = "APM で skill を同期し（gitignore された展開先を生成）、audit と必要な lockfile の状態を検証する"
 run = "apm install --target cursor,claude && apm audit --ci --no-policy"
@@ -53,7 +57,7 @@ run = "python3 scripts/ci/check-doc-consistency.py"
 
 [tasks."ci:lint"]
 description = "静的チェックをまとめて実行する"
-run = "bash skills/mise-guide/scripts/check-tool-pins.sh && gitleaks git . --verbose && actionlint && bash scripts/ci/run-shellcheck.sh && python3 scripts/hooks/guard-main-checkout.py --self-test && bash scripts/hooks/smoke-hook-stdin.sh && typos && lychee --no-progress . && python3 scripts/ci/check-doc-consistency.py"
+run = "bash skills/mise-guide/scripts/check-tool-pins.sh && gitleaks git . --verbose && actionlint && bash scripts/ci/run-shellcheck.sh && python3 scripts/hooks/guard-main-checkout.py --self-test && bash scripts/hooks/smoke-hook-stdin.sh && typos && lychee --no-progress . && python3 scripts/ci/check-doc-consistency.py && python3 skills/verification-loop/scripts/test_check_evidence.py && bash skills/mise-guide/scripts/run-check-tool-pins-tests.sh"
 
 [tasks."ci:act"]
 description = "act で CI の lint job をローカルで実行する（Docker が必要。追加引数例: mise run ci:act -- -v）"
