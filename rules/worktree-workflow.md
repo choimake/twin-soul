@@ -127,12 +127,14 @@ twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkou
 - main checkout 上の、許可リスト外ファイルへの Write / StrReplace / Delete（Claude 側は Edit / Write / MultiEdit）
 - main 上の `git add` / `commit` / `push` / `rebase` / `merge`
 - worktree セッションから親 checkout への漏れ書き
+- twin-soul 以外で、一時ディレクトリの外にあるリポジトリへの編集と git 書き込み
 
 許可するもの:
 
 - `memory/`、`.cursor/plans/`、`.worktrees/` 配下
 - 読み取り専用 git と `git worktree add|list|prune|remove`
 - worktree 内での編集と git 書き込み
+- 一時ディレクトリ（`/tmp`、`$TMPDIR`）の下にある使い捨てリポジトリでの編集と git 書き込み（`git -C <使い捨てリポジトリ>` を含む）。skill の動作確認に使う検証用リポジトリはここに作る
 
 hook が壊れたとき、または `python3` が無いときは fail-open（許可して警告）する。作業を止めないため。
 
@@ -143,6 +145,7 @@ hook が壊れたとき、または `python3` が無いときは fail-open（許
 ## 残リスク
 
 - `cat > file` や `tee` など、shell 経由のファイル書き込みは file hook を迂回する
+- shell の判定は、コマンド中の最初の `git` と、`cd` する前の作業ディレクトリだけで行う。`cd <別の場所> && git commit` や、git を 2 つつないだコマンドは正しく判定できない
 - Cursor 標準 worktree の自動 cleanup は manager 外の worktree も対象になり得る。`.worktrees/` を `~/.cursor/worktrees` と混ぜない
 
 ## ローカル確認
