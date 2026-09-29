@@ -4,9 +4,13 @@ set -euo pipefail
 
 root="$(cd "$(dirname "$0")/../.." && pwd)"
 sandbox=""
+other=""
 cleanup() {
   if [[ -n "$sandbox" && -d "$sandbox" ]]; then
     rm -rf "$sandbox"
+  fi
+  if [[ -n "$other" && -d "$other" ]]; then
+    rm -rf "$other"
   fi
 }
 trap cleanup EXIT
@@ -19,8 +23,14 @@ printf '%s\n' "note" >"$sandbox/memory/handoff.md"
 git -C "$sandbox" add AGENTS.md
 git -C "$sandbox" -c user.email=smoke@example.com -c user.name=hook-smoke commit -qm init
 git -C "$sandbox" worktree add -b docs/hook-smoke .worktrees/wt-smoke >/dev/null
+# hook は置かれたリポジトリを守るので、sandbox にコピーしてから呼ぶ
+mkdir -p "$sandbox/scripts/hooks"
+cp "$root/scripts/hooks/guard-main-checkout.py" "$sandbox/scripts/hooks/"
 
-guard=(python3 "$root/scripts/hooks/guard-main-checkout.py" --runtime cursor)
+other="$(mktemp -d "${TMPDIR:-/tmp}/twin-soul-hook-other.XXXXXX")"
+git -C "$other" init -q
+
+guard=(python3 "$sandbox/scripts/hooks/guard-main-checkout.py" --runtime cursor)
 
 run_case() {
   local name="$1"
@@ -86,6 +96,27 @@ run_case allow-worktree-cmd beforeShellExecution "$(
 import json
 print(json.dumps({
   "command": "git worktree add .worktrees/wt-x -b feat/x",
+  "cwd": "$sandbox",
+}))
+PY
+)" allow
+
+run_case allow-other-repo-edit preToolUse "$(
+  python3 - <<PY
+import json
+print(json.dumps({
+  "tool_name": "Write",
+  "tool_input": {"path": "$other/README.md"},
+  "cwd": "$sandbox",
+}))
+PY
+)" allow
+
+run_case allow-other-repo-commit beforeShellExecution "$(
+  python3 - <<PY
+import json
+print(json.dumps({
+  "command": "git -C $other commit -m smoke",
   "cwd": "$sandbox",
 }))
 PY

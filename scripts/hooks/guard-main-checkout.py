@@ -73,6 +73,10 @@ APPLY_PATCH_FILE_RE = re.compile(
 
 SHELL_TOOLS = {"shell", "bash"}
 
+# 守る対象のリポジトリ（main checkout のパス）。main() で hook 自身の置き場所から決める。
+# None のときは、判定対象がどのリポジトリでも main checkout として守る。
+PROTECTED_ROOT: Path | None = None
+
 
 def log(message: str) -> None:
     print(f"guard-main-checkout: {message}", file=sys.stderr)
@@ -154,6 +158,12 @@ def main_repo_root(toplevel: Path) -> Path:
     return toplevel
 
 
+def is_other_repo(toplevel: Path) -> bool:
+    if PROTECTED_ROOT is None:
+        return False
+    return main_repo_root(toplevel).resolve() != PROTECTED_ROOT.resolve()
+
+
 def is_named_worktree(toplevel: Path) -> bool:
     return ".worktrees" in toplevel.parts
 
@@ -173,6 +183,8 @@ def classify_edit(path: Path, cwd: Path) -> tuple[bool, str]:
     main_root = main_repo_root(toplevel)
     if not is_under(path, main_root):
         return True, "リポジトリ外なので許可"
+    if is_other_repo(toplevel):
+        return True, "守る対象とは別のリポジトリなので許可"
     if is_named_worktree(toplevel) and not is_under(path, toplevel):
         return False, NEXT_STEP
     if is_allowed_relative(path, main_root):
@@ -246,6 +258,8 @@ def classify_shell(command: str, cwd: Path) -> tuple[bool, str]:
         return True, "読み取り専用 git は許可"
     if subcommand not in GIT_WRITE:
         return True, f"git {subcommand} は対象外なので許可"
+    if toplevel is not None and is_other_repo(toplevel):
+        return True, "守る対象とは別のリポジトリなので許可"
     if toplevel is not None and is_named_worktree(toplevel):
         return True, "worktree 内の git 書き込みは許可"
     if override_cwd is not None and ".worktrees" in Path(override_cwd).parts:
@@ -420,6 +434,26 @@ def run_self_test() -> int:
         allowed, _ = classify_apply_patch(allow_patch, root)
         check("allow apply_patch memory", allowed, True)
 
+        other = Path(tmp) / "other-repo"
+        other.mkdir()
+        subprocess.check_call(["git", "init"], cwd=other, stdout=subprocess.DEVNULL)
+        global PROTECTED_ROOT
+        saved = PROTECTED_ROOT
+        PROTECTED_ROOT = root
+        allowed, _ = classify_edit(other / "a.txt", root)
+        check("allow edit in other repo", allowed, True)
+        allowed, _ = classify_shell(f"git -C {other} commit -m test", root)
+        check("allow git -C other repo commit", allowed, True)
+        allowed, _ = classify_shell("git commit -m test", other)
+        check("allow git commit with other repo cwd", allowed, True)
+        allowed, _ = classify_edit(root / "AGENTS.md", root)
+        check("deny main AGENTS.md with protected root", allowed, False)
+        allowed, _ = classify_shell("git commit -m test", worktree)
+        check("allow git commit in worktree with protected root", allowed, True)
+        allowed, _ = classify_shell("git commit -m test", root)
+        check("deny git commit on main with protected root", allowed, False)
+        PROTECTED_ROOT = saved
+
         payload = {
             "tool_name": "Write",
             "tool_input": {"path": str(root / "AGENTS.md")},
@@ -468,6 +502,9 @@ def main(argv: list[str] | None = None) -> int:
             event = "beforeShellExecution"
         else:
             event = "preToolUse"
+    global PROTECTED_ROOT
+    toplevel = git_toplevel(Path(__file__).resolve().parent)
+    PROTECTED_ROOT = main_repo_root(toplevel) if toplevel is not None else None
     allowed, reason = decide(payload, event)
     log(f"{event} allowed={allowed} reason={reason}")
     return emit(args.runtime, event, allowed, reason)
