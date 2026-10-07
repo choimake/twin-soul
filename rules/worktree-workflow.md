@@ -72,11 +72,11 @@ git push -u origin <scope>/<short-name>
 
 commit は確認なしでよい。push は、CI 失敗時の修正コミットも含めて毎回、実行前にユーザーに確認する。
 
-Agent は PR title / description の下書きまでを作成する。PR 作成そのものは、人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。
+PR 作成は、ユーザーが指示したときだけ Agent が `gh pr create` で行う。実行前に PR のタイトルと本文を見せて承認を取り、作成後は `gh pr view` で実在を確かめてから報告する。指示が無ければ、PR のタイトルと本文の下書きまでにする。判断理由は `decisions/0011-allow-agent-pr-create-on-explicit-request.md` を参照する。
 
 ### PR 作成後の CI 確認（必須）
 
-CI は main への push と main 向け PR で走り、feature ブランチへの push だけでは走らない。push を報告したあと、人間が PR を作成したら CI が通ることを確認する。
+CI は main への push と main 向け PR で走り、feature ブランチへの push だけでは走らない。PR を作成したら、CI が通ることを確認する。
 
 1. `gh run list --branch <scope>/<short-name> --limit 1` で run ID を調べ、`gh run watch <run-id> --exit-status` で CI 完了を待つ。`gh run watch` と `gh run view` は、run ID を省くと対話端末以外ではエラーになる
 2. CI が失敗した場合:

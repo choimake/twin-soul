@@ -48,5 +48,6 @@
 ## 関連する DR
 
 - 置き換え元: [0006-local-gh-agent-write.md](0006-local-gh-agent-write.md)
+- 一部置き換え先: [0011-allow-agent-pr-create-on-explicit-request.md](0011-allow-agent-pr-create-on-explicit-request.md)（PR 作成の扱いのみ）
 - 関連: [0003-deprecate-ai-skill-security-toolchain.md](0003-deprecate-ai-skill-security-toolchain.md)
 - 関連: [0005-rules-and-specs-boundaries.md](0005-rules-and-specs-boundaries.md)

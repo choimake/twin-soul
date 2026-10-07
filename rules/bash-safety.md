@@ -48,9 +48,9 @@ push は毎回、実行前にユーザーに確認する。worktree の作業ブ
 gh pr create, gh pr merge, gh issue create, gh issue close
 ```
 
-Agent が読めるローカル shell に GitHub write token を置いて実行する運用は標準案内しない。Issue / PR 本文やコメントの下書きは Agent が作成してよいが、GitHub write は人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。
+Agent が読めるローカル shell に GitHub write token を置いて実行する運用は標準案内しない。Issue / PR 本文やコメントの下書きは Agent が作成してよいが、GitHub write は人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。例外として、ユーザーが PR 作成を指示したときは、タイトルと本文を見せて承認を取ったうえで Agent が `gh pr create` を実行してよい。
 
-判断理由は `decisions/0007-withdraw-local-gh-agent-write.md` を参照する。
+判断理由は `decisions/0007-withdraw-local-gh-agent-write.md` と `decisions/0011-allow-agent-pr-create-on-explicit-request.md` を参照する。
 
 ### パッケージ管理
 

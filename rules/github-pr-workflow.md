@@ -46,7 +46,7 @@ PR を作成・更新するときは、[`.github/pull_request_template.md`](../.
 
 ## Issue / PR の作成とコメント
 
-Agent は PR 本文の下書きまでを基本とする。GitHub write（`gh pr create` 等）は人間が確認して実行するか、分離された仕組みで扱う。詳細は [github-issue-workflow.md](github-issue-workflow.md) と `decisions/0007-withdraw-local-gh-agent-write.md` を参照する。
+ユーザーが PR 作成を指示したときは、Agent が PR のタイトルと本文を見せて承認を取り、`gh pr create` で作成する。指示が無ければ下書きまでにする。PR 作成以外の GitHub write（`gh pr merge` 等）は人間が確認して実行するか、分離された仕組みで扱う。詳細は [github-issue-workflow.md](github-issue-workflow.md)、`decisions/0007-withdraw-local-gh-agent-write.md`、`decisions/0011-allow-agent-pr-create-on-explicit-request.md` を参照する。
 
 ## 関連
 
