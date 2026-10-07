@@ -43,5 +43,5 @@ PR 作成は、push 済みのブランチに説明を付けるだけの操作で
 
 ## 関連する DR
 
-- 一部置き換え元: [0007-withdraw-local-gh-agent-write.md](0007-withdraw-local-gh-agent-write.md)（PR 作成の扱いのみ）
+- 一部変更する DR: [0007-withdraw-local-gh-agent-write.md](0007-withdraw-local-gh-agent-write.md)（PR 作成の扱いのみ）
 - 関連: [0010-use-worktrees-and-hooks-for-isolated-changes.md](0010-use-worktrees-and-hooks-for-isolated-changes.md)
