@@ -44,7 +44,7 @@ run = "gitleaks git . --verbose"
 
 [tasks."ci:lint"]
 description = "静的チェックをまとめて実行する"
-run = "bash skills/mise-guide/scripts/check-tool-pins.sh && gitleaks git . --verbose && actionlint && bash scripts/ci/run-shellcheck.sh && python3 scripts/hooks/guard-main-checkout.py --self-test && bash scripts/hooks/smoke-hook-stdin.sh && typos"
+run = "bash skills/mise-guide/scripts/check-tool-pins.sh && gitleaks git . --verbose && actionlint && bash scripts/ci/run-shellcheck.sh && python3 scripts/hooks/guard-main-checkout.py --self-test && bash scripts/hooks/smoke-hook-stdin.sh && python3 skills/tech-intro/scripts/check-html.py --self-test && typos"
 
 [tasks."ci:act"]
 description = "act で CI の lint job をローカルで実行する（Docker が必要。追加引数例: mise run ci:act -- -v）"
