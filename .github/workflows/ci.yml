@@ -25,7 +25,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
 
-      - name: Lint（gitleaks, actionlint, ShellCheck, typos）
+      - name: Lint（mise run ci:lint）
         run: mise run ci:lint
 
       - name: APM package を検証

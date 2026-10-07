@@ -137,12 +137,12 @@ mise use --pin "aqua:golangci/golangci-lint@2.12.2"
 `[tools]` が x.y.z pin か機械検証する script:
 
 ```bash
-bash scripts/check-tool-pins.sh                    # skill ルートから（[tools] を含む mise*.toml のみ。env-only は skip）
-bash scripts/check-tool-pins.sh path/to/mise.toml  # 明示パス
-bash scripts/run-check-tool-pins-tests.sh          # fixture 一括
+bash <skill のパス>/scripts/check-tool-pins.sh                    # プロジェクトルートで実行（カレントの mise.toml と mise.*.toml。*.local.toml は除外、[tools] の無いファイルは skip）
+bash <skill のパス>/scripts/check-tool-pins.sh path/to/mise.toml  # 明示パス
+bash <skill のパス>/scripts/run-check-tool-pins-tests.sh          # fixture 一括
 ```
 
-利用先リポジトリ（twin-soul 等）では `mise.toml` task 経由を正本とする:
+利用先リポジトリでは `mise.toml` task 経由を正本とする（script のパスは skill の展開先に合わせる）:
 
 ```bash
 mise run ci:lint:mise-tools
@@ -153,7 +153,7 @@ CI 組み込み例:
 ```toml
 [tasks."ci:lint:mise-tools"]
 description = "mise.toml [tools] が x.y.z pin か検証する"
-run = "bash skills/mise-guide/scripts/check-tool-pins.sh"
+run = "bash <skill のパス>/scripts/check-tool-pins.sh"
 ```
 
 推奨 setting（補助。検証の代替ではない）:
@@ -170,14 +170,14 @@ pin = true   # mise use 時に --pin をデフォルト化（--fuzzy で上書�
 | `mise exec <tool>@<ver> -- <cmd>` | 一時的に特定 tool 版で実行 | `mise exec node@20 -- node -v` |
 | `mise exec -- <cmd>` | プロジェクト env（`mise.local.toml` 等）を載せて随時実行 | `mise exec -- gh issue list` |
 
-`--` の有無で意味が変わる。git/gh 向けは [env.md](env.md) を参照。
+`--` の前に `<tool>@<ver>` を書くかどうかで意味が変わる。git/gh 向けは [env.md](env.md) を参照。
 
 ## 言語別メモ
 
 ### Node.js
 
 - `.nvmrc` / `.node-version`（`mise settings add idiomatic_version_file_enable_tools node`）
-- デフォルト npm パッケージ: `~/.default-npm-packages`（非推奨。2026.11 から警告、2027.11 廃止予定。代替: `"npm:typescript" = "5.7.2"` のように npm バックエンド + x.y.z pin）
+- デフォルト npm パッケージ: `~/.default-npm-packages`（非推奨。代替: `"npm:typescript" = "5.7.2"` のように npm バックエンド + x.y.z pin）
 - corepack: `node.corepack = true`（設定）または `postinstall = "corepack enable"` — **postinstall に機密情報や未確認の `curl | sh` を書かない**
 
 ### Python

@@ -21,7 +21,7 @@
 
 ### 使うだけの人向け
 
-利用先リポジトリで APM CLI を使い、`twin-soul` を GitHub から直接導入します。`twin-soul` を clone する必要はありません。この手順は APM CLI `0.24.0` で検証しています（2026-07 時点）。
+利用先リポジトリで APM CLI を使い、`twin-soul` を GitHub から直接導入します。`twin-soul` を clone する必要はありません。この手順は APM CLI `0.32.0` で検証しています（2026-09 時点）。
 
 全 skill をまとめて入れる場合:
 
@@ -104,7 +104,7 @@ mise run ci:apm
 
 期待する結果:
 
-- gitleaks, actionlint, ShellCheck, typos が成功する
+- [`mise.toml`](mise.toml) の `ci:lint` にある検査がすべて成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリは組織共通の APM 監査ポリシーを使わないため、監査では `--no-policy` を指定する
 
@@ -138,7 +138,7 @@ mise run ci:apm
 - **drawio-architecture**: 事実の正本に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
 - **eli5**: 前提知識ゼロでもわかるように、大きな絵と少ない言葉で説明する
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
-- **gitignore**: `.gitignore` の新規作成、既存の見直し、`gitignore.io` からのテンプレート取得、自動推定を扱う
+- **gitignore**: `.gitignore` の新規作成、既存の見直し、GitHub 公式 `github/gitignore` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う
 - **mise-guide**: mise の tool バージョン管理、環境変数、task ランナー、GitHub Actions 連携の設定・相談を扱う
 - **pbi**: プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューをし、受入基準・合意可能な検証・スコープを品質ゲートする
@@ -150,7 +150,8 @@ mise run ci:apm
 - **tech-intro**: その技術を知らないソフトウェアエンジニア向けに、公式ドキュメントを根拠にした入門教材を、動く図と確認クイズ付きの単一 HTML で書く。AI エージェント用の公式 skill の有無も書く
 - **testcode**: テストコードの新規作成、既存テストの追加・改善、生成済みテストの評価を扱う
 - **universal-code-reviewer**: コードレビューの汎用チェック観点を適用する
-- **verification-loop**: 実装と独立レビューを別サブエージェントに分け、親が実ファイルとコマンド出力を見て合否を決める。合格まで修正ループを回す
+- **use-case-description**: ユーザーストーリーなどから、アクター・事前/事後条件・基本/代替/例外フローを備えたユースケース記述を起案・レビューする
+- **verification-loop**: 実装・独立レビュー・実行検証を別サブエージェントに分け、親は照合スクリプトの結果と争点の行を読んで合否を決める。合格まで修正ループを回す
 
 ## 関連文書
 

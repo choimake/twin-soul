@@ -13,7 +13,7 @@
 
 - Type: 自動推定ケース
 - 目的: リポジトリの手掛かりから template 候補を自動推定し、必要なら `auto` 取得までつなげられるか確認する
-- 理由: この拡張で一番楽にしたい流れだから
+- 理由: リポジトリの手掛かりから候補出しと下書きまで進む流れを、いちばん手間なく通したいため
 - Prompt:
 
 ```text
@@ -63,7 +63,7 @@
 ## プロンプト 4
 
 - Type: custom ルールケース
-- 目的: `gitignore.io` にない tool を custom 手書き block として扱えるか確認する
+- 目的: `github/gitignore` にない tool を custom 手書き block として扱えるか確認する
 - 理由: template がない tool を扱えないと、実務では最後に手作業が残るため
 - Prompt:
 
@@ -74,6 +74,6 @@
 - Success signals:
   - `mise` には template がない前提を自然に扱える
   - `mise.toml` は残しつつ、`mise.local.toml` 系だけ ignore 対象にできる
-  - `gitignore.io` 由来 block と custom 手書き block を分けて返せる
+  - テンプレート由来 block と custom 手書き block を分けて返せる
   - 再利用できる custom block を `assets/` 起点で扱える
 - Overfitting risk: `mise` 専用の例に引っ張られて、他の custom ルール候補まで雑に扱わないか

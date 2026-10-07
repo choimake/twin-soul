@@ -13,7 +13,7 @@
 - 各検証項目に、**実行したときに不合格だと分かる観測**（終了コード、欠落、不一致）があるか
 - 前後比較（減った・短くなった）を書く場合、比較前の実測を `critical-assumptions-resolved.md` の Phase 0 に置いているか。絶対閾値は対象外
 - 「確認する」だけの曖昧な表現になっていないか
-- 検証が `mise run ci:lint` やテスト緑だけで終わっていないか。成果物（変更した本文・画面・実ファイル）を見る項目があるか
+- 検証が lint・CI・テストの緑だけで終わっていないか。成果物（変更した本文・画面・実ファイル）を見る項目があるか
 
 ## 指摘する基準
 
@@ -32,13 +32,13 @@
 ## 検証
 
 ```bash
-mise run ci:lint
+npm run lint
 ```
 
 期待結果: 終了コード 0
 ````
 
-`ci:lint` が緑でも、足した禁止が本文に無い不合格を観測できない。
+lint が緑でも、未登録メールに 202 を返すかどうかは観測できない。
 
 ### 悪い例（曖昧すぎる）
 
@@ -54,47 +54,23 @@ mise run ci:lint
 ````markdown
 ## 検証
 
-### lint
+### テスト
 
 ```bash
-mise run ci:lint
+npm test -- tests/auth/password_reset.test.ts
 ```
 
-期待結果: 終了コード 0
-不合格の観測: 非ゼロ
+期待結果: 終了コード 0 で、失効と未登録メールのケースが実行件数に含まれる
+不合格の観測: 非ゼロで終わる、または該当ケースが実行件数に無い
 
-### 禁止が本文にあるか
+### 未登録メールへの応答
 
-変更した `SKILL.md` または knowledge を読み、足した禁止があることを確認する。
+```bash
+curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3000/password-reset -d 'email=unknown@example.com'
+```
 
-期待結果: 該当する禁止が本文にある
-不合格の観測: lint は緑だが、該当禁止が無い
-
-### 構造チェック
-
-\```bash
-
-# ディレクトリ構造が正しいことを確認
-
-ls -la skills/planner/
-ls -la skills/planner/assets/
-ls -la skills/planner/references/
-\```
-
-期待結果: `SKILL.md`, `assets/`, `references/` が存在する
-不合格の観測: いずれかが無い、または `ls` が非ゼロで終わる
-
-### 動作テスト
-
-\```bash
-
-# Claude Codeで /planner コマンドを実行
-
-/planner draft --task "新機能の追加"
-\```
-
-期待結果: plan file が生成され、必須セクション（背景, 目的, 受け入れ条件, ベストプラクティス, 検証）が含まれる
-不合格の観測: 必須セクションが欠けた本文、またはコマンドが plan を出さない
+期待結果: `202` が出力される
+不合格の観測: `404` など `202` 以外が出力される
 ````
 
 ## 補足

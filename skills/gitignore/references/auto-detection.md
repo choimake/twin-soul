@@ -4,9 +4,9 @@
 
 ## 優先する流れ
 
-1. `scripts/fetch-gitignore.sh detect <target-path>` で候補を見る
+1. `bash <skill のパス>/scripts/fetch-gitignore.sh detect <target-path>` で候補を見る
 2. 会話で明示された stack や IDE があれば上書き、または追加する
-3. 必要なら `scripts/fetch-gitignore.sh auto <target-path> <extra...>` で本文を取得する
+3. 必要なら `bash <skill のパス>/scripts/fetch-gitignore.sh auto <target-path> <extra...>` で本文を取得する
 4. 取得結果をそのまま貼らず、既存 `.gitignore` や project 固有ルールと突き合わせる
 
 自動推定は「最初の候補出し」を速くするためのものであり、最終判断の代替ではない。
@@ -17,16 +17,16 @@
 
 - 現在のホスト OS: `macos` / `linux` / `windows`
 - `package.json`、`pnpm-workspace.yaml`、`yarn.lock`: `node`
-- `pyproject.toml`、`requirements.txt`、`Pipfile`、`poetry.lock`、`.venv/`: `python`
+- `pyproject.toml`、`requirements.txt`、`Pipfile`、`poetry.lock`: `python`
 - `go.mod`: `go`
 - `Cargo.toml`: `rust`
 - `Gemfile`: `ruby`
-- `composer.json`: `php`、`composer`
+- `composer.json`: `composer`
 - `pom.xml`: `java`
 - `build.gradle`、`build.gradle.kts`、`gradlew`: `gradle`、`java`
 - `.vscode/`、`*.code-workspace`: `visualstudiocode`
-- `.idea/`、`*.iml`: `jetbrains` または個別 IDE template
+- `.idea/`、`*.iml`: `jetbrains`
 - `*.xcodeproj`、`*.xcworkspace`: `xcode`
-- `terraform/`、`*.tf`、`.terraform.lock.hcl`: `terraform`
+- `*.tf`、`*.tfvars`、`.terraform.lock.hcl`: `terraform`
 
 手掛かりが弱い場合は、無理に決め打ちせず確認質問を返す。検出精度より安全性を優先し、曖昧なものは広げすぎない。

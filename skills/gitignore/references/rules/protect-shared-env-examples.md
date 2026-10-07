@@ -1,19 +1,19 @@
-# 共有すべき env 例ファイルを誤って除外していないか
+# 機密の env file を ignore し、共有すべき例 file は除外していないか
 
 ## ねらい
 
-`.env` 系を ignore する一方で、`.env.example` など共有すべき例ファイルまで除外すると、新メンバーが必要な環境変数を把握できなくなる。
+`.env`、`.env.local`、`.env.*.local` など機密を含む file の ignore が漏れると、一度 commit しただけで秘密が履歴に残る。一方で、`.env.example` など共有すべき例 file まで除外すると、新メンバーが必要な環境変数を把握できなくなる。
 
 ## チェック観点
 
-- `.env`、`.env.local` など機密を含む file を ignore しているか
+- `.env`、`.env.local`、`.env.*.local` など機密を含む file を ignore しているか
 - `.env.example`、`.env.sample` など共有すべき例 file を誤って ignore していないか
 - `!.env.example` のような negation pattern が必要な場合に含まれているか
 
 ## 指摘する基準
 
 - `.env.example` など共有すべき例 file を ignore している場合は **重大** として指摘する
-- `.env` 系の ignore 漏れがある場合は **提案** として指摘する
+- `.env`、`.env.local`、`.env.*.local` など機密を含む file の ignore 漏れがある場合は **重大** として指摘する
 - negation pattern の必要性が説明されていない場合は **任意** として指摘する
 
 ## 例
@@ -29,6 +29,7 @@
 ```gitignore
 .env
 .env.local
+.env.*.local
 !.env.example
 ```
 

@@ -37,8 +37,10 @@ gh pr list, gh pr view, gh issue list, gh issue view, gh repo view
 ### Git（書き込み）
 
 ```bash
-git commit, git push, git push origin <branch>
+git push, git push origin <branch>
 ```
+
+push は毎回、実行前にユーザーに確認する。worktree の作業ブランチへの `git commit` は確認なしでよい。ローカルに留まり、取り消せるため。
 
 ### GitHub CLI（書き込み）
 
@@ -53,7 +55,7 @@ Agent が読めるローカル shell に GitHub write token を置いて実行�
 ### パッケージ管理
 
 ```bash
-mise install, mise run ci:apm, pipx install, apm install
+mise install, pipx install, apm install
 ```
 
 ### Docker
@@ -100,6 +102,8 @@ chmod -R 777               # 過剰な権限付与
 curl, wget
 ```
 
+skill が外部の情報を要るときは、接続先を 1 つに固定した `git clone` で取る（例: `skills/gitignore` は `github/gitignore` を clone して読む）。script の中から curl を呼んで deny を迂回しない。
+
 ## 条件付き許可
 
 条件を満たす場合のみ許可。
@@ -122,13 +126,7 @@ curl, wget
 
 ## 推奨ツール
 
-Bash の代わりに専用ツールを優先する。ユーザーが作業をレビューしやすくなる。
-
-- **Grep** — `grep` や `rg` の代わりに
-- **Glob** — `find` や `ls` の代わりに
-- **Read** — `cat`, `head`, `tail` の代わりに
-- **Edit** — `sed` や `awk` の代わりに
-- **Write** — `echo >` や `cat <<EOF` の代わりに
+ファイルの読み取り・検索・編集に専用ツールがあるときは、Bash よりそちらを使う。ユーザーが作業をレビューしやすく、shell 経由の書き込みは main checkout の hook を通らないため（`worktree-workflow.md` の残リスク）。
 
 ## エラー時の対応
 

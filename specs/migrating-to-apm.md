@@ -60,11 +60,11 @@ APM_LEGACY_SKILL_PATHS=1 apm install
 skill の更新を取り込むときは利用先リポジトリで次を実行する。
 
 ```bash
-apm install --update
+apm update
 ```
 
 または dependency 単位で更新する。
 
 ```bash
-apm deps update choimake/twin-soul/skills/planner
+apm update choimake/twin-soul/skills/planner
 ```

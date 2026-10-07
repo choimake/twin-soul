@@ -9,7 +9,6 @@
 - 選定 template がリポジトリ内の手掛かりと整合しているか
 - 会話で明示された stack / IDE / OS 以外の template を無根拠に含めていないか
 - 個人設定（特定 editor の local 設定など）を project 共有 `.gitignore` に入れすぎていないか
-- `docker` template を、言語別 template で足せる場合に安易に選んでいないか
 
 ## 指摘する基準
 
@@ -22,7 +21,7 @@
 ### 悪い例
 
 ```gitignore
-# Python だけのリポジトリなのに Java / Ruby / PHP template を全部含める
+# Python だけのリポジトリなのに Java / Ruby / Composer template を全部含める
 ```
 
 ### 良い例
@@ -34,4 +33,4 @@
 ## 補足
 
 - OS template は host OS またはチームの主要 OS に合わせて選ぶ
-- 手掛かりが弱い場合は template を絞らず、確認質問を返す方が安全
+- 手掛かりが弱い場合は template を決め打ちせず、確認質問を返す方が安全

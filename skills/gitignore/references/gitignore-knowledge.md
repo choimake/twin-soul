@@ -10,7 +10,7 @@
 ## この skill の役割
 
 - `.gitignore` の新規作成、既存ファイルの見直し、template 選定を一貫して扱う
-- `gitignore.io` 由来 block と custom 手書き block の境界を保つ
+- テンプレート由来 block と custom 手書き block の境界を保つ
 - リポジトリの手掛かりから template 候補を推定し、過不足のない ignore 構成を提案する
 
 ## 入力として受け取れるもの

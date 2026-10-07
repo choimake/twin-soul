@@ -78,7 +78,7 @@ Agent Skill は、特定の作業を毎回ゼロから説明しなくてよい�
 2. `review` / `draft` / `write-file` が明示されていれば、それを優先する。未指定なら依頼内容から推定する。
 3. 対象 skill や用途が曖昧なら、skill 名、想定ユースケース、保存先のどれかを確認する。
 4. 対象が曖昧な間は、確認質問だけを返し、具体的な本文作成には入らない。
-5. 対象が決まったら、その skill に関係する既存 skill と、必要なリポジトリの正本（例: `AGENTS.md`、`rules/`、`specs/`）だけを確認すると明示する。
+5. 対象が決まったら、その skill に関係する既存 skill と、必要なリポジトリの正本（例: `AGENTS.md`、`rules/`、`specs/`）だけを確認する。
 6. `skills/` 配下の全件読了を前提にしない。まずは用途、ファイル名、トリガー語で関連 skill を絞る。
 7. スコープ拡張が必要な場合は、まず現スコープで足りない理由と、追加で読みたいファイルを説明する。
 
@@ -120,7 +120,7 @@ skill の内容は、`description` や依頼内容からユーザーが予期で
 - いつ使うか
 - どの順で進めるか
 - 何を返すか
-- どの状態なら完成と言えるか
+- この skill を使った作業の成果物が満たす条件と、境界で守ること（`## 検証`）。skill 自体の構成は「完了チェック」で見る
 
 `SKILL.md` は入口に徹する。
 
@@ -244,7 +244,7 @@ Agent Skills 標準にない field は、利用先 client の拡張として扱�
 
 - file scoping 用 field（例: `paths`、legacy の `globs`）は、その client が対応していると分かる場合だけ使う
 - slash command 的に明示実行だけへ寄せる field（例: `disable-model-invocation`）は、その client が対応していると分かる場合だけ使う
-- 合議・反省のような重い起動は、勝手に発火させず明示呼び出しに寄せる
+- 合議調査（consensus-investigation）のように複数のサブエージェントを起動する重い skill は、勝手に発火させず明示呼び出しに寄せる
 - skill の標準テンプレートへ client-specific field を常設しない。`disable-model-invocation` もテンプレに常設しない
 - client-specific field を入れる場合は、`compatibility` や `metadata` で前提を補足するか、利用先 project の導入手順に寄せる
 
@@ -413,7 +413,7 @@ description 評価用 prompt:
 
 - ユーザーが保存先の `@path` やファイルパスを明示したときだけ使う
 - 実ファイルを書いた後に、作成先と構成判断を短く報告する
-- `skills/` を更新した場合は、最後に `mise run ci:apm` で APM 配布前提を確認する
+- skill の正本リポジトリで `skills/` を更新した場合は、最後にそのリポジトリの配布チェック（twin-soul では `mise run ci:apm`）で確認する
 - 保存先が明示されていない場合は `write-file` に入らず、`draft` にフォールバックする
 
 ## 応答時の明示事項
@@ -421,11 +421,6 @@ description 評価用 prompt:
 対象が未指定のとき:
 
 - まず skill 名、用途、保存先のどれを先に決めるか確認する短い質問だけを返す
-- 対象が決まったら、関連 skill と必要なリポジトリの正本だけを確認して進めると添える
-
-新規 skill の依頼では、返答の冒頭に次の文を入れる。
-
-> 既存 skill の全件読了はせず、用途や構造が近い skill と必要なリポジトリの正本だけを確認して進める。`SKILL.md` は workflow、`references/` は判断知識、`assets/` はテンプレートとして分ける。
 
 `scripts/` を追加しない判断をした場合は、次を地の文で明示してよい。
 
@@ -441,10 +436,14 @@ description 評価用 prompt:
 - `description` は trigger 語と近接 task との境界を含む
 - `description` は undertrigger を避ける具体文脈を含み、overtrigger しない境界も持つ
 - `SKILL.md` は薄く、詳細を `references/` へ逃がしている
+- 毎回使う短い手順は `SKILL.md` に残している
+- 迷ったら足さず削っている。この skill だけで成立し、他 skill の手順を写していない
+- `SKILL.md` の `## 検証` は、この skill を使った作業の成果物と境界の項目だけで、skill 自体の構成の確認を含めていない
 - 詳細参照には、そのファイルをいつ読むかが書かれている
 - unsafe / 誤解を招く（misleading な）skill を作らない安全原則が守られている
 - テンプレートは `assets/` にあり、`draft` の起点にできる
 - `scripts/` は必要性があるときだけ追加している
+- 必要なら 2〜3 件の test prompt で trigger、出力、確認質問の妥当性を試している
 - eval / benchmark は必要な skill にだけ任意追加し、通常 workflow に必須化していない
 - client-specific field を標準 field と混同していない
 - 用語が一貫している

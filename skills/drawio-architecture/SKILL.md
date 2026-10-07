@@ -46,9 +46,5 @@ compatibility: Optional HTTP MCP at https://mcp.draw.io/mcp. Drawing continues w
 
 ## 検証
 
-- `name` は親ディレクトリ名 `drawio-architecture` と一致している
-- `description` は WHAT と WHEN を含み、一般フローチャートや UI スケッチとの境界が見える
-- `SKILL.md` は workflow に留め、デザインシステム・MCP・視覚確認の詳細は `references/` にある
-- 参照ファイルには「いつ読むか」がこのドキュメントから分かる
 - 公式 stencil は `search_shapes` の結果を使い、失敗時はアイコンなしで進める
 - 完了は人のスクショであり、MCP preview や XML parse だけではない

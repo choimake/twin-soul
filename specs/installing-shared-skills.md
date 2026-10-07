@@ -9,7 +9,7 @@
 - 利用先リポジトリの project 固有 skill を壊さない
 - `apm.lock.yaml` で導入内容を再現可能にする
 
-このドキュメントの手順は APM CLI `0.24.0` で検証する（2026-07 時点）。
+このドキュメントの手順は APM CLI `0.32.0` で検証する（2026-09 時点）。
 
 ## 使い方
 
@@ -108,7 +108,7 @@ skill 内の `references/`、`assets/`、`scripts/` などの下位構成は展�
 
 1. `twin-soul` 側の `skills/` を更新する
 2. このリポジトリで `mise run ci:apm` を実行する（クリーン環境では `apm install --dry-run` のみだと展開先が無く audit が失敗するため、`ci:apm` は実インストール後に audit する）
-3. 利用先リポジトリごとに `apm install --update`、`apm update`、または `apm deps update` を実行する
+3. 利用先リポジトリごとに `apm update` を実行する（確認プロンプトを出さずに回すときは `apm update --yes`）
 
 ## トラブルシューティング
 

@@ -118,12 +118,14 @@ touch .agents/skills/.gitkeep
 
 ### 生成物ディレクトリに `.gitkeep` を置く
 
+**誤り:**
+
 ```bash
 # APM 展開物なので .gitkeep は不要
 touch .agents/skills/.gitkeep
 ```
 
-### `.gitignore` だけで管理
+**正しい:** `.gitignore` だけで管理する
 
 ```.gitignore
 .agents/skills/
@@ -131,12 +133,14 @@ touch .agents/skills/.gitkeep
 
 ### 空ディレクトリを `.gitignore` で除外してしまう
 
+**誤り:**
+
 ```bash
 # templates/は空の構造ディレクトリだが、.gitignoreで除外してしまう
 echo "templates/" >> .gitignore
 ```
 
-### `.gitkeep` で構造を保持
+**正しい:** `.gitkeep` で構造を保持する
 
 ```bash
 touch templates/.gitkeep

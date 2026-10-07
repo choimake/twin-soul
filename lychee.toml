@@ -1,0 +1,13 @@
+offline = true
+include_fragments = "anchor-only"
+
+exclude_path = [
+  "^(?:\\./)?\\.worktrees(?:/|$)", # 別のリポジトリ状態を含む gitignore 対象の worktree。
+  "^(?:\\./)?\\.agents/skills(?:/|$)", # skills/ から再生成できる APM 展開先。
+  "^(?:\\./)?\\.claude/skills(?:/|$)", # skills/ から再生成できる APM 展開先。
+  "^(?:\\./)?\\.cursor/skills(?:/|$)", # skills/ から再生成できる APM 展開先。
+  "^(?:\\./)?memory(?:/|$)", # git 管理外の作業記録。
+  "^(?:\\./)?\\.verification-loop(?:/|$)", # git 管理外の検証用ファイル。
+  "^(?:\\./)?skills/[^/]+/assets(?:/|$)", # 仮のリンクを含むテンプレート。
+  "^(?:\\./)?decisions(?:/|$)", # 当時の事実を保存する Decision Record。
+]

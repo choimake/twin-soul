@@ -70,17 +70,19 @@ git commit -m "<scope>: 説明"
 git push -u origin <scope>/<short-name>
 ```
 
+commit は確認なしでよい。push は、CI 失敗時の修正コミットも含めて毎回、実行前にユーザーに確認する。
+
 Agent は PR title / description の下書きまでを作成する。PR 作成そのものは、人間が確認して実行するか、GitHub Actions / GitHub App / executor などの分離された仕組みで扱う。
 
 ### PR 作成後の CI 確認（必須）
 
-PR 作成後、CI が通ることを確認してから報告する。
+CI は main への push と main 向け PR で走り、feature ブランチへの push だけでは走らない。push を報告したあと、人間が PR を作成したら CI が通ることを確認する。
 
-1. `gh run watch --exit-status` で CI 完了を待つ
+1. `gh run list --branch <scope>/<short-name> --limit 1` で run ID を調べ、`gh run watch <run-id> --exit-status` で CI 完了を待つ。`gh run watch` と `gh run view` は、run ID を省くと対話端末以外ではエラーになる
 2. CI が失敗した場合:
-   - `gh run view --log-failed` でログを確認し原因を特定
+   - `gh run view <run-id> --log-failed` でログを確認し原因を特定
    - 修正コミットを push
-   - 再度 `gh run watch --exit-status` で確認
+   - 新しい run の ID で再度 `gh run watch <run-id> --exit-status` を実行して確認
    - **最大 3 回**まで修正ループを繰り返す
 3. 3 回修正しても解決しない場合はユーザーに報告して判断を仰ぐ
 4. すべて合格した状態でユーザーに報告
@@ -125,12 +127,14 @@ twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkou
 - main checkout 上の、許可リスト外ファイルへの Write / StrReplace / Delete（Claude 側は Edit / Write / MultiEdit）
 - main 上の `git add` / `commit` / `push` / `rebase` / `merge`
 - worktree セッションから親 checkout への漏れ書き
+- twin-soul 以外で、一時ディレクトリの外にあるリポジトリへの編集と git 書き込み
 
 許可するもの:
 
 - `memory/`、`.cursor/plans/`、`.worktrees/` 配下
 - 読み取り専用 git と `git worktree add|list|prune|remove`
 - worktree 内での編集と git 書き込み
+- 一時ディレクトリ（`/tmp`、`$TMPDIR`）の下にある使い捨てリポジトリでの編集と git 書き込み（`git -C <使い捨てリポジトリ>` を含む）。skill の動作確認に使う検証用リポジトリはここに作る
 
 hook が壊れたとき、または `python3` が無いときは fail-open（許可して警告）する。作業を止めないため。
 
@@ -141,6 +145,7 @@ hook が壊れたとき、または `python3` が無いときは fail-open（許
 ## 残リスク
 
 - `cat > file` や `tee` など、shell 経由のファイル書き込みは file hook を迂回する
+- shell の判定は、コマンド中の最初の `git` と、`cd` する前の作業ディレクトリだけで行う。`cd <別の場所> && git commit` や、git を 2 つつないだコマンドは正しく判定できない
 - Cursor 標準 worktree の自動 cleanup は manager 外の worktree も対象になり得る。`.worktrees/` を `~/.cursor/worktrees` と混ぜない
 
 ## ローカル確認
