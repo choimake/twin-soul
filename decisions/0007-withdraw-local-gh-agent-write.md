@@ -4,6 +4,8 @@
 
 採用済み (2026-05-14)
 
+一部変更: [0011-allow-agent-pr-create-on-explicit-request.md](0011-allow-agent-pr-create-on-explicit-request.md)（PR 作成の扱い、2026-10-07）
+
 ## 背景
 
 `decisions/0006-local-gh-agent-write.md` では、個人運用の速さを優先し、ローカル `.env` に GitHub トークンを置いて Cursor エージェントが `gh` を直実行できる運用を採用した。
