@@ -71,6 +71,7 @@ BANNED_PHRASES = (
     "日本語の公式ページは無い",
     "日本語版は見つからなかった",
 )
+VAGUE_PHRASES = ("黙って", "静かに")
 CDN_HOSTS = ("unpkg.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "esm.sh")
 NUMBER_RE = re.compile(r"[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?")
 PATH_TOKEN_RE = re.compile(
@@ -552,6 +553,12 @@ def check_banned(root: Node, findings: list[str]) -> None:
     for phrase in BANNED_PHRASES:
         if phrase in text:
             findings.append(f"banned: 「{phrase}」がある")
+    for phrase in VAGUE_PHRASES:
+        if phrase in text:
+            findings.append(
+                f"banned: 「{phrase}」がある。エラーになるか、ログが出るかを公式で確かめた範囲で書く"
+                "（例: 「エラーにならずに飛ばされる」「警告をログに出して飛ばされる」）"
+            )
     if "§" in text:
         findings.append("banned: § がある。章番号は「4章」「7章の3」と書く")
 
@@ -1421,6 +1428,16 @@ CASES: list[tuple[str, str, set[str]]] = [
         "banned",
         page("<h2 id=\"why\">なぜ要るか</h2><p>公式の正本を見る。</p>"),
         {"banned"},
+    ),
+    (
+        "banned-vague",
+        page("<h2 id=\"why\">なぜ要るか</h2><p>対象の行が無いと、その変更は黙って飛ばされる。</p>"),
+        {"banned"},
+    ),
+    (
+        "banned-vague-pass",
+        page("<h2 id=\"why\">なぜ要るか</h2><p>対象の行が無いと、その変更はエラーにならずに飛ばされる。</p>"),
+        set(),
     ),
     (
         "fig-role",
