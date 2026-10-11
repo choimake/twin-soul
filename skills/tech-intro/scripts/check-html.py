@@ -78,6 +78,8 @@ QUOTE_TAGS = {"li", "p", "blockquote", "dd"}
 HEDGE_RE = re.compile(r"\b(?:normally|typically|usually|may|might|could|can(?!\s+only\b)|in many cases|should|must)\b", re.I)
 # e.g.、i.e.、... の後ろでは切らない。… は区切りに入れない
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\.\.\.)\s+|[「」。\n]", re.I)
+# 引用の頭に付く省略記号（[...]、[…]、...、…）
+LEADING_ELLIPSIS_RE = re.compile(r"^(?:\[(?:\.\.\.|…)\]|\.\.\.|…)\s*")
 CDN_HOSTS = ("unpkg.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "esm.sh")
 NUMBER_RE = re.compile(r"[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?")
 PATH_TOKEN_RE = re.compile(
@@ -1223,6 +1225,27 @@ def is_quote_leaf(node: Node) -> bool:
     return not any(sub is not node and sub.tag in QUOTE_TAGS for sub in walk(node))
 
 
+def source_text(node: Node) -> str:
+    """出典の文字。リンク（ページ名）は除き、<q> は「」と同じく前後で区切る。"""
+    parts: list[str] = []
+
+    def visit(current: Node | Text) -> None:
+        if isinstance(current, Text):
+            parts.append(current.data)
+            return
+        if current.tag in {"style", "script", "a"}:
+            return
+        if current.tag == "q":
+            parts.append("\n")
+        for child in current.children:
+            visit(child)
+        if current.tag == "q":
+            parts.append("\n")
+
+    visit(node)
+    return "".join(parts)
+
+
 def hedged_quotes(html: str) -> list[tuple[str, str]]:
     """出典（data-scope 以外の details）にある、強さの語を含む文を (章見出し, 文) で返す。合否には使わない。"""
     parser = DocParser()
@@ -1239,9 +1262,10 @@ def hedged_quotes(html: str) -> list[tuple[str, str]]:
         items = [item for item in walk(node) if is_quote_leaf(item)]
         if not items:
             items = [child for child in node.elements() if child.tag != "summary"]
-        body = "\n".join(visible_text(item) for item in items)
+        body = "\n".join(source_text(item) for item in items)
         for sentence in SENTENCE_SPLIT_RE.split(body):
             sentence = sentence.lstrip(" \t—:/").rstrip(" \t—:")
+            sentence = LEADING_ELLIPSIS_RE.sub("", sentence)
             if HEDGE_RE.search(sentence):
                 quotes.append((heading, sentence))
     return quotes
@@ -1737,6 +1761,26 @@ def run_self_test() -> int:
     if hedged_quotes(split_html) != split_expected:
         failed = True
         print(f"hedge-split: got {hedged_quotes(split_html)}", file=sys.stderr)
+    prefix_html = page(
+        "<h2 id=\"why\">なぜ要るか</h2><p>slot ができる。</p>"
+        "<details><summary>出典</summary><ul>"
+        "<li><a href=\"https://example.com/a\">29.6 Conflicts</a> A conflict must be resolved by hand.</li>"
+        "<li><a href=\"https://example.com/b\">同 29.2 Subscription</a> — Normally, the slot is created.</li>"
+        "<li>同ページ: <q>WAL may be retained.</q>（補足）</li>"
+        "<li><blockquote>It is kept. [...] So it should be dropped.</blockquote></li>"
+        "<li>「… The slot can be reused.」</li>"
+        "</ul></details>"
+    )
+    prefix_expected = [
+        ("なぜ要るか", "A conflict must be resolved by hand."),
+        ("なぜ要るか", "Normally, the slot is created."),
+        ("なぜ要るか", "WAL may be retained."),
+        ("なぜ要るか", "So it should be dropped."),
+        ("なぜ要るか", "The slot can be reused."),
+    ]
+    if hedged_quotes(prefix_html) != prefix_expected:
+        failed = True
+        print(f"hedge-prefix: got {hedged_quotes(prefix_html)}", file=sys.stderr)
     if failed:
         return 1
     print("self-test ok")
