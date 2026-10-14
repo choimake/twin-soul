@@ -49,6 +49,6 @@ DR-0004 では、APM 移行の初期方針として `skills/<skill-name>/` を�
 
 ## 関連する DR
 
-- Supersedes: [0004-use-apm-for-shared-skill-distribution.md](0004-use-apm-for-shared-skill-distribution.md) の全 skill 一括導入を見送った初期移行方針
+- 一部変更する DR: [0004-use-apm-for-shared-skill-distribution.md](0004-use-apm-for-shared-skill-distribution.md)（全 skill 一括導入を見送った初期移行方針のみ）
 - 関連: [0001-document-boundaries.md](0001-document-boundaries.md)
 - 関連: [0005-rules-and-specs-boundaries.md](0005-rules-and-specs-boundaries.md)
