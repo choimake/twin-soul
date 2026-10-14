@@ -4,7 +4,7 @@
 
 採用済み (2026-05-10)
 
-Superseded in part by: [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md)
+一部変更: [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md)（全 skill 一括導入を見送った初期移行方針、2026-05-16）
 
 ## 背景
 
