@@ -104,6 +104,10 @@ APM の既定では、Cursor 向け skill はクライアント横断の標準�
 
 skill 内の `references/`、`assets/`、`scripts/` などの下位構成は展開側で固定しない。
 
+## 利用先で置くファイル
+
+- `decision-records` を使うときは、利用先のルートに `.decision-records.md` を置き、DR の保管先と DR を作る基準を書く。無いと skill は DR の作業をせず、雛形を置いてよいか聞く。APM は依存パッケージから利用先のルートへファイルを置けないので、雛形は skill の `assets/decision-records-config.md` に同梱している。判断理由は `decisions/0012-require-decision-records-config-file.md` を参照する
+
 ## 更新フロー
 
 1. `twin-soul` 側の `skills/` を更新する
