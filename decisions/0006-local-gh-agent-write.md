@@ -4,6 +4,8 @@
 
 置き換え済み (2026-05-14)
 
+置き換え先: [0007-withdraw-local-gh-agent-write.md](0007-withdraw-local-gh-agent-write.md)
+
 ## 背景
 
 Cursor エージェントに Issue 作成、Issue コメント、PR 作成、PR コメント、feature ブランチへの push などの GitHub 書き込み操作を任せたい。過去には devcontainer 内に `gh` とトークンを置き、ホスト環境からある程度切り離して運用していた。
