@@ -116,7 +116,7 @@ DR（Decision Record）作成
 ### decisions の更新
 
 1. 新しい判断や方針変更は DR を追加
-2. Accepted DR の意味変更は直接編集せず supersede
+2. Accepted DR の意味変更は直接編集せず、supersede か一部変更
 3. 意味が変わらない軽微修正（誤字、表現調整、リンク追加、補足追記）のみ直接編集可
 
 ### リンクの形式
