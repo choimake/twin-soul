@@ -2,7 +2,9 @@
 
 ## ステータス
 
-置き換え先: [0003](0003-deprecate-ai-skill-security-toolchain.md) (2026-04-20)
+置き換え済み (2026-04-20)
+
+置き換え先: [0003-deprecate-ai-skill-security-toolchain.md](0003-deprecate-ai-skill-security-toolchain.md)
 
 当初は採用済み (2026-03-21)。
 
