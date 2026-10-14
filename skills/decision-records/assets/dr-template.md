@@ -16,7 +16,7 @@ Proposed / Accepted / Rejected / Deprecated / Superseded（決めた日付を添
 
 ## 判断
 
-採用した方針と、その理由。Rejected なら、採用しなかった理由。
+採用した方針と、その理由。Rejected なら、採用しなかった理由。値は意思決定に効いているものだけ書き、効いていないものは外して実装を正とする。
 
 ## 影響
 
