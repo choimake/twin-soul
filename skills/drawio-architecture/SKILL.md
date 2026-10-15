@@ -1,7 +1,7 @@
 ---
 name: drawio-architecture
 description: >-
-  事実の正本（yaml 等）に基づき、非圧縮の native draw.io（.drawio）で構成図を描画し、人のスクショで視覚確認する。構成図、アーキテクチャ図、.drawio、draw.io、データ面、制御面、視覚確認、スクショ修正の依頼で使う。事実 SoT のない一般的なフローチャートや UI スケッチは対象外。
+  構成を書いた元データ（yaml 等）に基づき、非圧縮の native draw.io（.drawio）で構成図を描画し、人のスクショで視覚確認する。構成図、アーキテクチャ図、.drawio、draw.io、データ面、制御面、視覚確認、スクショ修正の依頼で使う。元データのない一般的なフローチャートや UI スケッチは対象外。
 compatibility: Optional HTTP MCP at https://mcp.draw.io/mcp. Drawing continues without it.
 ---
 
@@ -9,7 +9,7 @@ compatibility: Optional HTTP MCP at https://mcp.draw.io/mcp. Drawing continues w
 
 ## 目的
 
-事実の正本に載るものだけをノードとエッジにし、見た目はデザインシステムに揃える。成果物は非圧縮の native draw.io である。
+元データに載るものだけをノードとエッジにし、見た目はデザインシステムに揃える。成果物は非圧縮の native draw.io である。
 
 ## 使う場面
 
@@ -20,11 +20,11 @@ compatibility: Optional HTTP MCP at https://mcp.draw.io/mcp. Drawing continues w
 
 対象外である。
 
-- 事実の正本がない一般的なフローチャートや UI スケッチ
+- 元データがない一般的なフローチャートや UI スケッチ
 
 ## 手順
 
-1. 利用先リポジトリの事実の正本（yaml または同等の一覧）と、出力する `.drawio` のパスを特定する。欠けていれば質問する。正本に無い実リソースは足さない。推測でノードを増やすと、図と運用実態がずれる。
+1. 利用先リポジトリの元データ（yaml または同等の一覧）と、出力する `.drawio` のパスを特定する。欠けていれば質問する。元データに無い実リソースは足さない。推測でノードを増やすと、図と運用実態がずれる。
 2. 依頼を次のどれかに分類する。新規描画 / 視覚修正 / レビュー。
 3. draw.io MCP の有無を見る。無ければ導入手順を案内してから描画へ進む。案内が契約である。入れられるなら入れてもよい。クライアントの有効化や設定ファイルの編集が要るなら案内だけにし、mcp.json は自分で書かない。無理ならアイコンなしで描く。案内文とツールの使い分けは、MCP の有無を見るとき、または stencil を足すときに [references/mcp.md](references/mcp.md) を読む。
 4. デザインシステムの定数で、非圧縮の native draw.io XML（`mxfile` + `mxGraphModel`）を書く。余白・色・カード・線の定数は、描く直前に [references/drawio-architecture-knowledge.md](references/drawio-architecture-knowledge.md) を読む。データ面（リクエストと読み書き）と制御面（管理操作）は分ける。1 枚に同居させると回廊が埋まり、左から右の本流が読めなくなる。
@@ -38,10 +38,10 @@ compatibility: Optional HTTP MCP at https://mcp.draw.io/mcp. Drawing continues w
 ## 期待する出力
 
 - 非圧縮の native draw.io（`.drawio`）
-- 使った事実の正本と、出力パスの明示
+- 使った元データと、出力パスの明示
 - MCP が無かった場合は、案内した導入手順。入れたならその結果
 - 新規描画・レビューでは、分割した図があるなら概観と制御面の役割分担
-- 視覚修正では、直した座標・寸法・ラベル位置の要約。事実の正本は触らない
+- 視覚修正では、直した座標・寸法・ラベル位置の要約。元データは触らない
 - スクショ待ち、またはスクショ後の修正結果。MCP preview や XML parse だけでは完了にしない
 
 ## 検証
