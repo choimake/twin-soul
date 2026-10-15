@@ -8,7 +8,7 @@
 
 ## 背景
 
-`twin-soul` は、`skill` の正本を `skills/` に置き、これまで次の 2 つの独自経路で利用していた。
+`twin-soul` は、`skill` の元を `skills/` に置き、これまで次の 2 つの独自経路で利用していた。
 
 - 集約リポジトリ内では `scripts/hub/sync.sh` が `.cursor/skills/` と `.claude/skills/` にシンボリックリンクを張り、`AGENTS.md` / `CLAUDE.md` を再生成する
 - 利用先リポジトリでは `npx --yes github:choimake/twin-soul` が `bin/install.js` を実行し、`.cursor/skills/` と `.claude/skills/` にコピーして `skills-lock.json` を更新する
@@ -26,11 +26,11 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 
 `twin-soul` の `skill` 配布基盤を Microsoft APM に移行する。
 
-以下は採用時点の初期移行方針である。現在の導入手順は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) と `specs/installing-shared-skills.md` を正本とする。
+以下は採用時点の初期移行方針である。現在の導入手順は [0008-use-root-skill-collection-for-apm-install.md](0008-use-root-skill-collection-for-apm-install.md) と `specs/installing-shared-skills.md` に書いてある。
 
 採用する方針:
 
-- `skills/` は引き続き `skill` の正本とする
+- `skill` は引き続き `skills/` で編集する
 - 利用先リポジトリは `apm.yml` に `choimake/twin-soul/skills/<skill-name>#<ref>` を宣言し、`apm install` で導入する
 - 利用先リポジトリは `apm.lock.yaml` をコミットし、解決済みコミットと展開済みファイルを固定する
 - Cursor 向け `skill` は APM 標準の `.agents/skills/`、Claude Code 向け `skill` は `.claude/skills/` を既定の展開先とする
@@ -50,7 +50,7 @@ Microsoft APM（Agent Package Manager）は、Git リポジトリ / サブディ
 - 利用先リポジトリは `apm.yml` と `apm.lock.yaml` で導入 `skill` と解決済みコミットを明示できる
 - プライベートリポジトリの認証や CI 上の再現性を APM の標準機能に寄せられる
 - Cursor / Claude Code 以外の実行環境へ広げる余地ができる
-- `skills/` 正本の考え方は維持できるため、既存 `skill` の本文構造を大きく変えずに移行できる
+- `skills/` で編集する考え方は維持できるため、既存 `skill` の本文構造を大きく変えずに移行できる
 
 デメリット / 注意:
 

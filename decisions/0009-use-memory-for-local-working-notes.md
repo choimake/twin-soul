@@ -20,7 +20,7 @@
 
 リポジトリ直下の `memory/` を、AI エージェント作業全般のローカル記録とする。
 
-- 中身は共有の正本ではない。`.gitignore` でディレクトリごと除外し、`.gitkeep` は置かない
+- 中身はチームで共有する記録ではない。`.gitignore` でディレクトリごと除外し、`.gitkeep` は置かない
 - 運用ルールは毎回読む `AGENTS.md` に書く。雛形と詳細判断は `rules/working-memory.md` に置く
 - planner を含む個別 skill には手順を足さない
 - Claude Code Auto Memory とは混ぜない。repo 直下の `memory/` はツール非依存の作業領域とする
