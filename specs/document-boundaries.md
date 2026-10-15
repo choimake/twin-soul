@@ -17,11 +17,11 @@
 | `skills/`    | workflow と補助知識の配布        | あり           | APM の subdirectory package として単体導入できる状態を保つ |
 | `specs/`     | `twin-soul` 内部の構成・運用仕様 | なし           | skill の配布対象ではない                                   |
 | `decisions/` | `twin-soul` 内部の判断理由と履歴 | なし           | skill の前提知識として要求しない                           |
-| `rules/`     | リポジトリ横断で守る方針              | なし           | 外部展開の主役ではなく、このリポジトリの正本として扱う          |
+| `rules/`     | リポジトリ横断で守る方針              | なし           | 外部展開の主役ではなく、このリポジトリで守る方針として扱う      |
 
 ## `skills/` の扱い
 
-- `skills/` は外部プロジェクトへ展開する skill の正本とする
+- 外部プロジェクトへ展開する skill は `skills/` で編集する
 - 1 つの skill は `skills/<skill-name>/` を単位にして APM で配布できる構成にする
 - skill は `SKILL.md` を入口にし、必要な知識は同じ skill 配下の `references/`、`assets/`、`scripts/` に閉じる
 - 利用先リポジトリに `specs/` や `decisions/` が存在しなくても、skill 自体の説明と workflow が成立している必要がある
@@ -43,7 +43,7 @@
 
 ## `rules/` の扱い
 
-- `rules/` はリポジトリ横断で守る方針、チェックリスト、禁止・推奨事項を置く正本とする
+- リポジトリ横断で守る方針、チェックリスト、禁止・推奨事項は `rules/` に置く
 - `.cursor/rules/` や `.claude/rules/` には同期コピーや symlink を置かず、必要な内容はトップレベル `rules/` に集約する
 - `rules/` は APM で外部プロジェクトへ導入する skill の配布対象ではない
 - 抽象原則を再利用資産として扱いたい場合は、まず `skills/` で単体展開可能な workflow や補助知識に落とせるかを検討する

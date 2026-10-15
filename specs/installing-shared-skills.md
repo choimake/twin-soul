@@ -4,7 +4,7 @@
 
 ## 目的
 
-- `skills/` を単一正本として保つ
+- skill を編集する場所を `skills/` だけに保つ
 - `Cursor` と `Claude Code` の両方で同じ skill を見せる
 - 利用先リポジトリの project 固有 skill を壊さない
 - `apm.lock.yaml` で導入内容を再現可能にする
@@ -128,7 +128,7 @@ remote package では利用先のファイルシステム上のローカルパ�
 
 ## npx / skills-lock.json からの移行
 
-以前の installer は `.cursor/skills/` と `.claude/skills/` にコピーし、`skills-lock.json` に管理対象を記録していた。APM 移行後は `apm.yml` と `apm.lock.yaml` を正本とする。
+以前の installer は `.cursor/skills/` と `.claude/skills/` にコピーし、`skills-lock.json` に管理対象を記録していた。APM 移行後は `apm.yml` と `apm.lock.yaml` で管理する。
 
 1. 利用先リポジトリに `apm.yml` を追加する
 2. 必要な skill を `dependencies.apm` に列挙する
