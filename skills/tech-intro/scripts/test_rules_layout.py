@@ -67,7 +67,7 @@ class MotionTest(unittest.TestCase):
 
     def test_reduced_motion_that_does_not_stop_fails(self) -> None:
         css = ".dot { animation: hop 1s } @media (prefers-reduced-motion: reduce) { .dot { opacity: .5 } }"
-        self.assertEqual(self.run_rule(css), ["motion: prefers-reduced-motion: reduce で点の動きが止まらない"])
+        self.assertEqual(self.run_rule(css), ["motion: prefers-reduced-motion: reduce でアニメーションが止まらない"])
 
 
 class TocTest(unittest.TestCase):

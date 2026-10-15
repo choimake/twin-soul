@@ -23,8 +23,7 @@ from rules_content import (
     check_volume,
 )
 from rules_figures import (
-    check_dot_line,
-    check_dot_travel,
+    check_motion_stop,
     check_fig_roles,
     check_motion_figs,
     check_svg,
@@ -44,8 +43,7 @@ def check_html(html: str) -> list[str]:
     check_motion(sheet, findings)
     check_toc(parser.root, sheet, findings)
     check_banned(parser.root, findings)
-    check_dot_line(parser.root, sheet, findings)
-    check_dot_travel(parser.root, sheet, findings)
+    check_motion_stop(parser.root, sheet, findings)
     check_svg(parser.root, sheet, findings)
     check_svg_text(parser.root, sheet, findings)
     check_fig_roles(parser.root, findings)

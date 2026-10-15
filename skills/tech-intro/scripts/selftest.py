@@ -43,7 +43,7 @@ def page(
     if motion:
         motion_css = """
         @media (prefers-reduced-motion: reduce) {
-          .dot, .flow { animation: none; }
+          .flow { animation: none; stroke-dashoffset: 0; }
         }
         """
     return f"""<!DOCTYPE html>
@@ -60,82 +60,25 @@ def page(
 PASS_HTML = page(
     """
     <h2 id="why">なぜ要るか</h2>
-    <div class="row">
-      <div class="box">event</div>
-      <div class="link"><span class="dot"></span></div>
-      <div class="box">trigger</div>
-    </div>
     <svg viewBox="0 0 260 60">
-      <path class="flow" d="M90 30 L160 30"/>
+      <path class="flow" pathLength="1" d="M90 30 L160 30"/>
       <rect x="10" y="10" width="80" height="40"/>
       <rect x="160" y="10" width="80" height="40"/>
     </svg>
     """,
     """
-    .row { display: flex; align-items: center; }
-    .box { border: 1px solid #111; }
-    .link { position: relative; width: 48px; height: 16px; }
-    .link::before {
-      content: "";
-      position: absolute;
-      left: 0; right: 0; top: 50%;
-      height: 2px;
-    }
-    .dot { position: absolute; top: 0; width: 8px; height: 8px; animation: hop 1s linear infinite; }
-    @keyframes hop { from { left: 0; } to { left: 40px; } }
-    .flow { animation: dash 1s linear infinite; }
-    @keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+    .flow { stroke-dasharray: 1; stroke-dashoffset: 1; animation: dash 1s linear forwards; }
+    @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     """,
 )
 
 CASES: list[tuple[str, str, set[str]]] = [
     ("pass", PASS_HTML, set()),
     (
-        "dot-travel",
-        page(
-            """
-            <h2 id="why">なぜ要るか</h2>
-            <div class="row">
-              <span class="dot"></span>
-              <div class="box">event</div>
-              <div class="box">trigger</div>
-            </div>
-            """,
-            """
-            .row { position: relative; }
-            .box { border: 1px solid #111; }
-            .dot { position: absolute; animation: move 1s linear infinite; }
-            @keyframes move { from { left: 0; } to { left: 80px; } }
-            """,
-        ),
-        {"dot-travel"},
-    ),
-    (
-        "dot-line",
-        page(
-            """
-            <h2 id="why">なぜ要るか</h2>
-            <div class="row">
-              <div class="box">event</div>
-              <div class="link"><span class="dot"></span></div>
-              <div class="box">trigger</div>
-            </div>
-            """,
-            """
-            .row { position: relative; display: flex; }
-            .box { border: 1px solid #111; }
-            .row::before {
-              content: "";
-              position: absolute;
-              left: 8px; right: 8px; top: 50%;
-              height: 2px;
-            }
-            .link { position: relative; width: 40px; }
-            .dot { position: absolute; animation: hop 1s linear infinite; }
-            @keyframes hop { from { left: 0; } to { left: 20px; } }
-            """,
-        ),
-        {"dot-line"},
+        "motion-stop-infinite",
+        page('<h2 id="why">なぜ要るか</h2><span class="flow"></span>',
+             '.flow { animation: draw 1s infinite; } @keyframes draw { to { stroke-dashoffset: 0; } }'),
+        {"motion-stop"},
     ),
     (
         "svg-cross",
@@ -143,14 +86,14 @@ CASES: list[tuple[str, str, set[str]]] = [
             """
             <h2 id="why">なぜ要るか</h2>
             <svg viewBox="0 0 300 80">
-              <path class="flow" d="M10 30 L240 30"/>
+              <path class="flow" pathLength="1" d="M10 30 L240 30"/>
               <rect x="20" y="10" width="80" height="40"/>
               <rect x="160" y="10" width="80" height="40"/>
             </svg>
             """,
             """
-            .flow { animation: dash 1s linear infinite; }
-            @keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+            .flow { stroke-dasharray: 1; stroke-dashoffset: 1; animation: dash 1s linear forwards; }
+            @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
             """,
         ),
         {"svg-cross"},
@@ -182,8 +125,8 @@ CASES: list[tuple[str, str, set[str]]] = [
     (
         "motion",
         page(
-            "<h2 id=\"why\">なぜ要るか</h2><span class=\"dot\"></span>",
-            ".dot { animation: blink 1s infinite; } @keyframes blink { from { opacity: 1; } to { opacity: 0; } }",
+            "<h2 id=\"why\">なぜ要るか</h2><span class=\"flow\"></span>",
+            ".flow { animation: blink 1s forwards; } @keyframes blink { from { opacity: 1; } to { opacity: 0; } }",
             motion=False,
         ),
         {"motion"},
