@@ -116,14 +116,23 @@ class MotionFigsTest(unittest.TestCase):
         check_motion_figs(root, sheet, findings)
         return findings
 
-    def test_resume_with_line_draw_passes(self) -> None:
-        self.assertEqual(self.run_rule('<figure data-fig="resume"><svg><path class="flow" pathLength="1"/></svg></figure>'), [])
+    def test_step_button_without_animation_passes(self) -> None:
+        for role in ("resume", "branch"):
+            with self.subTest(role=role):
+                self.assertEqual(self.run_rule(
+                    f'<figure data-fig="{role}"><button type="button" data-step>1本ずつ見る</button></figure>'), [])
 
-    def test_branch_without_motion_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule('<figure data-fig="branch" class="flow"><div class="box">a</div></figure>'),
-            ["motion-fig: branch の図にアニメーションが無い。矢印を処理の順に1本ずつ描く"],
-        )
+    def test_without_step_button_fails_even_with_animation(self) -> None:
+        for role in ("resume", "branch"):
+            with self.subTest(role=role):
+                self.assertEqual(self.run_rule(
+                    f'<figure data-fig="{role}"><svg><path class="flow"/></svg><button>1本ずつ見る</button><span data-step></span></figure>'),
+                    [f"motion-fig: {role} の図に button[data-step] が無い。図の中に「1本ずつ見る」ボタンを置く"],
+                )
+
+    def test_button_outside_figure_fails(self) -> None:
+        self.assertTrue(self.run_rule(
+            '<figure data-fig="resume"></figure><button data-step>1本ずつ見る</button>'))
 
     def test_other_roles_are_not_checked(self) -> None:
         self.assertEqual(self.run_rule('<figure data-fig="what"></figure>'), [])
@@ -141,7 +150,7 @@ class MotionStopTest(unittest.TestCase):
                             "animation: draw var(--duration) infinite", "animation-iteration-count: INFINITE"):
             with self.subTest(declaration=declaration):
                 self.assertEqual(self.run_rule(f".flow {{ {declaration}; }}"), [
-                    "motion-stop: infinite は使わない。アニメーションは繰り返さず5秒以内に止める"])
+                    "motion-stop: infinite は使わない。アニメーションは繰り返さない"])
 
     def test_inline_infinite_is_reported(self) -> None:
         for declaration in ("animation: draw 1s infinite", "animation-iteration-count: infinite"):

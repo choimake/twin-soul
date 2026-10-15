@@ -60,14 +60,18 @@ def page(
 PASS_HTML = page(
     """
     <h2 id="why">なぜ要るか</h2>
+    <figure data-fig="resume">
+    <button type="button" data-step>1本ずつ見る</button>
     <svg viewBox="0 0 260 60">
       <path class="flow" pathLength="1" d="M90 30 L160 30"/>
       <rect x="10" y="10" width="80" height="40"/>
       <rect x="160" y="10" width="80" height="40"/>
     </svg>
+    </figure>
     """,
     """
-    .flow { stroke-dasharray: 1; stroke-dashoffset: 1; animation: dash 1s linear forwards; }
+    .flow { stroke-dasharray: 1; stroke-dashoffset: 0; }
+    .drawing .flow { animation: dash 1s linear forwards; }
     @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     """,
 )

@@ -19,7 +19,7 @@ def check_motion_stop(root: Node, sheet: Sheet, findings: list[str]) -> None:
         )
         for value in values:
             if re.search(r"(?<![\w-])infinite(?![\w-])", value, flags=re.I):
-                findings.append("motion-stop: infinite は使わない。アニメーションは繰り返さず5秒以内に止める")
+                findings.append("motion-stop: infinite は使わない。アニメーションは繰り返さない")
 
 
 def check_svg(root: Node, sheet: Sheet, findings: list[str]) -> None:
@@ -139,10 +139,9 @@ def check_motion_figs(root: Node, sheet: Sheet, findings: list[str]) -> None:
         role = node.attrs.get("data-fig", "").strip()
         if role not in MOTION_ROLES:
             continue
-        animated = any(
-            animation_names(styles_for(descendant, sheet.rules))
+        has_step_button = any(
+            descendant.tag == "button" and "data-step" in descendant.attrs
             for descendant in walk(node)
-            if descendant is not node
         )
-        if not animated:
-            findings.append(f"motion-fig: {role} の図にアニメーションが無い。矢印を処理の順に1本ずつ描く")
+        if not has_step_button:
+            findings.append(f"motion-fig: {role} の図に button[data-step] が無い。図の中に「1本ずつ見る」ボタンを置く")
