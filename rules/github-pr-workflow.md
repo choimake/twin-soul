@@ -6,7 +6,7 @@ PR 本文の書式をリポジトリのテンプレートに揃え、レビュ�
 
 ## 背景
 
-エージェントや作業者が独自の Summary / Test plan 形式で PR を作ると、テンプレートの検証項目や公開リポジトリチェックリストが落ちる。本リポジトリでは `.github/pull_request_template.md` を正本とする。
+エージェントや作業者が独自の Summary / Test plan 形式で PR を作ると、テンプレートの検証項目や公開リポジトリチェックリストが落ちる。本リポジトリでは `.github/pull_request_template.md` に従う。
 
 ## PR 本文はテンプレートに従う
 
@@ -50,6 +50,6 @@ PR を作成・更新するときは、[`.github/pull_request_template.md`](../.
 
 ## 関連
 
-- [`.github/pull_request_template.md`](../.github/pull_request_template.md) — PR 本文の正本
+- [`.github/pull_request_template.md`](../.github/pull_request_template.md) — PR 本文のテンプレート
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — プルリクエストの期待値
 - [github-issue-workflow.md](github-issue-workflow.md) — Issue 側の運用
