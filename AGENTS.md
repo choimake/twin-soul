@@ -1,8 +1,8 @@
 # Project Instructions
 
-このファイルは、このリポジトリで実際に守る共通方針の正本である。Cursor は `AGENTS.md` として読み、Claude Code は symlink された `CLAUDE.md` から同じ内容を読む。
+このファイルには、このリポジトリで実際に守る共通方針を書く。Cursor は `AGENTS.md` として読み、Claude Code は symlink された `CLAUDE.md` から同じ内容を読む。
 
-トップレベルの `rules/` はリポジトリ全体に効く横断方針の正本として扱う。
+リポジトリ全体に効く横断方針は、トップレベルの `rules/` に置く。
 
 ## 優先順位
 
@@ -18,7 +18,7 @@
 
 - 原則日本語で書き、日本語で応答する
 - skill の導入・更新は Microsoft APM（Agent Package Manager）を使う
-- このリポジトリを skill の正本として扱い、skill はここで更新する
+- skill はこのリポジトリで管理し、ここで更新する
 - 技術選定や設計判断で Decision Record が必要な基準は `rules/when-to-create-decision-records.md` を参照する
 - `decisions/` の新規作成・更新では `skills/decision-records` を使う
 - 小規模プロダクトの要求定義の書式・層・属性の整理は `skills/requirements-definition` を参照する
@@ -31,11 +31,11 @@
 - `specs/`: 現在の構成と仕様
 - `README.md`: 使い方の導線
 - `decisions/`: 判断理由の記録
-- `memory/`: エージェント作業のローカル記録（gitignore、正本ではない）
+- `memory/`: エージェント作業のローカル記録（gitignore、共有しない）
 
 ## 作業メモリ
 
-- `memory/` は gitignore。共有の正本ではない
+- `memory/` は gitignore。チームで共有する記録ではない
 - 作業開始時に `memory/lessons.md` と `memory/handoff.md` を読む。無ければ作る
 - 今回の作業に関係する `memory/notes/` だけ追加で読む
 - 作業終了時、または長い作業の区切りで残す。学びは `lessons.md`、申し送りは `handoff.md`、作業メモは `notes/`
