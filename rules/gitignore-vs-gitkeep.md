@@ -37,7 +37,7 @@
 # APM の local cache
 apm_modules/
 
-# Agent local working memory（正本ではない）
+# Agent local working memory（共有しない）
 memory/
 ```
 

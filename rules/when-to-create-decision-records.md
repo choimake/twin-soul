@@ -19,7 +19,7 @@
 **例:**
 
 - 独自 installer vs APM
-- runtime 別コピー運用 vs 正本ディレクトリへの一本化
+- runtime 別コピー運用 vs 編集元ディレクトリへの一本化
 - APM で導入する skill と project 固有 skill の分離方針
 
 **DR に書くべき内容:**
@@ -34,7 +34,7 @@
 
 **例:**
 
-- `rules/` をリポジトリ横断方針の正本にした理由
+- リポジトリ横断方針を `rules/` に集めた理由
 - `.agents/skills/` を APM 展開物として Git 管理しない理由
 - 全 skill 一括 bundle ではなく subdirectory package として導入する理由
 
@@ -67,7 +67,7 @@
 
 - プロジェクト全体の環境管理を mise に統一
 - skill の配布基盤を APM に移行
-- リポジトリ横断ルールの正本をトップレベル `rules/` に一本化
+- リポジトリ横断ルールの置き場をトップレベル `rules/` に一本化
 
 **DR に書くべき内容:**
 

@@ -35,7 +35,7 @@ main でよいもの:
   wt-docs-update-readme/
 ```
 
-Cursor 標準の `/worktree`（`~/.cursor/worktrees`）は正本にしない。配置先が違い、Cursor の自動 cleanup 対象にもなり得る。隔離だけなら使ってよいが、このリポジトリの正本は `.worktrees/` である。
+Cursor 標準の `/worktree`（`~/.cursor/worktrees`）は標準の手順にしない。配置先が違い、Cursor の自動 cleanup 対象にもなり得る。隔離だけなら使ってよいが、このリポジトリで決めた置き場は `.worktrees/` である。
 
 ## ブランチ命名
 
@@ -114,7 +114,7 @@ git worktree list
 
 ## Hook
 
-twin-soul では必須。判定の正本は [../scripts/hooks/guard-main-checkout.py](../scripts/hooks/guard-main-checkout.py)。
+twin-soul では必須。判定するのは [../scripts/hooks/guard-main-checkout.py](../scripts/hooks/guard-main-checkout.py)。
 
 入口:
 

@@ -1,6 +1,6 @@
 # 作業メモリの詳細
 
-このドキュメントは [`../AGENTS.md`](../AGENTS.md) の「作業メモリ」運用を補う。毎回の手順は AGENTS.md を正本とする。ここには雛形、肥大時の切り方、昇格の判断だけを置く。
+このドキュメントは [`../AGENTS.md`](../AGENTS.md) の「作業メモリ」運用を補う。毎回の手順は AGENTS.md に書いてある。ここには雛形、肥大時の切り方、昇格の判断だけを置く。
 
 ## 3系統
 
@@ -68,10 +68,10 @@
 - チーム運用に効く知見は `memory/` に溜めない
 - 守る方針は `rules/`、現在仕様は `specs/`、判断理由は `decisions/`、再利用手順は `skills/`
 - 昇格したら `memory/` 側は削るか、正式ドキュメントへのリンクだけ残す
-- 昇格パスの正本は [documentation-standards.md](documentation-standards.md)
+- 昇格パスは [documentation-standards.md](documentation-standards.md) に書いてある
 
 ## Claude Auto Memory との違い
 
 - このリポジトリの `memory/` はツール非依存の作業領域
 - Claude Code の Auto Memory（`~/.claude/projects/.../memory/`）とは混ぜない
-- どちらに書いても、確立した知見の正本は `rules/`、`specs/`、`decisions/`、`skills/`
+- どちらに書いても、確立した知見は `rules/`、`specs/`、`decisions/`、`skills/` に書く

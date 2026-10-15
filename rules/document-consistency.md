@@ -58,7 +58,7 @@
 
 ## チェック方法
 
-- リンク切れ、README の skill 一覧、レビュー出力テンプレートの分岐は機械で検査し、正本は [`mise.toml`](../mise.toml) の `ci:lint` とする。
+- リンク切れ、README の skill 一覧、レビュー出力テンプレートの分岐は機械で検査する。検査の中身は [`mise.toml`](../mise.toml) の `ci:lint` にある。
 
 ### 全文検索で確認
 
