@@ -185,7 +185,7 @@
 - 外部の script、stylesheet、CDN、Mermaid。`prefers-reduced-motion` で止まらない動き
 - 目次の有無、文言、位置。「正本」、§、「黙って」「静かに」
 - 箱を横切る線、SVG の箱からはみ出しそうな文字（字数からの見積もりなので、目でも確かめる）
-- 第1部の `data-fig`（`what`、`need`、`cast`、`resume`、`struct`、`branch`）。省くなら `data-fig-skip`。`resume` と `branch` に線を描くアニメーションがあるか。`animation` / `animation-iteration-count` の値に `infinite` があるか
+- 第1部の `data-fig`（`what`、`need`、`cast`、`resume`、`struct`、`branch`）。省くなら `data-fig-skip`。`resume` と `branch` の図の中にアニメーションがあるか。`animation` / `animation-iteration-count` の値に `infinite` があるか
 - `data-goals` の位置と数。`data-scope` が最初の章より前の閉じた `details` か。1章と2章のコード。`data-agent-skills` の章と値とリンク
 - 量（要点、章の数、見出しの長さ、章と合計の文章量）。末尾の3章が h2 か。`<dfn>` があり、各章3語までか
 - 狭い画面（viewport、`@media`、SVG の幅、図と表の横スクロール、`code` の折り返し、大きい `min-width`）
