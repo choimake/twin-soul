@@ -86,7 +86,7 @@ apm install
 
 - 先に [AGENTS.md](AGENTS.md) とトップレベルの [rules/](rules/) を読む
 - 変更作業は `.worktrees/` の git worktree で進める。hook が main checkout への編集を止める
-- エージェント作業のメモ・申し送り・学びは `memory/` に残す（gitignore、正本ではない）
+- エージェント作業のメモ・申し送り・学びは `memory/` に残す（gitignore、共有しない）
 - APM CLI は `mise install` で `pipx:apm-cli` として導入される
 - 貢献前の検証手順は [CONTRIBUTING.md](CONTRIBUTING.md) を読む
 
@@ -111,11 +111,11 @@ mise run ci:apm
 ## リポジトリ構成
 
 - `skills/`: 実務経験から切り出した作業手順
-- `rules/`: このリポジトリ全体に効く横断方針の正本
+- `rules/`: このリポジトリ全体に効く横断方針
 - `AGENTS.md`: エージェント向けの共通方針とドキュメント優先順位
 - `specs/`: 現在の構成と運用仕様
 - `decisions/`: 大きな判断の記録
-- `memory/`: エージェント作業のローカル記録（gitignore、正本ではない）
+- `memory/`: エージェント作業のローカル記録（gitignore、共有しない）
 - `scripts/`: `ci/`（ローカル静的チェック）と `hooks/`（main checkout 編集の防御）の補助スクリプト
 
 `skill` は `skills/<skill-name>/SKILL.md` を起点にし、必要なときだけ `assets/`、`references/`、`scripts/` を足します。`skill` 内の判断観点や補助知識は各 `skill` 配下の `references/` に置き、リポジトリ全体の横断方針を置くトップレベル `rules/` とは分けて扱います。`references/` 配下の下位構成は `skill` ごとに決めてよく、たとえば `universal-code-reviewer` では個別ルール群を `references/rules/` に置きます。
@@ -127,7 +127,7 @@ mise run ci:apm
 - 脆弱性や機密情報漏えいの報告は [SECURITY.md](SECURITY.md) に従ってください。
 - 貢献手順、検証コマンド、APM 展開物の扱いは [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
 - 行動規範は [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) を参照してください。
-- `skills/` が `skill` の正本です。`.agents/skills/`、`.claude/skills/`、`.cursor/skills/` は APM 展開物として扱い、コミットしません。
+- `skill` は `skills/` で編集します。`.agents/skills/`、`.claude/skills/`、`.cursor/skills/` は APM 展開物として扱い、コミットしません。
 
 ## 利用できるスキル
 
@@ -135,7 +135,7 @@ mise run ci:apm
 
 - **consensus-investigation**: 同一の調査・レビューを複数のサブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
-- **drawio-architecture**: 事実の正本に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
+- **drawio-architecture**: 構成を書いた元データ（yaml など）に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
 - **eli5**: 前提知識ゼロでもわかるように、大きな絵と少ない言葉で説明する
 - **gap-analysis**: PRD と検証・調査結果を突き合わせ、実現可否と根拠を整理する
 - **gitignore**: `.gitignore` の新規作成、既存の見直し、GitHub 公式 `github/gitignore` からのテンプレート取得、自動推定を扱う

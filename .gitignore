@@ -1,7 +1,7 @@
 .cursor/plans/*
 .local/
 
-# Agent local working memory（正本ではない）
+# Agent local working memory（共有しない）
 # skills/gitignore/assets/memory.gitignore から同期
 memory/
 

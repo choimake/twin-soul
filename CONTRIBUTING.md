@@ -1,13 +1,13 @@
 # 貢献ガイド
 
-`twin-soul` は、AI エージェント用 `skill` と運用ルールの正本リポジトリです。変更は小さく、レビューしやすく、`AGENTS.md` と `specs/document-boundaries.md` に書かれたドキュメント境界に沿って進めてください。
+`twin-soul` は、AI エージェント用 `skill` と運用ルールを管理するリポジトリです。変更は小さく、レビューしやすく、`AGENTS.md` と `specs/document-boundaries.md` に書かれたドキュメント境界に沿って進めてください。
 
-## 正本
+## 編集する場所
 
 - `skill` は `skills/<skill-name>/` を編集する
 - `.agents/skills/`、`.claude/skills/`、`.cursor/skills/` は APM 展開物として扱い、直接編集・コミットしない
 - リポジトリ横断の方針は `AGENTS.md` またはトップレベルの `rules/` に置く
-- `.cursor/rules/` や `.claude/rules/` は再導入しない。トップレベルの `rules/` を正本にする
+- `.cursor/rules/` や `.claude/rules/` は再導入しない。方針はトップレベルの `rules/` だけに置く
 - 変更作業は `.worktrees/` の git worktree で進める。main checkout では編集しない（詳細は [`rules/worktree-workflow.md`](rules/worktree-workflow.md)）
 - `.cursor/hooks.json`、`.claude/settings.json`、`.codex/hooks.json` が main 上の編集を止める。判定は `scripts/hooks/` にある
 - 詳細仕様は `specs/`、判断履歴は `decisions/` に置く
@@ -38,7 +38,7 @@ APM_LEGACY_SKILL_PATHS=1 apm install --target cursor,claude
 - [`mise.toml`](mise.toml) の `ci:lint` にある検査がすべて成功する
 - APM の `skill` 同期（`apm install`）と監査が成功する
 - このリポジトリでは組織共通の APM 監査ポリシーを使わないため、`--no-policy` を指定する
-- 生成された `skill` ディレクトリは `skills/` の正本から再生成でき、Git 管理外のまま残る
+- 生成された `skill` ディレクトリは `skills/` から再生成でき、Git 管理外のまま残る
 
 ## プルリクエストの期待値
 
