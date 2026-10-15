@@ -121,5 +121,5 @@ SKILL.md の手順 7〜9 に加えて渡す。
 - 試行が 2 回以上のときだけ、[errors-entry](../assets/errors-entry-template.md) の形式で追記する
 - エラー種別の例: `hallucination` / `format_error` / `context_drift` / `tool_failure` / `instruction_error`（親の指示・前提・基準の誤り）/ `false_positive`（レビューの誤った減点）/ `verification_gap`（誰も拾えなかった欠陥）
 - 同種が過去にもあれば `recurred: true`。対策が効いていない印である
-- 「状態: 未解消」「状態: 対策の定着を監視中」のエントリだけを残す。解消済み（対策をルール・テスト・skill 正本へ移したもの）は追記のときに消す。教訓を移してから消す
+- 「状態: 未解消」「状態: 対策の定着を監視中」のエントリだけを残す。解消済み（対策をルール・テスト・skill 本体へ移したもの）は追記のときに消す。教訓を移してから消す
 - 報告では、状態欄の無いエントリと、`recurred: true` が 2 回以上ついた型を、ルールへ移す候補として挙げる

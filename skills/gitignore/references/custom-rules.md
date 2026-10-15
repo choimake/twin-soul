@@ -19,7 +19,7 @@ skill が `mise` を扱うときは、テンプレート本文に後付けの cu
 
 ## `memory`
 
-エージェント作業のローカル記録は共有の正本ではない。ディレクトリごと ignore する。
+エージェント作業のローカル記録はチームで共有する記録ではない。ディレクトリごと ignore する。
 
 推奨ルールは [../assets/memory.gitignore](../assets/memory.gitignore) を使う。
 
@@ -33,7 +33,7 @@ skill がエージェント作業領域を扱うときは、テンプレート�
 
 ## `worktrees`
 
-変更作業用の git worktree は共有の正本ではない。ディレクトリごと ignore する。
+変更作業用の git worktree はチームで共有するものではない。ディレクトリごと ignore する。
 
 推奨ルールは [../assets/worktrees.gitignore](../assets/worktrees.gitignore) を使う。
 
@@ -41,6 +41,6 @@ skill がエージェント作業領域を扱うときは、テンプレート�
 
 - `.worktrees/` 配下はローカルの隔離 checkout なので ignore する
 - Cursor 標準の `~/.cursor/worktrees` とは別物として扱う
-- 手順の正本は利用先リポジトリの worktree 運用ルールに置く
+- 手順は利用先リポジトリの worktree 運用ルールに書く
 
 skill がエージェント作業領域を扱うときは、テンプレート本文に後付けの custom block として足す。
