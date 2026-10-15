@@ -1,115 +1,25 @@
-"""図のルール（点と線、SVG の線と文字、図の役、動く図）。"""
+"""図のルール（SVG の線と文字、図の役、動く図と無限の繰り返し）。"""
 
 from __future__ import annotations
 
 import re
 
-from css import Rule, Sheet, animation_names, first_token, matches, moves_position, styles_for
+from css import Sheet, animation_names, strip_comments, style_text, styles_for
 from geometry import path_points, point_inside, rect_interior, text_width
-from htmldoc import Node, ancestors, contains, visible_text, walk
+from htmldoc import Node, ancestors, visible_text, walk
 
 
-def label_of(node: Node) -> str:
-    classes = node.attrs.get("class", "").split()
-    if classes:
-        return f"{node.tag}.{classes[0]}"
-    return node.tag
-
-
-def looks_like_node(node: Node) -> bool:
-    return any(re.search(r"box|node|card", name) for name in node.classes)
-
-
-def labeled_children(node: Node, skip: Node | None = None) -> list[Node]:
-    found = []
-    for child in node.elements():
-        if skip is not None and contains(child, skip):
-            continue
-        if visible_text(child).strip() and looks_like_node(child):
-            found.append(child)
-    return found
-
-
-def is_spanning_line(decls: dict[str, str]) -> bool:
-    if first_token(decls.get("position", "")) != "absolute":
-        return False
-    height = decls.get("height", "").strip()
-    height_match = re.match(r"^(\d+(?:\.\d+)?)px$", height)
-    if not height_match or float(height_match.group(1)) > 4:
-        return False
-    left = decls.get("left")
-    right = decls.get("right")
-    width = decls.get("width", "")
-    spans = (left not in {None, "auto"} and right not in {None, "auto"}) or "100%" in width
-    return spans
-
-
-def check_dot_line(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    for rule in sheet.rules:
-        if not is_spanning_line(rule.decls):
-            continue
-        for selector in rule.selectors:
-            if "::before" not in selector and "::after" not in selector:
-                continue
-            subject = selector.split("::", 1)[0].strip()
-            if not subject:
-                continue
-            for node in walk(root):
-                if not matches(node, subject):
-                    continue
-                if len(labeled_children(node)) < 2:
-                    continue
-                if moving_dot_inside(node, sheet):
-                    findings.append(
-                        f"dot-line: 線が箱の並びを端から端まで貫いている（{selector}）。"
-                        "線は箱の縁から次の箱の縁までにする"
-                    )
-
-
-def moving_dot_inside(node: Node, sheet: Sheet) -> bool:
-    for descendant in walk(node):
-        if descendant is node or visible_text(descendant).strip():
-            continue
-        names = animation_names(styles_for(descendant, sheet.rules))
-        if names and moves_position(names, sheet.keyframes):
-            return True
-    return False
-
-
-def offset_parent(node: Node, rules: list[Rule]) -> Node | None:
-    position = first_token(styles_for(node, rules).get("position", "static"), "static")
-    parent = node.parent
-    if position not in {"absolute", "fixed"}:
-        return parent
-    while parent is not None and parent.tag != "document":
-        parent_position = first_token(styles_for(parent, rules).get("position", "static"), "static")
-        if parent_position in {"relative", "absolute", "fixed", "sticky"}:
-            return parent
-        parent = parent.parent
-    return node.parent
-
-
-def check_dot_travel(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    for node in walk(root):
-        if visible_text(node).strip():
-            continue
-        names = animation_names(styles_for(node, sheet.rules))
-        if not names or not moves_position(names, sheet.keyframes):
-            continue
-        parent = offset_parent(node, sheet.rules)
-        if parent is None:
-            continue
-        if len(labeled_children(parent, skip=node)) >= 2:
-            findings.append(
-                f"dot-travel: 点が箱の上を動いている（{label_of(node)} の基準が {label_of(parent)}）。"
-                "点は箱と箱のあいだの要素の中だけを動かす"
-            )
-            continue
-        if looks_like_node(parent) and visible_text(parent).strip():
-            findings.append(
-                f"dot-travel: 点が箱の中を動いている（{label_of(parent)}）。"
-                "点は箱の外の線だけを動かす"
-            )
+def check_motion_stop(root: Node, sheet: Sheet, findings: list[str]) -> None:
+    sources = [style_text(root)]
+    sources.extend(node.attrs["style"] for node in walk(root) if "style" in node.attrs)
+    for source in sources:
+        values = re.findall(
+            r"(?:^|[;{}])\s*animation(?:-iteration-count)?\s*:\s*([^;{}]*)",
+            strip_comments(source), flags=re.I,
+        )
+        for value in values:
+            if re.search(r"(?<![\w-])infinite(?![\w-])", value, flags=re.I):
+                findings.append("motion-stop: infinite は使わない。アニメーションは繰り返さない")
 
 
 def check_svg(root: Node, sheet: Sheet, findings: list[str]) -> None:
@@ -229,10 +139,9 @@ def check_motion_figs(root: Node, sheet: Sheet, findings: list[str]) -> None:
         role = node.attrs.get("data-fig", "").strip()
         if role not in MOTION_ROLES:
             continue
-        animated = any(
-            animation_names(styles_for(descendant, sheet.rules))
+        has_step_button = any(
+            descendant.tag == "button" and "data-step" in descendant.attrs
             for descendant in walk(node)
-            if descendant is not node
         )
-        if not animated:
-            findings.append(f"motion-fig: {role} の図に動く点が無い。動きは動く図で見せる")
+        if not has_step_button:
+            findings.append(f"motion-fig: {role} の図に button[data-step] が無い。図の中に「1本ずつ見る」ボタンを置く")

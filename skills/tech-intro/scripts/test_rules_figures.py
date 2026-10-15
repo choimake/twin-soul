@@ -5,99 +5,29 @@ from __future__ import annotations
 import unittest
 
 from rules_figures import (
-    check_dot_line,
-    check_dot_travel,
+    check_motion_stop,
     check_fig_roles,
     check_motion_figs,
     check_svg,
     check_svg_text,
     font_px,
-    is_spanning_line,
-    labeled_children,
-    offset_parent,
 )
 from testutil import find, parse, parse_page
 
 
 MOVE_CSS = """
-.box { border: 1px solid; }
-.dot { position: absolute; animation: hop 1s linear infinite; }
-@keyframes hop { from { left: 0; } to { left: 40px; } }
-.flow { animation: dash 1s linear infinite; }
-@keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
-"""
-
-# 点は箱と箱のあいだの .link の中だけを動き、線も .link の中に収まる
-DOT_OK = f"""
-<style>{MOVE_CSS}
-.link {{ position: relative; }}
-.link::before {{ content: ""; position: absolute; left: 0; right: 0; height: 2px; }}
-</style>
-<div class="row"><div class="box">event</div><div class="link"><span class="dot"></span></div><div class="box">trigger</div></div>
+.flow { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1s linear forwards; }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 """
 
 
 class HelperTest(unittest.TestCase):
-    def test_is_spanning_line(self) -> None:
-        self.assertTrue(is_spanning_line({"position": "absolute", "height": "2px", "left": "0", "right": "0"}))
-        self.assertTrue(is_spanning_line({"position": "absolute", "height": "4px", "width": "100%"}))
-        self.assertFalse(is_spanning_line({"position": "absolute", "height": "5px", "width": "100%"}))
-        self.assertFalse(is_spanning_line({"position": "absolute", "height": "2px", "left": "0", "right": "auto"}))
-        self.assertFalse(is_spanning_line({"position": "relative", "height": "2px", "width": "100%"}))
-
-    def test_labeled_children_needs_box_class_and_text(self) -> None:
-        root = parse('<div class="row"><div class="box">a</div><div class="box"></div><div>b</div><p class="card">c</p></div>')
-        self.assertEqual([child.tag for child in labeled_children(find(root, "row"))], ["div", "p"])
-
-    def test_offset_parent_is_nearest_positioned_ancestor(self) -> None:
-        root, sheet, _ = parse_page(
-            "<style>.outer { position: relative } .dot { position: absolute }</style>"
-            '<div class="outer"><div class="mid"><span class="dot"></span></div></div>'
-        )
-        self.assertIs(offset_parent(find(root, "dot"), sheet.rules), find(root, "outer"))
-
-    def test_offset_parent_of_static_is_parent(self) -> None:
-        root, sheet, _ = parse_page('<div class="outer"><div class="mid"><span class="dot"></span></div></div>')
-        self.assertIs(offset_parent(find(root, "dot"), sheet.rules), find(root, "mid"))
-
     def test_font_px_inherits_and_converts(self) -> None:
         root, sheet, _ = parse_page('<style>svg { font-size: 0.75rem }</style><svg><text>a</text></svg><p font-size="x">b</p>')
         self.assertEqual(font_px(find(root, "text"), sheet), 12)
         self.assertIsNone(font_px(find(root, "p"), sheet))
         bare, sheet, _ = parse_page("<span>a</span>")
         self.assertEqual(font_px(find(bare, "span"), sheet), 16.0)
-
-
-class DotRulesTest(unittest.TestCase):
-    def run_rules(self, html: str) -> list[str]:
-        root, sheet, _ = parse_page(html)
-        findings: list[str] = []
-        check_dot_line(root, sheet, findings)
-        check_dot_travel(root, sheet, findings)
-        return findings
-
-    def test_dot_between_boxes_passes(self) -> None:
-        self.assertEqual(self.run_rules(DOT_OK), [])
-
-    def test_line_through_row_of_boxes_fails(self) -> None:
-        html = DOT_OK.replace(".link::before", ".row::before")
-        self.assertEqual(
-            self.run_rules(html),
-            ["dot-line: 線が箱の並びを端から端まで貫いている（.row::before）。線は箱の縁から次の箱の縁までにする"],
-        )
-
-    def test_dot_over_boxes_fails(self) -> None:
-        html = DOT_OK.replace(".link { position: relative; }", ".row { position: relative; }")
-        self.assertEqual(
-            self.run_rules(html),
-            ["dot-travel: 点が箱の上を動いている（span.dot の基準が div.row）。点は箱と箱のあいだの要素の中だけを動かす"],
-        )
-
-    def test_dot_inside_box_fails(self) -> None:
-        html = f'<style>{MOVE_CSS} .box {{ position: relative; }}</style><div class="box">step<span class="dot"></span></div>'
-        self.assertEqual(
-            self.run_rules(html), ["dot-travel: 点が箱の中を動いている（div.box）。点は箱の外の線だけを動かす"]
-        )
 
 
 SVG = """
@@ -186,14 +116,61 @@ class MotionFigsTest(unittest.TestCase):
         check_motion_figs(root, sheet, findings)
         return findings
 
-    def test_resume_with_moving_dot_passes(self) -> None:
-        self.assertEqual(self.run_rule('<figure data-fig="resume"><span class="dot"></span></figure>'), [])
+    def test_step_button_without_animation_passes(self) -> None:
+        for role in ("resume", "branch"):
+            with self.subTest(role=role):
+                self.assertEqual(self.run_rule(
+                    f'<figure data-fig="{role}"><button type="button" data-step>1本ずつ見る</button></figure>'), [])
 
-    def test_branch_without_motion_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule('<figure data-fig="branch" class="dot"><div class="box">a</div></figure>'),
-            ["motion-fig: branch の図に動く点が無い。動きは動く図で見せる"],
-        )
+    def test_without_step_button_fails_even_with_animation(self) -> None:
+        for role in ("resume", "branch"):
+            with self.subTest(role=role):
+                self.assertEqual(self.run_rule(
+                    f'<figure data-fig="{role}"><svg><path class="flow"/></svg><button>1本ずつ見る</button><span data-step></span></figure>'),
+                    [f"motion-fig: {role} の図に button[data-step] が無い。図の中に「1本ずつ見る」ボタンを置く"],
+                )
+
+    def test_button_outside_figure_fails(self) -> None:
+        self.assertTrue(self.run_rule(
+            '<figure data-fig="resume"></figure><button data-step>1本ずつ見る</button>'))
 
     def test_other_roles_are_not_checked(self) -> None:
         self.assertEqual(self.run_rule('<figure data-fig="what"></figure>'), [])
+
+
+class MotionStopTest(unittest.TestCase):
+    def run_rule(self, css: str, style: str = "") -> list[str]:
+        root, sheet, _ = parse_page(f'<style>{css}</style><path class="flow" style="{style}"/>')
+        findings: list[str] = []
+        check_motion_stop(root, sheet, findings)
+        return findings
+
+    def test_infinite_is_reported(self) -> None:
+        for declaration in ("animation: draw 1s infinite", "animation: draw 1s infinite!important",
+                            "animation: draw var(--duration) infinite", "animation-iteration-count: INFINITE"):
+            with self.subTest(declaration=declaration):
+                self.assertEqual(self.run_rule(f".flow {{ {declaration}; }}"), [
+                    "motion-stop: infinite は使わない。アニメーションは繰り返さない"])
+
+    def test_inline_infinite_is_reported(self) -> None:
+        for declaration in ("animation: draw 1s infinite", "animation-iteration-count: infinite"):
+            with self.subTest(declaration=declaration):
+                self.assertTrue(self.run_rule("", declaration))
+
+    def test_media_infinite_is_reported(self) -> None:
+        for condition in ("(max-width: 600px)", "(prefers-reduced-motion: reduce)"):
+            with self.subTest(condition=condition):
+                self.assertTrue(self.run_rule(
+                    f"@media {condition} {{ .flow {{ animation: draw 1s infinite; }} }}"))
+
+    def test_finite_line_draw_passes(self) -> None:
+        for declaration in ("animation: draw .6s linear forwards",
+                            "animation: draw .6s calc(var(--step) * 0.7s) forwards",
+                            "animation-iteration-count: 1"):
+            with self.subTest(declaration=declaration):
+                self.assertEqual(self.run_rule(f".flow {{ {declaration}; }}"), [])
+                self.assertEqual(self.run_rule("", declaration), [])
+
+    def test_unrelated_infinite_text_is_ignored(self) -> None:
+        self.assertEqual(self.run_rule(
+            '.flow { animation: infinite-draw 1s forwards; content: "infinite"; /* animation: draw 1s infinite; */ }'), [])

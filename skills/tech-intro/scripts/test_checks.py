@@ -24,8 +24,7 @@ RULE_ORDER = [
     "motion",
     "toc-side",
     "banned",
-    "dot-line",
-    "dot-travel",
+    "motion-stop",
     "svg-cross",
     "svg-text",
     "fig-role",
@@ -47,10 +46,6 @@ EVERY_RULE_HTML = page(
     <p><dfn>node</dfn>、<dfn>topic</dfn>、<dfn>message</dfn>、<dfn>callback</dfn> を定義する。公式の正本を見る。</p>
     <pre><code>step.run("load")</code></pre>
     <table><tr><td>a</td></tr></table>
-    <div class="row1"><span class="dot1"></span><div class="box">event</div><div class="box">trigger</div></div>
-    <div class="row2">
-      <div class="box">event</div><div class="link2"><span class="dot2"></span></div><div class="box">trigger</div>
-    </div>
     <svg viewBox="0 0 300 80">
       <path class="flow" d="M10 30 L240 30"/>
       <rect x="20" y="10" width="80" height="40"/><rect x="160" y="10" width="80" height="40"/>
@@ -69,16 +64,8 @@ EVERY_RULE_HTML = page(
     """,
     """
     .box { border: 1px solid #111; }
-    .row1 { position: relative; }
-    .dot1 { position: absolute; animation: move 1s linear infinite; }
-    @keyframes move { from { left: 0; } to { left: 80px; } }
-    .row2 { position: relative; display: flex; }
-    .row2::before { content: ""; position: absolute; left: 8px; right: 8px; top: 50%; height: 2px; }
-    .link2 { position: relative; width: 40px; }
-    .dot2 { position: absolute; animation: hop 1s linear infinite; }
-    @keyframes hop { from { left: 0; } to { left: 20px; } }
     .flow { animation: dash 1s linear infinite; }
-    @keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+    @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     svg text { font-size: 12px; }
     """,
     motion=False,

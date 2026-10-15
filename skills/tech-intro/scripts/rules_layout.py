@@ -112,7 +112,7 @@ def check_motion(sheet: Sheet, findings: list[str]) -> None:
             or "display:none" in compact
         ):
             return
-    findings.append("motion: prefers-reduced-motion: reduce で点の動きが止まらない")
+    findings.append("motion: prefers-reduced-motion: reduce でアニメーションが止まらない")
 
 
 def find_toc(root: Node) -> Node | None:
