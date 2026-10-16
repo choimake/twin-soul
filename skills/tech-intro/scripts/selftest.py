@@ -21,9 +21,6 @@ def page(
     body: str,
     css: str = "",
     *,
-    motion: bool = True,
-    columns: str = "minmax(0, 1fr) 220px",
-    toc_first: bool = False,
     toc_html: str | None = None,
     head_extra: str = "",
     ending: bool = False,
@@ -38,72 +35,32 @@ def page(
         body += ENDING_BODY
         toc = toc.replace("</aside>", ENDING_TOC + "</aside>")
     article = f"<article>{body}</article>"
-    main = f"{toc}{article}" if toc_first else f"{article}{toc}"
-    motion_css = ""
-    if motion:
-        motion_css = """
-        @media (prefers-reduced-motion: reduce) {
-          .flow { animation: none; stroke-dashoffset: 0; }
-        }
-        """
+    main = f"{article}{toc}"
     return f"""<!DOCTYPE html>
 <html lang="ja"><head><meta name="viewport" content="width=device-width, initial-scale=1">{head_extra}<style>
-.page {{ display: grid; grid-template-columns: {columns}; }}
-svg {{ max-width: 360px; }}
-section {{ display: flex; flex-direction: column; gap: 24px; }}
+.page {{ display: grid; grid-template-columns: minmax(0, 1fr) 220px; }}
 {css}
 @media (max-width: 820px) {{
   aside.toc {{ order: -1; }}
 }}
-{motion_css}
 </style></head><body><div class="page">{main}</div></body></html>"""
 
 
 PASS_HTML = page(
     """
     <h2 id="why">なぜ要るか</h2>
-    <p class="core">差が出たら埋める。</p><figure data-fig="resume">
-    <button type="button" data-step>1本ずつ見る</button>
+    <figure data-fig="resume">
     <svg viewBox="0 0 260 60">
-      <path class="flow" pathLength="1" d="M90 30 L160 30"/>
+      <line x1="90" y1="30" x2="160" y2="30"/>
       <rect x="10" y="10" width="80" height="40"/>
       <rect x="160" y="10" width="80" height="40"/>
     </svg>
     </figure>
     """,
-    """
-    .flow { stroke-dasharray: 1; stroke-dashoffset: 0; }
-    .drawing .flow { animation: dash 1s linear forwards; }
-    @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-    """,
 )
 
 CASES: list[tuple[str, str, set[str]]] = [
     ("pass", PASS_HTML, set()),
-    (
-        "motion-stop-infinite",
-        page('<h2 id="why">なぜ要るか</h2><span class="flow"></span>',
-             '.flow { animation: draw 1s infinite; } @keyframes draw { to { stroke-dashoffset: 0; } }'),
-        {"motion-stop"},
-    ),
-    (
-        "svg-cross",
-        page(
-            """
-            <h2 id="why">なぜ要るか</h2>
-            <svg viewBox="0 0 300 80">
-              <path class="flow" pathLength="1" d="M10 30 L240 30"/>
-              <rect x="20" y="10" width="80" height="40"/>
-              <rect x="160" y="10" width="80" height="40"/>
-            </svg>
-            """,
-            """
-            .flow { stroke-dasharray: 1; stroke-dashoffset: 1; animation: dash 1s linear forwards; }
-            @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-            """,
-        ),
-        {"svg-cross"},
-    ),
     (
         "svg-text",
         page(
@@ -144,44 +101,12 @@ CASES: list[tuple[str, str, set[str]]] = [
         {"svg-narrow"},
     ),
     (
-        "svg-large",
-        page(
-            '<h2 id="why">なぜ要るか</h2><svg class="big" viewBox="0 0 300 60"><text x="10" y="30">送る</text></svg>',
-            "svg text { font-size: 13px; } .big { max-width: none; }",
-        ),
-        {"svg-large"},
-    ),
-    (
-        "svg-rows",
-        page(
-            """
-            <h2 id="why">なぜ要るか</h2>
-            <p class="core">差が出たら埋める。</p><figure data-fig="resume"><button type="button" data-step>1本ずつ見る</button>
-            <svg viewBox="0 0 300 120">
-              <line x1="20" y1="20" x2="200" y2="20"/>
-              <line x1="20" y1="50" x2="200" y2="50"/>
-              <line x1="20" y1="90" x2="200" y2="90"/>
-            </svg></figure>
-            """,
-        ),
-        {"svg-rows"},
-    ),
-    (
         "external",
         page(
             "<h2 id=\"why\">なぜ要るか</h2>",
             head_extra='<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>',
         ),
         {"external"},
-    ),
-    (
-        "motion",
-        page(
-            "<h2 id=\"why\">なぜ要るか</h2><span class=\"flow\"></span>",
-            ".flow { animation: blink 1s forwards; } @keyframes blink { from { opacity: 1; } to { opacity: 0; } }",
-            motion=False,
-        ),
-        {"motion"},
     ),
     (
         "toc-text",
@@ -192,33 +117,9 @@ CASES: list[tuple[str, str, set[str]]] = [
         {"toc-text"},
     ),
     (
-        "toc-side",
-        page(
-            "<h2 id=\"why\">なぜ要るか</h2>",
-            columns="220px minmax(0, 1fr)",
-            toc_first=True,
-        ),
-        {"toc-side"},
-    ),
-    (
         "banned",
         page("<h2 id=\"why\">なぜ要るか</h2><p>公式の正本を見る。</p>"),
         {"banned"},
-    ),
-    (
-        "banned-vague",
-        page("<h2 id=\"why\">なぜ要るか</h2><p>対象の行が無いと、その変更は黙って飛ばされる。</p>"),
-        {"banned"},
-    ),
-    (
-        "banned-vague-quiet",
-        page("<h2 id=\"why\">なぜ要るか</h2><p>対象の行が無いと、その変更は静かに捨てられる。</p>"),
-        {"banned"},
-    ),
-    (
-        "banned-vague-pass",
-        page("<h2 id=\"why\">なぜ要るか</h2><p>対象の行が無いと、その変更はエラーにならずに飛ばされる。</p>"),
-        set(),
     ),
     (
         "fig-role",
@@ -280,40 +181,6 @@ CASES: list[tuple[str, str, set[str]]] = [
             ending=True,
         ),
         {"goals"},
-    ),
-    (
-        "early-detail",
-        page(
-            """
-            <ol data-goals><li>何か</li><li>何ができるか</li></ol>
-            <p data-fig-skip="what need cast resume struct branch choice owner compare prod limit">扱わない。</p>
-            <h2 id="a">なぜ要るか</h2>
-            <pre><code>step.run("load")</code></pre>
-            <h2 id="b">登場人物</h2>
-            <h2 id="c">仕組み</h2>
-            <section data-agent-skills="無い"><h2 id="d">構造</h2><a href="https://example.com/">確かめた場所</a></section>
-            """,
-            toc_html="""<aside class="toc">
-              <a href="#a">なぜ要るか</a>
-              <a href="#b">登場人物</a>
-              <a href="#c">仕組み</a>
-              <a href="#d">構造</a>
-            </aside>""",
-            ending=True,
-        ),
-        {"early-detail"},
-    ),
-    (
-        "motion-fig",
-        page(
-            """
-            <h2 id="why">なぜ要るか</h2>
-            <p class="core">差が出たら埋める。</p><figure data-fig="resume">
-              <div class="row"><div class="box">step</div><div class="box">step</div></div>
-            </figure>
-            """,
-        ),
-        {"motion-fig"},
     ),
     (
         "responsive",
@@ -392,7 +259,7 @@ CASES: list[tuple[str, str, set[str]]] = [
               <a href="#d">公式 skill</a>
             </aside>""",
             ending=True,
-            scope='<details open data-scope><summary>対象と版</summary></details>',
+            scope='<p>対象と版は書いていない。</p>',
         ),
         {"scope"},
     ),

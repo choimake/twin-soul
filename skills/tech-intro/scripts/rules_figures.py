@@ -1,53 +1,12 @@
-"""図のルール（SVG の線、文字、配置と大きさ、図の役、動く図と無限の繰り返し）。"""
+"""図のルール（SVG の文字、配置と大きさ、図の役）。"""
 
 from __future__ import annotations
 
 import re
 
-from css import Sheet, animation_names, px_value, strip_comments, style_text, styles_for
-from geometry import densify, path_points, point_inside, rect_interior, text_width
+from css import Sheet, styles_for
+from geometry import densify, path_points, point_inside, text_width
 from htmldoc import Node, ancestors, visible_text, walk
-
-
-def check_motion_stop(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    sources = [style_text(root)]
-    sources.extend(node.attrs["style"] for node in walk(root) if "style" in node.attrs)
-    for source in sources:
-        values = re.findall(
-            r"(?:^|[;{}])\s*animation(?:-iteration-count)?\s*:\s*([^;{}]*)",
-            strip_comments(source), flags=re.I,
-        )
-        for value in values:
-            if re.search(r"(?<![\w-])infinite(?![\w-])", value, flags=re.I):
-                findings.append("motion-stop: infinite は使わない。アニメーションは繰り返さない")
-
-
-def check_svg(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    for svg in walk(root):
-        if svg.tag != "svg":
-            continue
-        interiors = [rect for node in walk(svg) if node.tag == "rect" and (rect := rect_interior(node))]
-        for path in walk(svg):
-            if path.tag != "path":
-                continue
-            names = animation_names(styles_for(path, sheet.rules))
-            if not names:
-                continue
-            d = path.attrs.get("d", "")
-            try:
-                points = path_points(d)
-            except ValueError as error:
-                findings.append(
-                    f"svg-cross: 動く線を検査できない（{error}）。直線か三次曲線だけにする"
-                )
-                continue
-            if any(
-                point_inside(x, y, interior) for x, y in points for interior in interiors
-            ):
-                findings.append(
-                    "svg-cross: 動く線が箱の面を横切っている。"
-                    "線は箱の外側で止める"
-                )
 
 
 def font_px(node: Node, sheet: Sheet) -> float | None:
@@ -106,9 +65,6 @@ def check_svg_text(root: Node, sheet: Sheet, findings: list[str]) -> None:
 # 幅 375px のページで図に使える幅（左右の余白と図の枠の内側を除く）と、読める文字の下限
 NARROW_FIG_PX = 320
 MIN_TEXT_PX = 11
-# デスクトップで本文の列の幅（max-width が無い図はここまで広がる）と、本文の文字の大きさ
-WIDE_FIG_PX = 760
-MAX_TEXT_PX = 16
 
 
 def number(node: Node, name: str) -> float | None:
@@ -245,45 +201,6 @@ def view_box_width(svg: Node) -> float | None:
     return frame[2] - frame[0] if frame else None
 
 
-def check_svg_large(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    for svg in walk(root):
-        if svg.tag != "svg" or styles_for(svg, sheet.rules).get("display", "").strip() == "none":
-            continue
-        view_width = view_box_width(svg)
-        sizes = [size for text in walk(svg) if text.tag == "text" and (size := font_px(text, sheet))]
-        if not view_width or not sizes:
-            continue
-        limit = px_value(styles_for(svg, sheet.rules).get("max-width", ""))
-        shown_width = min(limit, WIDE_FIG_PX) if limit else WIDE_FIG_PX
-        shown = max(sizes) * shown_width / view_width
-        if shown > MAX_TEXT_PX + 0.5:
-            findings.append(
-                f"svg-large: デスクトップで図の文字が約 {shown:.1f}px になり、本文より大きい（viewBox の幅 {view_width:g}）。"
-                f"SVG に max-width を付け、文字を {MAX_TEXT_PX}px 以下にする"
-            )
-
-
-def check_svg_rows(root: Node, findings: list[str]) -> None:
-    for figure in walk(root):
-        if figure.attrs.get("data-fig", "").strip() not in MOTION_ROLES:
-            continue
-        rows: set[float] = set()
-        for node in walk(figure):
-            if node.tag not in {"line", "path"} or any(a.tag in {"defs", "marker"} for a in ancestors(node)):
-                continue
-            points = stroke_points(node)
-            if len(points) >= 2 and abs(points[0][1] - points[-1][1]) < 1 and abs(points[0][0] - points[-1][0]) > 20:
-                rows.add(round(points[0][1]))
-        ys = sorted(rows)
-        gaps = [b - a for a, b in zip(ys, ys[1:])]
-        # 矢印の無い行（止まった印など）を挟むなら、間隔は1行の整数倍になる
-        if len(gaps) >= 2 and any(abs(gap - round(gap / min(gaps)) * min(gaps)) > 2 for gap in gaps):
-            findings.append(
-                f"svg-rows: シーケンス図の矢印の間隔がそろっていない（{', '.join(f'{gap:g}' for gap in gaps)}）。"
-                "等しい間隔で並べる。矢印の無い行は1行ぶん空ける"
-            )
-
-
 FIG_ROLES = (
     "what",
     "need",
@@ -309,20 +226,4 @@ def check_fig_roles(root: Node, findings: list[str]) -> None:
                 skipped.add(part)
     missing = [role for role in FIG_ROLES if role not in present and role not in skipped]
     if missing:
-        findings.append("fig-role: 図が無い役がある: " + ", ".join(missing))
-
-
-MOTION_ROLES = ("resume", "branch")
-
-
-def check_motion_figs(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    for node in walk(root):
-        role = node.attrs.get("data-fig", "").strip()
-        if role not in MOTION_ROLES:
-            continue
-        has_step_button = any(
-            descendant.tag == "button" and "data-step" in descendant.attrs
-            for descendant in walk(node)
-        )
-        if not has_step_button:
-            findings.append(f"motion-fig: {role} の図に button[data-step] が無い。図の中に「1本ずつ見る」ボタンを置く")
+        findings.append("fig-role: 図が無い役がある: " + ", ".join(missing) + "。話題が無くて省くなら、data-fig-skip にその役を書く")

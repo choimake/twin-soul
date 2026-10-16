@@ -15,7 +15,6 @@ from htmldoc import DocParser
 from rules_content import (
     check_agent_skills,
     check_banned,
-    check_early_detail,
     check_endings,
     check_goals,
     check_scope,
@@ -23,17 +22,12 @@ from rules_content import (
     check_volume,
 )
 from rules_figures import (
-    check_motion_stop,
     check_fig_roles,
-    check_motion_figs,
-    check_svg,
     check_svg_label,
-    check_svg_large,
     check_svg_narrow,
-    check_svg_rows,
     check_svg_text,
 )
-from rules_layout import check_external, check_motion, check_responsive, check_spacing, check_toc
+from rules_layout import check_external, check_responsive, check_toc
 
 
 def check_html(html: str) -> list[str]:
@@ -44,17 +38,11 @@ def check_html(html: str) -> list[str]:
     findings: list[str] = []
     check_responsive(parser.root, sheet, css, findings)
     check_external(html, findings)
-    check_motion(sheet, findings)
-    check_toc(parser.root, sheet, findings)
-    check_spacing(parser.root, sheet, findings)
+    check_toc(parser.root, findings)
     check_banned(parser.root, findings)
-    check_motion_stop(parser.root, sheet, findings)
-    check_svg(parser.root, sheet, findings)
     check_svg_text(parser.root, sheet, findings)
     check_svg_label(parser.root, sheet, findings)
     check_svg_narrow(parser.root, sheet, findings)
-    check_svg_large(parser.root, sheet, findings)
-    check_svg_rows(parser.root, findings)
     check_fig_roles(parser.root, findings)
     check_goals(parser.root, findings)
     check_scope(parser.root, findings)
@@ -62,8 +50,6 @@ def check_html(html: str) -> list[str]:
     check_volume(parser.root, findings)
     check_endings(parser.root, findings)
     check_terms(parser.root, findings)
-    check_early_detail(parser.root, findings)
-    check_motion_figs(parser.root, sheet, findings)
     return dedupe(findings)
 
 

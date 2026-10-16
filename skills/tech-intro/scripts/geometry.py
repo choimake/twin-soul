@@ -5,8 +5,6 @@ from __future__ import annotations
 import re
 import unicodedata
 
-from htmldoc import Node
-
 
 NUMBER_RE = re.compile(r"[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?")
 PATH_TOKEN_RE = re.compile(
@@ -152,20 +150,6 @@ def densify(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
             dense.append((x1 + (x2 - x1) * t, y1 + (y2 - y1) * t))
     dense.append(points[-1])
     return dense
-
-
-def rect_interior(node: Node) -> tuple[float, float, float, float] | None:
-    try:
-        x = float(node.attrs.get("x") or 0)
-        y = float(node.attrs.get("y") or 0)
-        width = float(node.attrs.get("width") or 0)
-        height = float(node.attrs.get("height") or 0)
-    except ValueError:
-        return None
-    inset = min(4.0, width * 0.2, height * 0.2)
-    if width <= inset * 2 or height <= inset * 2:
-        return None
-    return (x + inset, y + inset, x + width - inset, y + height - inset)
 
 
 def point_inside(x: float, y: float, interior: tuple[float, float, float, float]) -> bool:

@@ -1,10 +1,10 @@
-"""ページの枠のルール（狭い画面、外部読み込み、動きの停止、目次）。"""
+"""ページの枠のルール（狭い画面、外部読み込み、目次）。"""
 
 from __future__ import annotations
 
 import re
 
-from css import Sheet, animation_names, first_token, px_value, split_tracks, strip_comments, styles_for
+from css import Sheet, first_token, px_value, strip_comments, styles_for
 from htmldoc import Node, ancestors, contains, norm_heading, visible_text, walk
 
 
@@ -92,29 +92,6 @@ def check_external(html: str, findings: list[str]) -> None:
         findings.append("external: Mermaid がある")
 
 
-def check_motion(sheet: Sheet, findings: list[str]) -> None:
-    animated = False
-    for rule in sheet.rules:
-        if animation_names(rule.decls):
-            animated = True
-            break
-    if not animated:
-        return
-    if not sheet.motion_bodies:
-        findings.append("motion: 動きがあるのに prefers-reduced-motion: reduce が無い")
-        return
-    for body in sheet.motion_bodies:
-        compact = re.sub(r"\s+", "", body.lower())
-        if (
-            "animation:none" in compact
-            or "animation-name:none" in compact
-            or "animation-play-state:paused" in compact
-            or "display:none" in compact
-        ):
-            return
-    findings.append("motion: prefers-reduced-motion: reduce でアニメーションが止まらない")
-
-
 def find_toc(root: Node) -> Node | None:
     fallback = None
     for node in walk(root):
@@ -125,7 +102,7 @@ def find_toc(root: Node) -> Node | None:
     return fallback
 
 
-def check_toc(root: Node, sheet: Sheet, findings: list[str]) -> None:
+def check_toc(root: Node, findings: list[str]) -> None:
     toc = find_toc(root)
     headings = [
         norm_heading(visible_text(node))
@@ -139,51 +116,3 @@ def check_toc(root: Node, sheet: Sheet, findings: list[str]) -> None:
     links = [norm_heading(visible_text(node)) for node in walk(toc) if node.tag == "a"]
     if links != headings:
         findings.append(f"toc-text: 目次と見出しが違う。目次={links} 見出し={headings}")
-    check_toc_side(toc, sheet, findings)
-
-
-def check_toc_side(toc: Node, sheet: Sheet, findings: list[str]) -> None:
-    parent = toc.parent
-    if parent is None:
-        findings.append("toc-side: 目次の親が無い")
-        return
-    parent_style = styles_for(parent, sheet.rules)
-    if parent_style.get("display") != "grid":
-        findings.append("toc-side: 目次の親が横並びの grid でない")
-        return
-    tracks = split_tracks(parent_style.get("grid-template-columns", ""))
-    if len(tracks) < 2:
-        findings.append("toc-side: 目次を右に分ける列が無い")
-        return
-    order = styles_for(toc, sheet.rules).get("order", "0").strip()
-    if re.match(r"^-\d", order):
-        findings.append("toc-side: デスクトップで目次が本文より前に出る")
-        return
-    children = parent.elements()
-    if toc not in children:
-        findings.append("toc-side: 目次が grid の直下に無い")
-        return
-    index = children.index(toc)
-    grid_column = styles_for(toc, sheet.rules).get("grid-column", "")
-    on_last = re.match(r"^(-?\d+)", grid_column.strip())
-    if on_last and int(on_last.group(1)) in {len(tracks), -1}:
-        return
-    if index != len(children) - 1 or index == 0:
-        findings.append("toc-side: 目次が右の列に無い")
-
-
-def check_spacing(root: Node, sheet: Sheet, findings: list[str]) -> None:
-    sections = [node for node in walk(root) if node.tag == "section"]
-    if sections:
-        decls = styles_for(sections[0], sheet.rules)
-        if first_token(decls.get("display", "")) not in {"flex", "grid"} or "gap" not in decls:
-            findings.append("spacing: 章（section）の塊を gap で空けていない。「HTML」の余白の CSS を使う")
-    if any(visible_text(node).strip().startswith("核心の一文") for node in walk(root) if node.tag in {"p", "div", "strong", "b"}):
-        findings.append("spacing: 「核心の一文」という文字を書いている。p.core に文だけを書く")
-    for figure in walk(root):
-        if figure.tag != "figure" or figure.attrs.get("data-fig", "").strip() != "resume":
-            continue
-        chapter = next((node for node in ancestors(figure) if node.tag == "section"), root)
-        cores = [node for node in walk(chapter) if node.tag == "p" and "core" in node.classes]
-        if len(cores) != 1:
-            findings.append(f"spacing: resume の図の章に p.core が {len(cores)} 個ある。核心の一文を1つ置く")

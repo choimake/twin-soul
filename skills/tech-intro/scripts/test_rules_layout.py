@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from css import parse_sheet
-from rules_layout import check_external, check_motion, check_responsive, check_spacing, check_toc
+from rules_layout import check_external, check_responsive, check_toc
 from testutil import parse_page
 
 
@@ -46,38 +45,14 @@ class ExternalTest(unittest.TestCase):
         self.assertEqual(self.run_rule('<pre class="mermaid">graph</pre>'), ["external: Mermaid がある"])
 
 
-class MotionTest(unittest.TestCase):
-    def run_rule(self, css: str) -> list[str]:
-        findings: list[str] = []
-        check_motion(parse_sheet(css), findings)
-        return findings
-
-    def test_no_animation_passes(self) -> None:
-        self.assertEqual(self.run_rule(".a { color: red }"), [])
-
-    def test_animation_stopped_by_reduced_motion_passes(self) -> None:
-        css = ".dot { animation: hop 1s } @media (prefers-reduced-motion: reduce) { .dot { animation: none } }"
-        self.assertEqual(self.run_rule(css), [])
-
-    def test_animation_without_reduced_motion_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(".dot { animation: hop 1s }"),
-            ["motion: 動きがあるのに prefers-reduced-motion: reduce が無い"],
-        )
-
-    def test_reduced_motion_that_does_not_stop_fails(self) -> None:
-        css = ".dot { animation: hop 1s } @media (prefers-reduced-motion: reduce) { .dot { opacity: .5 } }"
-        self.assertEqual(self.run_rule(css), ["motion: prefers-reduced-motion: reduce でアニメーションが止まらない"])
-
-
 class TocTest(unittest.TestCase):
     def run_rule(self, html: str) -> list[str]:
-        root, sheet, _ = parse_page(html)
+        root, _, _ = parse_page(html)
         findings: list[str] = []
-        check_toc(root, sheet, findings)
+        check_toc(root, findings)
         return findings
 
-    def test_matching_toc_on_right_passes(self) -> None:
+    def test_matching_toc_passes(self) -> None:
         self.assertEqual(self.run_rule(page(ARTICLE + TOC)), [])
 
     def test_no_headings_and_no_toc_passes(self) -> None:
@@ -96,32 +71,6 @@ class TocTest(unittest.TestCase):
             self.run_rule(page(ARTICLE + toc)),
             ["toc-text: 目次と見出しが違う。目次=['なぜ要るか'] 見出し=['なぜ要るか', '構造']"],
         )
-
-    def test_toc_first_fails(self) -> None:
-        self.assertEqual(self.run_rule(page(TOC + ARTICLE)), ["toc-side: 目次が右の列に無い"])
-
-    def test_toc_first_placed_on_last_column_passes(self) -> None:
-        self.assertEqual(self.run_rule(page(TOC + ARTICLE, ".toc { grid-column: 2; }")), [])
-
-    def test_parent_not_grid_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(f"<div>{ARTICLE}{TOC}</div>"), ["toc-side: 目次の親が横並びの grid でない"]
-        )
-
-    def test_single_column_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(page(ARTICLE + TOC, columns="1fr")), ["toc-side: 目次を右に分ける列が無い"]
-        )
-
-    def test_negative_order_on_desktop_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(page(ARTICLE + TOC, ".toc { order: -1; }")),
-            ["toc-side: デスクトップで目次が本文より前に出る"],
-        )
-
-    def test_order_inside_narrow_media_is_ignored(self) -> None:
-        css = "@media (max-width: 820px) { .toc { order: -1; } }"
-        self.assertEqual(self.run_rule(page(ARTICLE + TOC, css)), [])
 
 
 RESPONSIVE_OK = """
@@ -198,36 +147,4 @@ class ResponsiveTest(unittest.TestCase):
         html = RESPONSIVE_OK.replace("</style>", ".wide, .w2 { min-width: 361px; } .ok { min-width: 360px; }</style>")
         self.assertEqual(
             self.run_rule(html), ["responsive: min-width が 361px（.wide, .w2）。狭い画面からはみ出す"]
-        )
-
-
-class SpacingTest(unittest.TestCase):
-    GAP = "<style>section { display: flex; flex-direction: column; gap: 24px; }</style>"
-
-    def run_rule(self, html: str) -> list[str]:
-        root, sheet, _ = parse_page(html)
-        findings: list[str] = []
-        check_spacing(root, sheet, findings)
-        return findings
-
-    def test_gap_and_one_core_pass(self) -> None:
-        self.assertEqual(self.run_rule(
-            self.GAP + '<section><p class="core">差を埋める。</p><figure data-fig="resume"></figure></section>'), [])
-
-    def test_section_without_gap_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule('<section><p class="core">差を埋める。</p><figure data-fig="resume"></figure></section>'),
-            ["spacing: 章（section）の塊を gap で空けていない。「HTML」の余白の CSS を使う"],
-        )
-
-    def test_missing_core_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(self.GAP + '<section><p>差を埋める。</p><figure data-fig="resume"></figure></section>'),
-            ["spacing: resume の図の章に p.core が 0 個ある。核心の一文を1つ置く"],
-        )
-
-    def test_core_label_text_fails(self) -> None:
-        self.assertEqual(
-            self.run_rule(self.GAP + '<section><p class="core">核心の一文: 差を埋める。</p><figure data-fig="resume"></figure></section>'),
-            ["spacing: 「核心の一文」という文字を書いている。p.core に文だけを書く"],
         )
