@@ -23,10 +23,15 @@ RULE_ORDER = [
     "external",
     "motion",
     "toc-side",
+    "spacing",
     "banned",
     "motion-stop",
     "svg-cross",
     "svg-text",
+    "svg-label",
+    "svg-narrow",
+    "svg-large",
+    "svg-rows",
     "fig-role",
     "goals",
     "scope",
@@ -54,7 +59,15 @@ EVERY_RULE_HTML = page(
       <rect x="20" y="10" width="124" height="52"/>
       <text x="82" y="36" text-anchor="middle">同じプロセス・別プロセス</text>
     </svg>
-    <figure data-fig="resume"><div class="row"><div class="box">step</div><div class="box">step</div></div></figure>
+    <svg viewBox="0 0 300 80">
+      <g><rect x="20" y="10" width="60" height="40"/></g><text x="100" y="30" text-anchor="end">ラベル</text>
+    </svg>
+    <svg viewBox="0 0 700 60"><text x="10" y="30">送る</text></svg>
+    <svg class="big" viewBox="0 0 300 60"><text x="10" y="30">送る</text></svg>
+    <figure data-fig="resume"><div class="row"><div class="box">step</div><div class="box">step</div></div>
+    <svg viewBox="0 0 300 120">
+      <line x1="20" y1="20" x2="200" y2="20"/><line x1="20" y1="50" x2="200" y2="50"/><line x1="20" y1="90" x2="200" y2="90"/>
+    </svg></figure>
     <h2 id="b">登場人物</h2>
     <h2 id="c">送る側と受け取る側を分けて部品を組み合わせるための通信の仕組みである</h2>
     <section data-agent-skills="たぶんある">
@@ -67,6 +80,7 @@ EVERY_RULE_HTML = page(
     .flow { animation: dash 1s linear infinite; }
     @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     svg text { font-size: 12px; }
+    .big { max-width: none; }
     """,
     motion=False,
     columns="220px minmax(0, 1fr)",

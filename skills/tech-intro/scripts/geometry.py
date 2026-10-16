@@ -174,4 +174,4 @@ def point_inside(x: float, y: float, interior: tuple[float, float, float, float]
 
 
 def text_width(text: str, size: float) -> float:
-    return sum(size if unicodedata.east_asian_width(char) in "WF" else size * 0.55 for char in text)
+    return sum(size if unicodedata.east_asian_width(char) in "WF" else size * 0.6 for char in text)

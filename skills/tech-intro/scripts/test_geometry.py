@@ -100,7 +100,7 @@ class RectTest(unittest.TestCase):
 class TextWidthTest(unittest.TestCase):
     def test_wide_chars_are_full_size_and_others_narrow(self) -> None:
         self.assertEqual(text_width("あア", 10), 20)
-        self.assertAlmostEqual(text_width("ab", 10), 11)
+        self.assertAlmostEqual(text_width("ab", 10), 12)
 
     def test_fullwidth_chars_count_as_full_size(self) -> None:
         self.assertEqual(text_width("ＡＢ", 10), 20)

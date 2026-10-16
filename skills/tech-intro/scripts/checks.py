@@ -27,9 +27,13 @@ from rules_figures import (
     check_fig_roles,
     check_motion_figs,
     check_svg,
+    check_svg_label,
+    check_svg_large,
+    check_svg_narrow,
+    check_svg_rows,
     check_svg_text,
 )
-from rules_layout import check_external, check_motion, check_responsive, check_toc
+from rules_layout import check_external, check_motion, check_responsive, check_spacing, check_toc
 
 
 def check_html(html: str) -> list[str]:
@@ -42,10 +46,15 @@ def check_html(html: str) -> list[str]:
     check_external(html, findings)
     check_motion(sheet, findings)
     check_toc(parser.root, sheet, findings)
+    check_spacing(parser.root, sheet, findings)
     check_banned(parser.root, findings)
     check_motion_stop(parser.root, sheet, findings)
     check_svg(parser.root, sheet, findings)
     check_svg_text(parser.root, sheet, findings)
+    check_svg_label(parser.root, sheet, findings)
+    check_svg_narrow(parser.root, sheet, findings)
+    check_svg_large(parser.root, sheet, findings)
+    check_svg_rows(parser.root, findings)
     check_fig_roles(parser.root, findings)
     check_goals(parser.root, findings)
     check_scope(parser.root, findings)

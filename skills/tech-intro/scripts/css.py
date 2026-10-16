@@ -41,6 +41,7 @@ class Sheet:
         self.rules: list[Rule] = []
         self.keyframes: dict[str, list[dict[str, str]]] = {}
         self.motion_bodies: list[str] = []
+        self.narrow_rules: list[Rule] = []
 
 
 def strip_comments(css: str) -> str:
@@ -115,6 +116,10 @@ def consume(prelude: str, body: str, sheet: Sheet) -> None:
             sheet.motion_bodies.append(body)
             return
         if "max-width" in lowered:
+            inner = Sheet()
+            for inner_prelude, inner_body in parse_blocks(body):
+                consume(inner_prelude, inner_body, inner)
+            sheet.narrow_rules.extend(inner.rules)
             return
         for inner_prelude, inner_body in parse_blocks(body):
             consume(inner_prelude, inner_body, sheet)
@@ -173,6 +178,10 @@ def match_compound(node: Node, compound: str) -> bool:
     if compound == "*":
         return True
     rest = compound
+    for name, value in re.findall(r"\[\s*([\w-]+)\s*(?:=\s*[\"']?([^\"'\]]*)[\"']?\s*)?\]", rest):
+        if name not in node.attrs or (value and node.attrs[name] != value):
+            return False
+    rest = re.sub(r"\[[^\]]*\]", "", rest)
     tag_match = re.match(r"^[a-zA-Z][\w-]*", rest)
     if tag_match:
         if node.tag != tag_match.group(0).lower():
