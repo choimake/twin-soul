@@ -49,6 +49,8 @@ def page(
     return f"""<!DOCTYPE html>
 <html lang="ja"><head><meta name="viewport" content="width=device-width, initial-scale=1">{head_extra}<style>
 .page {{ display: grid; grid-template-columns: {columns}; }}
+svg {{ max-width: 360px; }}
+section {{ display: flex; flex-direction: column; gap: 24px; }}
 {css}
 @media (max-width: 820px) {{
   aside.toc {{ order: -1; }}
@@ -60,7 +62,7 @@ def page(
 PASS_HTML = page(
     """
     <h2 id="why">なぜ要るか</h2>
-    <figure data-fig="resume">
+    <p class="core">差が出たら埋める。</p><figure data-fig="resume">
     <button type="button" data-step>1本ずつ見る</button>
     <svg viewBox="0 0 260 60">
       <path class="flow" pathLength="1" d="M90 30 L160 30"/>
@@ -117,6 +119,52 @@ CASES: list[tuple[str, str, set[str]]] = [
             "svg text { font-size: 12px; }",
         ),
         {"svg-text"},
+    ),
+    (
+        "svg-label",
+        page(
+            """
+            <h2 id="why">なぜ要るか</h2>
+            <svg viewBox="0 0 300 80">
+              <g><rect x="20" y="10" width="200" height="60"/><text x="120" y="30" text-anchor="middle">Node</text></g>
+              <g><rect x="40" y="20" width="70" height="40"/></g>
+              <g><rect x="130" y="20" width="70" height="40"/></g>
+            </svg>
+            """,
+            "svg text { font-size: 12px; }",
+        ),
+        {"svg-label"},
+    ),
+    (
+        "svg-narrow",
+        page(
+            '<h2 id="why">なぜ要るか</h2><svg viewBox="0 0 700 60"><text x="10" y="30">送る</text></svg>',
+            "svg text { font-size: 13px; }",
+        ),
+        {"svg-narrow"},
+    ),
+    (
+        "svg-large",
+        page(
+            '<h2 id="why">なぜ要るか</h2><svg class="big" viewBox="0 0 300 60"><text x="10" y="30">送る</text></svg>',
+            "svg text { font-size: 13px; } .big { max-width: none; }",
+        ),
+        {"svg-large"},
+    ),
+    (
+        "svg-rows",
+        page(
+            """
+            <h2 id="why">なぜ要るか</h2>
+            <p class="core">差が出たら埋める。</p><figure data-fig="resume"><button type="button" data-step>1本ずつ見る</button>
+            <svg viewBox="0 0 300 120">
+              <line x1="20" y1="20" x2="200" y2="20"/>
+              <line x1="20" y1="50" x2="200" y2="50"/>
+              <line x1="20" y1="90" x2="200" y2="90"/>
+            </svg></figure>
+            """,
+        ),
+        {"svg-rows"},
     ),
     (
         "external",
@@ -260,7 +308,7 @@ CASES: list[tuple[str, str, set[str]]] = [
         page(
             """
             <h2 id="why">なぜ要るか</h2>
-            <figure data-fig="resume">
+            <p class="core">差が出たら埋める。</p><figure data-fig="resume">
               <div class="row"><div class="box">step</div><div class="box">step</div></div>
             </figure>
             """,

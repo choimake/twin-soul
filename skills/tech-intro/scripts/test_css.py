@@ -55,6 +55,7 @@ class ParseTest(unittest.TestCase):
             """
         )
         self.assertEqual([rule.selectors for rule in sheet.rules], [[".a", ".b"], [".wide"]])
+        self.assertEqual([rule.selectors for rule in sheet.narrow_rules], [[".narrow"]])
         self.assertEqual(sheet.keyframes, {"hop": [{"left": "0"}, {"left": "9px"}]})
         self.assertEqual(len(sheet.motion_bodies), 1)
         self.assertIn("animation: none", sheet.motion_bodies[0])
@@ -79,6 +80,12 @@ class MatchesTest(unittest.TestCase):
         self.assertTrue(matches(self.p, "div#r > p.box"))
         self.assertFalse(matches(self.p, "div#other p"))
         self.assertFalse(matches(self.p, "p.box.missing"))
+
+    def test_attribute(self) -> None:
+        self.assertTrue(matches(self.p, "div[id=r] p"))
+        self.assertTrue(matches(self.p, 'div[id="r"] > p[class]'))
+        self.assertFalse(matches(self.p, "div[id=other] p"))
+        self.assertFalse(matches(self.p, "p[data-fig]"))
 
     def test_pseudo_class_is_ignored_and_pseudo_element_never_matches(self) -> None:
         self.assertTrue(matches(self.p, ".box:hover"))

@@ -170,3 +170,20 @@ def check_toc_side(toc: Node, sheet: Sheet, findings: list[str]) -> None:
         return
     if index != len(children) - 1 or index == 0:
         findings.append("toc-side: 目次が右の列に無い")
+
+
+def check_spacing(root: Node, sheet: Sheet, findings: list[str]) -> None:
+    sections = [node for node in walk(root) if node.tag == "section"]
+    if sections:
+        decls = styles_for(sections[0], sheet.rules)
+        if first_token(decls.get("display", "")) not in {"flex", "grid"} or "gap" not in decls:
+            findings.append("spacing: 章（section）の塊を gap で空けていない。「HTML」の余白の CSS を使う")
+    if any(visible_text(node).strip().startswith("核心の一文") for node in walk(root) if node.tag in {"p", "div", "strong", "b"}):
+        findings.append("spacing: 「核心の一文」という文字を書いている。p.core に文だけを書く")
+    for figure in walk(root):
+        if figure.tag != "figure" or figure.attrs.get("data-fig", "").strip() != "resume":
+            continue
+        chapter = next((node for node in ancestors(figure) if node.tag == "section"), root)
+        cores = [node for node in walk(chapter) if node.tag == "p" and "core" in node.classes]
+        if len(cores) != 1:
+            findings.append(f"spacing: resume の図の章に p.core が {len(cores)} 個ある。核心の一文を1つ置く")

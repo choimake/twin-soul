@@ -5,7 +5,7 @@ from __future__ import annotations
 import unittest
 
 from css import parse_sheet
-from rules_layout import check_external, check_motion, check_responsive, check_toc
+from rules_layout import check_external, check_motion, check_responsive, check_spacing, check_toc
 from testutil import parse_page
 
 
@@ -198,4 +198,36 @@ class ResponsiveTest(unittest.TestCase):
         html = RESPONSIVE_OK.replace("</style>", ".wide, .w2 { min-width: 361px; } .ok { min-width: 360px; }</style>")
         self.assertEqual(
             self.run_rule(html), ["responsive: min-width が 361px（.wide, .w2）。狭い画面からはみ出す"]
+        )
+
+
+class SpacingTest(unittest.TestCase):
+    GAP = "<style>section { display: flex; flex-direction: column; gap: 24px; }</style>"
+
+    def run_rule(self, html: str) -> list[str]:
+        root, sheet, _ = parse_page(html)
+        findings: list[str] = []
+        check_spacing(root, sheet, findings)
+        return findings
+
+    def test_gap_and_one_core_pass(self) -> None:
+        self.assertEqual(self.run_rule(
+            self.GAP + '<section><p class="core">差を埋める。</p><figure data-fig="resume"></figure></section>'), [])
+
+    def test_section_without_gap_fails(self) -> None:
+        self.assertEqual(
+            self.run_rule('<section><p class="core">差を埋める。</p><figure data-fig="resume"></figure></section>'),
+            ["spacing: 章（section）の塊を gap で空けていない。「HTML」の余白の CSS を使う"],
+        )
+
+    def test_missing_core_fails(self) -> None:
+        self.assertEqual(
+            self.run_rule(self.GAP + '<section><p>差を埋める。</p><figure data-fig="resume"></figure></section>'),
+            ["spacing: resume の図の章に p.core が 0 個ある。核心の一文を1つ置く"],
+        )
+
+    def test_core_label_text_fails(self) -> None:
+        self.assertEqual(
+            self.run_rule(self.GAP + '<section><p class="core">核心の一文: 差を埋める。</p><figure data-fig="resume"></figure></section>'),
+            ["spacing: 「核心の一文」という文字を書いている。p.core に文だけを書く"],
         )
