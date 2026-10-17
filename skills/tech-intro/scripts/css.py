@@ -7,27 +7,6 @@ import re
 from htmldoc import Node, visible_text_raw, walk
 
 
-POSITION_PROPS = {"left", "top", "right", "bottom", "offset-distance", "transform"}
-ANIMATION_KEYWORDS = {
-    "none",
-    "linear",
-    "ease",
-    "ease-in",
-    "ease-out",
-    "ease-in-out",
-    "infinite",
-    "forwards",
-    "backwards",
-    "both",
-    "alternate",
-    "reverse",
-    "alternate-reverse",
-    "paused",
-    "running",
-    "normal",
-    "step-start",
-    "step-end",
-}
 
 
 class Rule:
@@ -39,8 +18,6 @@ class Rule:
 class Sheet:
     def __init__(self) -> None:
         self.rules: list[Rule] = []
-        self.keyframes: dict[str, list[dict[str, str]]] = {}
-        self.motion_bodies: list[str] = []
         self.narrow_rules: list[Rule] = []
 
 
@@ -107,14 +84,7 @@ def parse_decls(body: str) -> dict[str, str]:
 
 def consume(prelude: str, body: str, sheet: Sheet) -> None:
     lowered = prelude.strip().lower()
-    if lowered.startswith("@keyframes") or lowered.startswith("@-webkit-keyframes"):
-        name = prelude.split()[1]
-        sheet.keyframes[name] = [parse_decls(step_body) for _, step_body in parse_blocks(body)]
-        return
     if lowered.startswith("@media"):
-        if "prefers-reduced-motion" in lowered:
-            sheet.motion_bodies.append(body)
-            return
         if "max-width" in lowered:
             inner = Sheet()
             for inner_prelude, inner_body in parse_blocks(body):
@@ -239,62 +209,12 @@ def styles_for(node: Node, rules: list[Rule]) -> dict[str, str]:
     return decls
 
 
-def animation_names(decls: dict[str, str]) -> list[str]:
-    if "animation-name" in decls:
-        return [
-            name.strip()
-            for name in decls["animation-name"].split(",")
-            if name.strip() and name.strip() != "none"
-        ]
-    shorthand = decls.get("animation", "")
-    if not shorthand:
-        return []
-    names: list[str] = []
-    for chunk in shorthand.split(","):
-        for token in chunk.split():
-            if token in ANIMATION_KEYWORDS or re.match(r"^-?\d", token):
-                continue
-            if token.endswith("ms") or re.fullmatch(r"\d+(?:\.\d+)?s", token):
-                continue
-            names.append(token)
-            break
-    return [name for name in names if name != "none"]
-
-
-def moves_position(names: list[str], keyframes: dict[str, list[dict[str, str]]]) -> bool:
-    for name in names:
-        for decls in keyframes.get(name, []):
-            if any(prop in POSITION_PROPS for prop in decls):
-                return True
-    return False
-
-
 def style_text(root: Node) -> str:
     chunks = []
     for node in walk(root):
         if node.tag == "style":
             chunks.append(visible_text_raw(node))
     return "\n".join(chunks)
-
-
-def split_tracks(value: str) -> list[str]:
-    tracks: list[str] = []
-    buf: list[str] = []
-    depth = 0
-    for char in value.strip():
-        if char == "(":
-            depth += 1
-        elif char == ")":
-            depth = max(0, depth - 1)
-        if char.isspace() and depth == 0:
-            if buf:
-                tracks.append("".join(buf))
-                buf = []
-            continue
-        buf.append(char)
-    if buf:
-        tracks.append("".join(buf))
-    return tracks
 
 
 def first_token(value: str, default: str = "") -> str:

@@ -4,12 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from geometry import cubic, densify, path_points, point_inside, rect_interior, text_width
-from htmldoc import Node
-
-
-def rect(**attrs: str) -> Node:
-    return Node("rect", attrs, None)
+from geometry import cubic, densify, path_points, point_inside, text_width
 
 
 class PathPointsTest(unittest.TestCase):
@@ -75,21 +70,7 @@ class SampleTest(unittest.TestCase):
         self.assertEqual(densify([(1, 2)]), [(1, 2)])
 
 
-class RectTest(unittest.TestCase):
-    def test_interior_is_inset(self) -> None:
-        self.assertEqual(rect_interior(rect(x="10", y="20", width="80", height="40")), (14, 24, 86, 56))
-
-    def test_small_inset_for_thin_rect(self) -> None:
-        self.assertEqual(rect_interior(rect(width="10", height="10")), (2, 2, 8, 8))
-
-    def test_inset_follows_shorter_side(self) -> None:
-        # inset = min(4, 100 * 0.2, 10 * 0.2) = 2。短い辺の height で決まる
-        self.assertEqual(rect_interior(rect(width="100", height="10")), (2, 2, 98, 8))
-
-    def test_degenerate_or_bad_rect_is_none(self) -> None:
-        self.assertIsNone(rect_interior(rect(width="0", height="10")))
-        self.assertIsNone(rect_interior(rect(width="10%", height="10")))
-
+class PointInsideTest(unittest.TestCase):
     def test_point_inside_is_strict(self) -> None:
         interior = (0.0, 0.0, 10.0, 10.0)
         self.assertTrue(point_inside(5, 5, interior))

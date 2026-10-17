@@ -17,21 +17,15 @@ from selftest import PASS_HTML, page
 SCRIPT = Path(__file__).resolve().parent / "check-html.py"
 
 
-# checks.check_html() が呼ぶ順の id。check_toc は toc-side を出す
+# checks.check_html() が呼ぶ順の id
 RULE_ORDER = [
     "responsive",
     "external",
-    "motion",
-    "toc-side",
-    "spacing",
+    "toc-text",
     "banned",
-    "motion-stop",
-    "svg-cross",
     "svg-text",
     "svg-label",
     "svg-narrow",
-    "svg-large",
-    "svg-rows",
     "fig-role",
     "goals",
     "scope",
@@ -39,8 +33,6 @@ RULE_ORDER = [
     "volume",
     "endings",
     "terms",
-    "early-detail",
-    "motion-fig",
 ]
 
 # どのルールも指摘を 1 件だけ出すページ。呼ぶ順を入れ替えると id の並びが変わる
@@ -52,10 +44,6 @@ EVERY_RULE_HTML = page(
     <pre><code>step.run("load")</code></pre>
     <table><tr><td>a</td></tr></table>
     <svg viewBox="0 0 300 80">
-      <path class="flow" d="M10 30 L240 30"/>
-      <rect x="20" y="10" width="80" height="40"/><rect x="160" y="10" width="80" height="40"/>
-    </svg>
-    <svg viewBox="0 0 300 80">
       <rect x="20" y="10" width="124" height="52"/>
       <text x="82" y="36" text-anchor="middle">同じプロセス・別プロセス</text>
     </svg>
@@ -63,11 +51,6 @@ EVERY_RULE_HTML = page(
       <g><rect x="20" y="10" width="60" height="40"/></g><text x="100" y="30" text-anchor="end">ラベル</text>
     </svg>
     <svg viewBox="0 0 700 60"><text x="10" y="30">送る</text></svg>
-    <svg class="big" viewBox="0 0 300 60"><text x="10" y="30">送る</text></svg>
-    <figure data-fig="resume"><div class="row"><div class="box">step</div><div class="box">step</div></div>
-    <svg viewBox="0 0 300 120">
-      <line x1="20" y1="20" x2="200" y2="20"/><line x1="20" y1="50" x2="200" y2="50"/><line x1="20" y1="90" x2="200" y2="90"/>
-    </svg></figure>
     <h2 id="b">登場人物</h2>
     <h2 id="c">送る側と受け取る側を分けて部品を組み合わせるための通信の仕組みである</h2>
     <section data-agent-skills="たぶんある">
@@ -77,24 +60,16 @@ EVERY_RULE_HTML = page(
     """,
     """
     .box { border: 1px solid #111; }
-    .flow { animation: dash 1s linear infinite; }
-    @keyframes dash { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
     svg text { font-size: 12px; }
-    .big { max-width: none; }
     """,
-    motion=False,
-    columns="220px minmax(0, 1fr)",
-    toc_first=True,
     toc_html="""<aside class="toc">
       <a href="#a">なぜ要るか</a>
       <a href="#b">登場人物</a>
       <a href="#c">送る側と受け取る側を分けて部品を組み合わせるための通信の仕組みである</a>
-      <a href="#d">公式 skill</a>
       <a href="#x">チェックリスト</a>
       <a href="#y">確かめられなかったこと</a>
     </aside>""",
     head_extra='<script src="x.js"></script>',
-    scope="<details open data-scope><summary>対象と版</summary></details>",
 )
 
 

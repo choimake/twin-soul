@@ -1,4 +1,4 @@
-"""本文のルール（禁止語、goals、scope、量、用語、末尾の章、公式 skill、早すぎる細部）。"""
+"""本文のルール（禁止語、goals、scope、量、用語、末尾の章、公式 skill）。"""
 
 from __future__ import annotations
 
@@ -7,40 +7,9 @@ import re
 from htmldoc import Node, Text, norm_heading, visible_text, walk
 
 
-BANNED_PHRASES = (
-    "正本",
-    "日本語の公式ページは見つからなかった",
-    "日本語の公式ドキュメントは見つからなかった",
-    "日本語の公式ページは無い",
-    "日本語版は見つからなかった",
-)
-VAGUE_PHRASES = ("黙って", "静かに")
-
-
 def check_banned(root: Node, findings: list[str]) -> None:
-    text = visible_text(root)
-    for phrase in BANNED_PHRASES:
-        if phrase in text:
-            findings.append(f"banned: 「{phrase}」がある")
-    for phrase in VAGUE_PHRASES:
-        if phrase in text:
-            findings.append(
-                f"banned: 「{phrase}」がある。エラーになるか、ログが出るかを公式で確かめた範囲で書く"
-                "（例: 「エラーにならずに飛ばされる」「警告をログに出して飛ばされる」）"
-            )
-    if "§" in text:
-        findings.append("banned: § がある。章番号は「4章」「7章の3」と書く")
-
-
-def check_early_detail(root: Node, findings: list[str]) -> None:
-    nodes = list(walk(root))
-    headings = [index for index, node in enumerate(nodes) if node.tag == "h2"]
-    if len(headings) < 4:
-        return
-    for node in nodes[headings[0] : headings[2]]:
-        if node.tag in {"pre", "code"}:
-            findings.append("early-detail: 1章と2章にコードがある。細部は形と一例のあとに出す")
-            return
+    if "正本" in visible_text(root):
+        findings.append("banned: 「正本」がある")
 
 
 def check_goals(root: Node, findings: list[str]) -> None:
@@ -70,12 +39,7 @@ def check_scope(root: Node, findings: list[str]) -> None:
     if not marked:
         findings.append("scope: 冒頭に、対象・版・確認日・扱わないものの注記（data-scope）が無い")
         return
-    node = marked[0]
-    if node.tag != "details":
-        findings.append("scope: 対象と版の注記は details で折りたたむ")
-    elif "open" in node.attrs:
-        findings.append("scope: 対象と版の注記は閉じておく（open を付けない）")
-    if nodes.index(node) > nodes.index(headings[0]):
+    if nodes.index(marked[0]) > nodes.index(headings[0]):
         findings.append("scope: 対象と版の注記が最初の章より後にある")
 
 

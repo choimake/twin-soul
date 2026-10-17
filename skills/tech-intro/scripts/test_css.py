@@ -5,16 +5,13 @@ from __future__ import annotations
 import unittest
 
 from css import (
-    animation_names,
     first_token,
     matches,
-    moves_position,
     parse_blocks,
     parse_decls,
     parse_sheet,
     px_value,
     split_csv,
-    split_tracks,
     strip_comments,
     style_text,
     styles_for,
@@ -42,13 +39,11 @@ class ParseTest(unittest.TestCase):
             {"color": "Red", "background": "url(a:b)"},
         )
 
-    def test_parse_sheet_sorts_rules_keyframes_and_motion(self) -> None:
+    def test_parse_sheet_sorts_rules_and_narrow_media(self) -> None:
         sheet = parse_sheet(
             """
             /* .gone { x: 1 } */
             .a, .b { color: red; }
-            @keyframes hop { from { left: 0; } to { left: 9px; } }
-            @media (prefers-reduced-motion: reduce) { .a { animation: none; } }
             @media (max-width: 600px) { .narrow { color: blue; } }
             @media (min-width: 900px) { .wide { color: green; } }
             @font-face { font-family: x; }
@@ -56,9 +51,6 @@ class ParseTest(unittest.TestCase):
         )
         self.assertEqual([rule.selectors for rule in sheet.rules], [[".a", ".b"], [".wide"]])
         self.assertEqual([rule.selectors for rule in sheet.narrow_rules], [[".narrow"]])
-        self.assertEqual(sheet.keyframes, {"hop": [{"left": "0"}, {"left": "9px"}]})
-        self.assertEqual(len(sheet.motion_bodies), 1)
-        self.assertIn("animation: none", sheet.motion_bodies[0])
 
     def test_style_text_joins_style_elements(self) -> None:
         root = parse("<style>.a{}</style><p>x</p><style>.b{}</style>")
@@ -106,28 +98,7 @@ class MatchesTest(unittest.TestCase):
         self.assertEqual(styles_for(find(root, "p"), sheet.rules), {"color": "blue", "width": "2px"})
 
 
-class AnimationTest(unittest.TestCase):
-    def test_animation_name_property(self) -> None:
-        self.assertEqual(animation_names({"animation-name": "a, none, b"}), ["a", "b"])
-
-    def test_shorthand_skips_durations_and_keywords(self) -> None:
-        decls = {"animation": "1s ease-in infinite hop, 200ms linear 0.5s dash"}
-        self.assertEqual(animation_names(decls), ["hop", "dash"])
-
-    def test_none_and_missing(self) -> None:
-        self.assertEqual(animation_names({"animation": "none"}), [])
-        self.assertEqual(animation_names({}), [])
-
-    def test_moves_position_only_for_position_props(self) -> None:
-        keyframes = {"hop": [{"left": "0"}], "fade": [{"opacity": "0"}]}
-        self.assertTrue(moves_position(["fade", "hop"], keyframes))
-        self.assertFalse(moves_position(["fade", "missing"], keyframes))
-
-
 class ValueTest(unittest.TestCase):
-    def test_split_tracks_keeps_functions_whole(self) -> None:
-        self.assertEqual(split_tracks(" minmax(0, 1fr)  220px "), ["minmax(0, 1fr)", "220px"])
-
     def test_first_token(self) -> None:
         self.assertEqual(first_token("absolute !important"), "absolute")
         self.assertEqual(first_token("  ", "static"), "static")

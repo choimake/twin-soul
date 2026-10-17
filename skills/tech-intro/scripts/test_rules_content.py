@@ -10,7 +10,6 @@ from rules_content import (
     chapter_prose,
     check_agent_skills,
     check_banned,
-    check_early_detail,
     check_endings,
     check_goals,
     check_scope,
@@ -44,7 +43,6 @@ class PageTest(unittest.TestCase):
     def test_base_page_passes_every_rule(self) -> None:
         for rule in (
             check_banned,
-            check_early_detail,
             check_goals,
             check_scope,
             check_volume,
@@ -57,7 +55,7 @@ class PageTest(unittest.TestCase):
 
     def test_short_page_skips_chapter_rules(self) -> None:
         short = "<h2>a</h2><h2>b</h2><h2>c</h2><pre>x</pre>"
-        for rule in (check_early_detail, check_goals, check_scope, check_volume, check_endings, check_terms, check_agent_skills):
+        for rule in (check_goals, check_scope, check_volume, check_endings, check_terms, check_agent_skills):
             with self.subTest(rule=rule.__name__):
                 self.assertEqual(run_rule(rule, short), [])
 
@@ -65,14 +63,9 @@ class PageTest(unittest.TestCase):
 class BannedTest(unittest.TestCase):
     def test_banned_phrases(self) -> None:
         self.assertEqual(
-            run_rule(check_banned, "<p>公式の正本を見る。§4 を読む。</p>"),
-            ["banned: 「正本」がある", "banned: § がある。章番号は「4章」「7章の3」と書く"],
+            run_rule(check_banned, "<p>公式の正本を見る。</p>"),
+            ["banned: 「正本」がある"],
         )
-
-    def test_vague_phrase(self) -> None:
-        findings = run_rule(check_banned, "<p>変更は静かに捨てられる。</p>")
-        self.assertEqual(len(findings), 1)
-        self.assertTrue(findings[0].startswith("banned: 「静かに」がある。エラーになるか"))
 
     def test_phrase_in_script_is_ignored(self) -> None:
         self.assertEqual(run_rule(check_banned, "<p>エラーにならずに飛ばされる。</p><script>// 正本</script>"), [])
@@ -98,16 +91,6 @@ class ScopeTest(unittest.TestCase):
         html = PAGE.replace("data-scope", "")
         self.assertEqual(
             run_rule(check_scope, html), ["scope: 冒頭に、対象・版・確認日・扱わないものの注記（data-scope）が無い"]
-        )
-
-    def test_scope_must_be_closed_details(self) -> None:
-        self.assertEqual(
-            run_rule(check_scope, PAGE.replace("<details data-scope>", "<details open data-scope>")),
-            ["scope: 対象と版の注記は閉じておく（open を付けない）"],
-        )
-        self.assertEqual(
-            run_rule(check_scope, PAGE.replace("<details data-scope>", "<div data-scope>")),
-            ["scope: 対象と版の注記は details で折りたたむ"],
         )
 
     def test_scope_after_first_chapter(self) -> None:
@@ -208,12 +191,4 @@ class AgentSkillsTest(unittest.TestCase):
         self.assertEqual(
             run_rule(check_agent_skills, html),
             ["agent-skills: data-agent-skills は章（h2 か h2 を含む要素）に付ける"],
-        )
-
-
-class EarlyDetailTest(unittest.TestCase):
-    def test_code_in_first_two_chapters_fails(self) -> None:
-        html = PAGE.replace("<p>送る側と受け取る側がいる。</p>", "<p><code>x</code></p>")
-        self.assertEqual(
-            run_rule(check_early_detail, html), ["early-detail: 1章と2章にコードがある。細部は形と一例のあとに出す"]
         )
