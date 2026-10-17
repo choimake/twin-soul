@@ -20,7 +20,7 @@ PBI ドキュメントの構造と受入品質を保ち、手戻りを防ぐ最�
 
 1. 対象を特定する。既存 PBI の `@path` があれば優先、無ければ新規作成として扱う。曖昧なら、新規 / 既存レビュー / 保存先のどれかを短く確認し、決まるまで本文生成には入らない。
 2. 出力モードを判定する。`review` / `draft` / `write-file` が明示されていれば優先。未指定なら、既存 PBI パスあり→`review`、無し→`draft`。
-3. [assets/pbi-template.md](assets/pbi-template.md) を起点に、既定では軽量な必須セクションだけを埋める。抽象レイアウトとの対応、Web 検索ロジック、保存先未指定時の扱いは [references/pbi-knowledge.md](references/pbi-knowledge.md) を参照する。
+3. [assets/pbi-template.md](assets/pbi-template.md) を起点に、既定では軽量な必須セクションだけを埋める。最小版の範囲、参照の集め方、保存先の扱いは [references/pbi-knowledge.md](references/pbi-knowledge.md) を参照する。
 4. `references/rules/` 配下のルールをファイル名順で適用し、重大 / 提案 / 任意 で指摘する。
 5. [assets/review-output-template.md](assets/review-output-template.md) の形式でレビュー結果を返す。重大あり→修正を促す、無し→ユーザー承認を求める。
 6. `write-file` では保存先が明示されていればそのパスへ保存する。未指定なら、本文生成前にユーザーへ保存先を確認する（既定ディレクトリは設けず、特定ツール依存のパスも推定しない）。
