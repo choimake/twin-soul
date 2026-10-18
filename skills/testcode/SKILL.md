@@ -23,10 +23,17 @@ Coverage は手段、品質は Mutation Testing・Assertion 強度・Test Smell 
 2. `generate` / `evaluate` / `improve` を判定。未指定なら新規作成→`generate`、品質確認→`evaluate`、改善提案→`improve`。
 3. 対象ファイルと判断に必要な最小限の関連コードだけ読む。公開 API・分岐・例外・既存テストの有無を先に押さえる。
 4. 期待動作とケース一覧を整理してから本文に入る。正常系・境界値・異常系・外部依存・状態遷移を分ける。
-5. `generate`→ケース一覧をもとに、保存できる形のテスト案を作成する。モックばかり・実装の鏡・タイミング依存のテストは足さない。該当するならケースを捨て、テストを増やさない。詳細は [references/test-generation.md](references/test-generation.md) を参照。`evaluate`→実行可否・assertion の質・境界と例外・外部依存・カバレッジだけを追っていないかを確認。`improve`→弱い assertion・surviving mutant・test smell を起点に追加・修正案を返す。
-6. mutation testing や自動評価が未導入でも必要性と導入順を分けて返す。coverage だけで十分と断定しない。
+5. モードごとに次を読んで進める。
+   - `generate`: [references/test-generation.md](references/test-generation.md) を読み、ケース一覧をもとに保存できる形のテスト案を作る。モックばかり・実装の鏡・タイミング依存のテストは足さない。該当するならケースを捨て、テストを増やさない。ケース名を振る舞いの言葉で書くときは [references/tests-express-what.md](references/tests-express-what.md) を読む。
+   - `evaluate`: [references/test-evaluation.md](references/test-evaluation.md) を読み、実行可否・assertion の質・境界と例外・外部依存・カバレッジだけを追っていないかを確認する。
+   - `improve`: [references/test-evaluation.md](references/test-evaluation.md) の「`improve` の進め方」に沿って、弱い assertion・surviving mutant・test smell を起点に追加・修正案を返す。
+6. `evaluate` / `improve` で次に当たるときは、該当する資料も読む。
+   - test smell を探す・直す: [references/test-smells.md](references/test-smells.md)
+   - エラー・ログ・例外メッセージを検証している: [references/message-assertions.md](references/message-assertions.md)
+   - surviving mutant を扱う、または mutation testing を勧めるか決める: [references/mutation-testing.md](references/mutation-testing.md)
+7. mutation testing や自動評価が未導入でも必要性と導入順を分けて返す。coverage だけで十分と断定しない。
 
-詳細判断と各観点の入口は [references/testcode-knowledge.md](references/testcode-knowledge.md) を参照。
+出典を示すときは [references/sources.md](references/sources.md) を使う。
 
 ## 期待する出力
 
