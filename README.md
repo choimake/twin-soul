@@ -141,6 +141,7 @@ mise run ci:apm
 - **gitignore**: `.gitignore` の新規作成、既存の見直し、GitHub 公式 `github/gitignore` からのテンプレート取得、自動推定を扱う
 - **migrations-script**: 一度きりの移行スクリプト、データ修正、バックフィルの計画・レビューを扱う
 - **mise-guide**: mise の tool バージョン管理、環境変数、task ランナー、GitHub Actions 連携の設定・相談を扱う
+- **multi-model-debate**: 1つの議題について、異なるモデルの議論役（2〜3席）に案を出させ、互いの案を批評・改訂させてから、推奨案と代替案にまとめる
 - **pbi**: プロダクトバックログアイテム（PBI）用 Markdown の起案・レビューをし、受入基準・合意可能な検証・スコープを品質ゲートする
 - **planner**: 計画ファイルの品質を確認し、必須項目の強制、AI 自動レビュー、Web 検索統合を扱う
 - **pragmatic-architect**: プロジェクト固有の Core / Details、依存方向、Legacy Baseline を対話で整理し、中核定義の草案を作る（一般的なコードレビュー用ではない）
