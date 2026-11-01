@@ -33,8 +33,9 @@ Accepted DR を直接変更しない。意味が変わるなら新規追加し�
 2. 方針確認・下書き作成・実ファイル更新のいずれかを判定。`review` / `draft` / `write-file` が明示されていれば優先。
 3. 論点に関係する既存 DR だけ確認。全件読了不要。新しい判断を記録するかは、`.decision-records.md` の基準で決める。
 4. 更新依頼なら軽微修正か意味変更かを判定。意味変更なら既存 Accepted DR を直接変更せず新規 DR を追加する。判断全体を変えるなら supersede、一部だけ変えるなら一部変更。一部変更が重なって判断の大半が上書きされるなら、まとめた DR で supersede。意思決定に効いていない値だけの変更なら DR を足さない。Proposed の DR は直接書き換えてよく、ステータスは採否が決まるまで Proposed のまま。
-5. `draft` / `write-file` では [assets/dr-template.md](assets/dr-template.md) を起点に本文を組み立て。章を省略しない。
-6. `review`→判断と進め方のみ返す。`draft`→短い要約後に本文全体を返す。`write-file`→保存先が明示された場合のみ実行。
+5. `draft` / `write-file` の前に、判断の理由（目的・意図を含む）を、決めた人の発言か渡された資料から取り出す。見つからなければ、下書きもファイルも作らず、理由を聞いて終える。エージェントが推測で理由を補わない。理由を `TODO` や空欄のまま書かない。
+6. `draft` / `write-file` では [assets/dr-template.md](assets/dr-template.md) を起点に本文を組み立て。章を省略しない。
+7. `review`→判断と進め方のみ返す。`draft`→短い要約後に本文全体を返す。`write-file`→保存先が明示された場合のみ実行。
 
 詳細判断と応答ルールは [references/dr-knowledge.md](references/dr-knowledge.md) を参照。
 
