@@ -34,5 +34,6 @@
 - [0011-allow-agent-pr-create-on-explicit-request.md](0011-allow-agent-pr-create-on-explicit-request.md) - ユーザーが PR 作成を明示したときはエージェントが `gh pr create` まで実行する判断
 - [0012-require-decision-records-config-file.md](0012-require-decision-records-config-file.md) - `decision-records` skill は利用先のルートの `.decision-records.md` が無ければ動かない判断
 - [0013-use-root-config-file-for-multi-model-debate.md](0013-use-root-config-file-for-multi-model-debate.md) - `multi-model-debate` skill の席とラウンド数の上限を利用先のルートの gitignore した `.multi-model-debate.md` に書く判断
+- [0014-use-yaml-config-and-bundled-runner-for-multi-model-debate.md](0014-use-yaml-config-and-bundled-runner-for-multi-model-debate.md) - `multi-model-debate` の設定を YAML にし、議論役の呼び出しを同梱スクリプトで時間の上限付きにする判断
 
 DR を作るか迷う場合は [../rules/when-to-create-decision-records.md](../rules/when-to-create-decision-records.md) を参照する。

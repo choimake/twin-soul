@@ -4,6 +4,8 @@
 
 採用済み (2026-11-01)
 
+一部変更: [0014-use-yaml-config-and-bundled-runner-for-multi-model-debate.md](0014-use-yaml-config-and-bundled-runner-for-multi-model-debate.md)（設定ファイルの形式と、時間の上限の設定、2026-11-01）
+
 ## 背景
 
 `skills/multi-model-debate` は、議論役の席（CLI とモデルの組）とラウンド数の上限を、skill の中の `config/defaults.yaml` から読んでいた。

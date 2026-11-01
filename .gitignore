@@ -21,7 +21,7 @@ __pycache__/
 .verification-loop/
 
 # multi-model-debate の席の設定（環境ごとに違うので共有しない）
-.multi-model-debate.md
+.multi-model-debate.yaml
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,vim
