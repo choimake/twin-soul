@@ -43,7 +43,7 @@ Terraform のリソース・属性は google provider を対象とする。組�
   - 注意: 上記の禁止制約は 2024-05-03 以降作成の組織では既定で強制。キーを使う場合は 90 日以内にローテーションする。従来の制約 `iam.disableServiceAccountKeyCreation` では HMAC キー作成も禁止される。
   - 公式: <https://docs.cloud.google.com/organization-policy/reference/org-policy-constraints>、[A]
 
-- [ ] **6. デフォルト SA の Editor 権限** — デフォルト SA への `Editor` 自動付与を無効にし、既存の付与も確認する。
+- [ ] **6. デフォルト SA の `Editor`** — デフォルト SA への `Editor` 自動付与を無効にし、既存の付与も確認する。
   - 組織: 不要。組織ありでは `google_org_policy_policy` で `iam.automaticIamGrantsForDefaultServiceAccounts` を確認する。
   - 組織なしの Terraform: `google_project_default_service_accounts` の `action = "DEPRIVILEGE"`。`DELETE` より推奨だが、確実に処理される保証はない。`import` 不可。
   - 注意: 自動付与を無効にしても、既に付与した `Editor` は消えない。
