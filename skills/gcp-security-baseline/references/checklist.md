@@ -100,7 +100,7 @@ Terraform のリソース・属性は google provider を対象とする。組�
 - [ ] **15. Essential Contacts** — 課金・法務・セキュリティなどの通知を受け取る連絡先を確認する。
   - 組織: 不要。プロジェクト単位で設定可。公式では課金・法務・セキュリティの連絡先を組織レベルに置くことを推奨。
   - Terraform: `google_essential_contacts_contact` の `parent`、`email`、`language_tag`、`notification_category_subscriptions`。
-  - 注意: 個人よりグループアドレスを推奨。ユーザーの ADC で実行する場合、provider に `billing_project` と `user_project_override` が必要。
+  - 注意: 個人よりグループアドレスを推奨。ユーザーの ADC で実行する場合、provider に `billing_project` と `user_project_override = true` が必要。
   - 公式: <https://docs.cloud.google.com/resource-manager/docs/managing-notification-contacts>
 
 [A]: https://docs.cloud.google.com/docs/security/gcmvsp
