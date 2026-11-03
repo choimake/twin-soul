@@ -18,7 +18,7 @@
 - [ ] **1. 2FA 強制**: 全メンバーへの 2FA 強制を確認する。
   - 対象プラン: 公式のプラン記載なし。
   - IaC: `cloudflare_account` の `settings.enforce_twofactor`（Boolean）。手作業: 個人設定は「My Profile > Authentication」。強制画面の場所は未確認。
-  - 注意: 有効化は Super Administrator のみ。SSO ユーザーは 2FA を設定できない。
+  - 注意: 有効化は Super Administrator（以下 Super Admin）のみ。SSO ユーザーは 2FA を設定できない。
   - 公式: [2FA 設定](https://developers.cloudflare.com/learning-paths/application-security/account-security/set-up-2fa/)、[2FA](https://developers.cloudflare.com/fundamentals/user-profiles/2fa/)
 
 - [ ] **2. バックアップコード**: 2FA のバックアップコードを保管しているか確認する。
@@ -50,7 +50,7 @@
 - [ ] **6. state と認証情報**: 認証情報の平文保存を避け、Terraform state の暗号化・アクセス制限を確認する。
   - 対象プラン: プランによらない管理上の確認。
   - IaC・手作業: backend 設定と認証情報の保管方法を確認。公式ではローカルに `cf-vault`、CI に secret manager を挙げている。
-  - 注意: `cloudflare_api_token` / `cloudflare_account_token` の `value` は Read-only かつ Sensitive。Sensitive は表示を伏せるだけで、state には平文で残る。provider 属性の `ephemeral` / `write-only` 対応は未確認。値自体は読まない。
+  - 注意: `cloudflare_api_token` / `cloudflare_account_token` の `value` は Read-only かつ Sensitive。Sensitive は表示を伏せるだけで、state には平文で残る。provider 属性の ephemeral / write-only 対応は未確認。値自体は読まない。
   - 公式: [Terraform best practices](https://developers.cloudflare.com/terraform/advanced-topics/best-practices/)、[機密データの管理](https://developer.hashicorp.com/terraform/language/manage-sensitive-data)
 
 ## コストと運用の通知
