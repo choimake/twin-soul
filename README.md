@@ -133,7 +133,7 @@ mise run ci:apm
 
 ここにある skill は、汎用知識だけではなく、このリポジトリで育てた判断や手順を再利用するための入口です。
 
-- **cloudflare-security-baseline**: `Cloudflare` 構築時の最低限のセキュリティ対策と請求・使用量の通知をチェックリストで確認する
+- **cloudflare-security-baseline**: Cloudflare 構築時の最低限のセキュリティ対策と請求・使用量の通知をチェックリストで確認する
 - **consensus-investigation**: 同一の調査・レビューを複数のサブエージェントに独立実行させ、指摘の出現数で確度を付けて統合報告する（調査系 skill と併用できる）
 - **decision-records**: Decision Record (DR) や ADR の新規追加、更新、supersede 判断、下書き作成を整理する
 - **drawio-architecture**: 構成を書いた元データ（yaml など）に基づく native draw.io 構成図の描画・視覚確認。個別導入時は APM が draw.io MCP も入れる
