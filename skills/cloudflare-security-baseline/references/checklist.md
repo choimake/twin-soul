@@ -16,13 +16,13 @@
 ## アカウントと認証
 
 - [ ] **1. 2FA 強制**: 全メンバーへの 2FA 強制を確認する。
-  - 対象プラン: 公式のプラン記載なし。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - IaC: `cloudflare_account` の `settings.enforce_twofactor`（Boolean）。手作業: 個人設定は「My Profile > Authentication」。強制画面の場所は未確認。
   - 注意: 有効化は Super Administrator（以下 Super Admin）のみ。SSO ユーザーは 2FA を設定できない。
   - 公式: [2FA 設定](https://developers.cloudflare.com/learning-paths/application-security/account-security/set-up-2fa/)、[2FA](https://developers.cloudflare.com/fundamentals/user-profiles/2fa/)
 
 - [ ] **2. バックアップコード**: 2FA のバックアップコードを保管しているか確認する。
-  - 対象プラン: 公式のプラン記載なし。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - 手作業:「Profile > Security & Authentication > Backup codes」。Terraform では扱わない。
   - 注意: コードの値は収集せず、保管の有無を確認する。
   - 公式: [アカウント管理のベストプラクティス](https://developers.cloudflare.com/fundamentals/reference/best-practices/)、[2FA 設定](https://developers.cloudflare.com/learning-paths/application-security/account-security/set-up-2fa/)
@@ -33,7 +33,7 @@
   - 公式: [Dashboard SSO](https://developers.cloudflare.com/fundamentals/manage-members/dashboard-sso/)
 
 - [ ] **4. メンバーとロール**: 締め出しを避ける体制と、不要なメンバー・権限がないかを確認する。
-  - 対象プラン: 未確認。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - IaC: `cloudflare_account_member` の `roles`、`policies`（`access` / `permission_groups` / `resource_groups`）、`status`。手作業:「Members」。
   - 公式の記述: アカウントへのアクセスを 1 人に集中させない。人数・最小権限の明示推奨は無い。
   - 運用上の判断: 締め出し回避のため Super Admin は 2 人以上を検討し、それ以外の権限は必要な範囲に絞る。
@@ -41,7 +41,7 @@
   - 公式: [ベストプラクティス](https://developers.cloudflare.com/fundamentals/reference/best-practices/)、[メンバー追加](https://developers.cloudflare.com/learning-paths/application-security/account-security/add-other-members/)、[ロール](https://developers.cloudflare.com/fundamentals/manage-members/roles/)
 
 - [ ] **5. API トークン**: Global API Key の利用を避け、トークンの権限範囲・IP 制限・期限を確認する。
-  - 対象プラン: 未確認。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - IaC: `cloudflare_api_token`（ユーザー所有）/ `cloudflare_account_token`（アカウント所有）の `policies`、`condition.request_ip.in` / `not_in`、`expires_on`、`not_before`、`status`。provider 認証は `api_token`（環境変数 `CLOUDFLARE_API_TOKEN`）。
   - 手作業:「My Profile > API Tokens」、またはアカウントの「API Tokens」。
   - 注意: 既定では IP 制限・期限なし。provider の `api_key` は legacy。アカウント所有トークンは一部製品で使えない。
@@ -91,13 +91,13 @@
   - 公式: [暗号化モード](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/)、[Full (strict)](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/)、[HTTPS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/)、[最小 TLS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/minimum-tls/)、[HSTS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/)
 
 - [ ] **12. DNS プロキシ**: Web 用レコードをプロキシし、DNS-only レコードからのオリジン IP 露出も確認する。
-  - 対象プラン: 未確認。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - IaC: `cloudflare_dns_record` の `proxied`。手作業:「DNS > Records」。
   - 注意: SPF/TXT や同居メールから IP が漏れる。過去の DNS 履歴は残るため、公式ではオンボード後のオリジン IP 変更を推奨。
   - 公式: [オリジン保護](https://developers.cloudflare.com/fundamentals/security/protect-your-origin-server/)、[DDoS への事前対策](https://developers.cloudflare.com/ddos-protection/best-practices/proactive-defense/)
 
 - [ ] **13. DNSSEC**: 有効化とレジストラへの DS 登録を確認する。
-  - 対象プラン: 未確認。
+  - 対象プラン: 公式にプランの記載なし（未確認）。
   - IaC: `cloudflare_zone_dnssec` の `status = "active"`。`ds` などは出力値。手作業:「DNS > Settings > DNSSEC」とレジストラでの DS 登録（Cloudflare Registrar なら自動）。
   - 注意: ネームサーバー移行前に移行元の DNSSEC を無効にし、SERVFAIL を避ける。
   - 公式: [DNSSEC 設定](https://developers.cloudflare.com/learning-paths/application-security/default-traffic-security/dnssec/)、[DNSSEC](https://developers.cloudflare.com/dns/dnssec/)
