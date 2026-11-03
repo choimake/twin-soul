@@ -51,7 +51,8 @@
 
 - [ ] **6. state と認証情報**: 認証情報の平文保存を避け、Terraform state の暗号化・アクセス制限を確認する。
   - 対象プラン: プランによらない管理上の確認。
-  - IaC・手作業: backend 設定と認証情報の保管方法を確認。公式ではローカルに `cf-vault`、CI に secret manager を挙げている。
+  - IaC: backend 設定を確認。
+  - 手作業: 認証情報の保管方法を確認。公式ではローカルに `cf-vault`、CI に secret manager を挙げている。
   - 注意: `cloudflare_api_token` / `cloudflare_account_token` の `value` は Read-only かつ Sensitive。Sensitive は表示を伏せるだけで、state には平文で残る。provider 属性の ephemeral / write-only 対応は未確認。値自体は読まない。
   - 公式: [Terraform best practices](https://developers.cloudflare.com/terraform/advanced-topics/best-practices/)、[機密データの管理](https://developer.hashicorp.com/terraform/language/manage-sensitive-data)
 
@@ -110,7 +111,8 @@
 
 - [ ] **14. オリジン保護**: AOP・Tunnel・IP 許可リストによるオリジンへの直接アクセス対策を確認する。
   - 対象プラン: 全プラン。
-  - IaC: ゾーン単位の `cloudflare_authenticated_origin_pulls_settings.enabled`。自前証明書リソースは未確認。Tunnel は `cloudflare_zero_trust_tunnel_cloudflared`（`config_src`、`tunnel_secret`。後者は Sensitive）。オリジン側ファイアウォールは Cloudflare の外で確認する。
+  - IaC: ゾーン単位の `cloudflare_authenticated_origin_pulls_settings.enabled`。自前証明書リソースは未確認。Tunnel は `cloudflare_zero_trust_tunnel_cloudflared`（`config_src`、`tunnel_secret`。後者は Sensitive）。
+  - 手作業: オリジン側ファイアウォールは Cloudflare の外で確認する。
   - 注意: Global AOP の証明書は全顧客共有で、他顧客からも通る。ゾーン・ホスト名単位の自前証明書を検討する。AOP は Full か Full (strict) でないと効かない。
   - 公式: [オリジン保護](https://developers.cloudflare.com/fundamentals/security/protect-your-origin-server/)、[Authenticated Origin Pulls](https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/)
 
