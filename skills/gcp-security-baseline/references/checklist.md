@@ -76,7 +76,7 @@ Terraform のリソース・属性は google provider を対象とする。組�
 - [ ] **11. 2 段階認証と複数の管理者** — 利用者の 2 段階認証と、管理者を複数用意しているか確認する。
   - 組織: 個人アカウントでも確認する。組織ではアカウント管理方式に応じて確認する。
   - 手作業: Cloud Identity はコンソールの「組織」ページの「Enforce 2SV」、Workspace は管理コンソール（詳細手順は未確認）。SSO では IdP 側の MFA を確認する。Terraform 対応は未確認。
-  - 注意: 個人の Google アカウントで Google Cloud を使う場合、2025-05-12 以降必須。管理者にはハードウェアキーを推奨。
+  - 注意: 個人の Google アカウントで Google Cloud を使う場合、2025-05-12 以降必須。`Cloud Identity`（SSO なし）では、2026-08-03 より前に作った組織は 2026-10-20 以降、2026-08-03 以降に作った組織は作成 30 日後から 2 段階認証が必須。管理者にはハードウェアキーを推奨。
   - 公式: <https://docs.cloud.google.com/docs/authentication/mfa-requirement>、[A]
 
 - [ ] **12. デフォルト VPC と不要な API** — デフォルトの VPC を作らない設定と、不要な API を有効にしていないか確認する。
