@@ -17,7 +17,8 @@
 
 - [ ] **1. 2FA 強制**: 全メンバーへの 2FA 強制を確認する。
   - 対象プラン: 公式にプランの記載なし（未確認）。
-  - IaC: `cloudflare_account` の `settings.enforce_twofactor`（Boolean）。手作業: 個人設定は「My Profile > Authentication」。強制画面の場所は未確認。
+  - IaC: `cloudflare_account` の `settings.enforce_twofactor`（Boolean）。
+  - 手作業: 個人設定は「My Profile > Authentication」。強制画面の場所は未確認。
   - 注意: 有効化は Super Administrator（以下 Super Admin）のみ。SSO ユーザーは 2FA を設定できない。
   - 公式: [2FA 設定](https://developers.cloudflare.com/learning-paths/application-security/account-security/set-up-2fa/)、[2FA](https://developers.cloudflare.com/fundamentals/user-profiles/2fa/)
 
@@ -34,7 +35,8 @@
 
 - [ ] **4. メンバーとロール**: 締め出しを避ける体制と、不要なメンバー・権限がないかを確認する。
   - 対象プラン: 公式にプランの記載なし（未確認）。
-  - IaC: `cloudflare_account_member` の `roles`、`policies`（`access` / `permission_groups` / `resource_groups`）、`status`。手作業:「Members」。
+  - IaC: `cloudflare_account_member` の `roles`、`policies`（`access` / `permission_groups` / `resource_groups`）、`status`。
+  - 手作業:「Members」。
   - 公式の記述: アカウントへのアクセスを 1 人に集中させない。人数・最小権限の明示推奨は無い。
   - 運用上の判断: 締め出し回避のため Super Admin は 2 人以上を検討し、それ以外の権限は必要な範囲に絞る。
   - 注意: Super Admin は課金・メンバー・アカウント所有トークンを操作でき、他の Super Admin の権限も取り消せる。
@@ -63,13 +65,15 @@
 
 - [ ] **8. Usage Based Billing 通知**: 対象製品の使用量しきい値と請求先メールを確認する。
   - 対象プラン: Pro 以上かつ Pay-as-you-go 限定。Free 不可。
-  - IaC: `cloudflare_notification_policy` の `alert_type = "billing_usage_alert"`、`filters.product` / `filters.limit`。手作業:「Notifications > Add > Billable Usage」。
+  - IaC: `cloudflare_notification_policy` の `alert_type = "billing_usage_alert"`、`filters.product` / `filters.limit`。
+  - 手作業:「Notifications > Add > Billable Usage」。
   - 注意: 公式の例は Argo と Load Balancing のみ。Workers / R2 が対象かは未確認。送り先は請求先メール。
   - 公式: [Usage Based Billing](https://developers.cloudflare.com/billing/understand/usage-based-billing/)、[通知一覧](https://developers.cloudflare.com/notifications/notification-available/)
 
 - [ ] **9. Workers CPU 上限**: Workers を使う場合、CPU 上限と請求通知の組み合わせを確認する。
   - 対象プラン: Workers Paid（Standard）。Free は 1 日 10 万リクエスト超で Error 1027 となり停止する。
-  - IaC: `cloudflare_workers_script` の `limits.cpu_ms`、`limits.subrequests`。`wrangler` は `limits.cpu_ms`。手作業:「Workers & Pages > 対象 Worker > Settings > CPU Limits」。
+  - IaC: `cloudflare_workers_script` の `limits.cpu_ms`、`limits.subrequests`。`wrangler` は `limits.cpu_ms`。
+  - 手作業:「Workers & Pages > 対象 Worker > Settings > CPU Limits」。
   - 注意: CPU 上限の既定は 30 秒、最大 5 分（300,000 ms）。デプロイ後だけ効く。リクエスト数自体は制限できないため Budget alert と組み合わせる。
   - 公式: [料金](https://developers.cloudflare.com/workers/platform/pricing/)、[上限](https://developers.cloudflare.com/workers/platform/limits/)
 
@@ -92,13 +96,15 @@
 
 - [ ] **12. DNS プロキシ**: Web 用レコードをプロキシし、DNS-only レコードからのオリジン IP 露出も確認する。
   - 対象プラン: 公式にプランの記載なし（未確認）。
-  - IaC: `cloudflare_dns_record` の `proxied`。手作業:「DNS > Records」。
+  - IaC: `cloudflare_dns_record` の `proxied`。
+  - 手作業:「DNS > Records」。
   - 注意: SPF/TXT や同居メールから IP が漏れる。過去の DNS 履歴は残るため、公式ではオンボード後のオリジン IP 変更を推奨。
   - 公式: [オリジン保護](https://developers.cloudflare.com/fundamentals/security/protect-your-origin-server/)、[DDoS への事前対策](https://developers.cloudflare.com/ddos-protection/best-practices/proactive-defense/)
 
 - [ ] **13. DNSSEC**: 有効化とレジストラへの DS 登録を確認する。
   - 対象プラン: 公式にプランの記載なし（未確認）。
-  - IaC: `cloudflare_zone_dnssec` の `status = "active"`。`ds` などは出力値。手作業:「DNS > Settings > DNSSEC」とレジストラでの DS 登録（Cloudflare Registrar なら自動）。
+  - IaC: `cloudflare_zone_dnssec` の `status = "active"`。`ds` などは出力値。
+  - 手作業:「DNS > Settings > DNSSEC」とレジストラでの DS 登録（Cloudflare Registrar なら自動）。
   - 注意: ネームサーバー移行前に移行元の DNSSEC を無効にし、SERVFAIL を避ける。
   - 公式: [DNSSEC 設定](https://developers.cloudflare.com/learning-paths/application-security/default-traffic-security/dnssec/)、[DNSSEC](https://developers.cloudflare.com/dns/dnssec/)
 
@@ -110,7 +116,8 @@
 
 - [ ] **15. WAF と DDoS**: プランに合うマネージドルールの利用状況と DDoS 防御の既定を確認する。
   - 対象プラン: Free Managed Ruleset は全プラン、Cloudflare Managed Ruleset と OWASP は Pro 以上。DDoS は常時有効。
-  - IaC: `cloudflare_ruleset` の `phase`（`http_request_firewall_managed` / `ddos_l7`）、`action = "execute"`、`action_parameters.id`。具体的な組み合わせは未確認。手作業:「Security > Settings」（「Web application exploits」）。
+  - IaC: `cloudflare_ruleset` の `phase`（`http_request_firewall_managed` / `ddos_l7`）、`action = "execute"`、`action_parameters.id`。具体的な組み合わせは未確認。
+  - 手作業:「Security > Settings」（「Web application exploits」）。
   - 注意: Free Managed Ruleset が既定で有効かは未確認。コード例は組み合わせを推測して補わない。
   - 公式: [マネージドルール](https://developers.cloudflare.com/waf/managed-rules/)、[学習パス](https://developers.cloudflare.com/learning-paths/application-security/firewall/managed-rules/)、[DDoS への事前対策](https://developers.cloudflare.com/ddos-protection/best-practices/proactive-defense/)
 
