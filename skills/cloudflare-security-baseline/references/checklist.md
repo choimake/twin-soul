@@ -1,6 +1,6 @@
 # Cloudflare 構築時の最低限チェックリスト
 
-サービス仕様の確認日: 2026-11-03。今回追加・変更した事実の確認日: 2026-11-08。
+サービス仕様の確認日: 2026-11-03。2026-11-08 に追加・変更した項目: 2（アカウントとドメインの継続管理）、6（Budget alert）、10（SSL/TLS の設定値）。
 
 Terraform provider の確認元: cloudflare/cloudflare v5.28.1。
 
@@ -50,7 +50,7 @@ Terraform provider の確認元: cloudflare/cloudflare v5.28.1。
 ## コストと運用の通知
 
 - [ ] **6. Budget alert**: 済: 金額しきい値と通知先を設定している（しきい値は運用上の判断）。
-  - 対象プラン: Pay-as-you-go アカウント限定。Enterprise 契約は対象外。Free での扱いは未確認（調べていない）。
+  - 対象プラン: Pay-as-you-go アカウント限定。Enterprise 契約は対象外。Free での扱いは公式に記載なし（調べた範囲: Budget alerts のページと既定のアラートの changelog）。
   - 手作業:「Manage Account > Billing > Billable Usage > Create budget alert」。Terraform 対応は未確認（調べていない）。
   - 注意: 既存の Budget alert がない対象アカウントには、既定の $10 のアラートを順次適用し、次の請求サイクルの切り替わりから有効にする。通知だけで利用は止めない。Workers Paid などの月額固定費は含まれない。当期の累計で評価する。使用量は 1 日 1 回集計するため、通知はしきい値に達した翌日に届く。
   - 公式: [Budget alerts](https://developers.cloudflare.com/billing/manage/budget-alerts/)、[既定のアラート](https://developers.cloudflare.com/changelog/post/2026-06-15-budget-alerts-default-on/)
@@ -70,20 +70,18 @@ Terraform provider の確認元: cloudflare/cloudflare v5.28.1。
   - 公式: [料金](https://developers.cloudflare.com/workers/platform/pricing/)、[上限](https://developers.cloudflare.com/workers/platform/limits/)
 
 - [ ] **9. 監査ログとセッション**: 済: 監査ログとセッションの見る場所を知っていて、直近に確認した日を答えられる（運用上の判断）。
-  - 注意: Audit Logs v1 は全プラン。v2 の対象プランは未確認（調べていない）。
   - 手作業:「Manage Account > Audit Logs」、「My Profile > Sessions」。確認作業のため Terraform では判定しない。
-  - 注意: 不審な操作が無いことの保証や監査は求めない。
+  - 注意: Audit Logs v1 は全プラン。v2 の対象プランは未確認（調べていない）。不審な操作が無いことの保証や監査は求めない。
   - 公式: [監査ログの確認](https://developers.cloudflare.com/learning-paths/application-security/account-security/review-audit-logs/)、[監査ログ](https://developers.cloudflare.com/fundamentals/account/account-security/audit-logs/)、[セッションの確認](https://developers.cloudflare.com/learning-paths/application-security/account-security/review-active-sessions/)
 
 ## ゾーンとオリジン
 
 - [ ] **10. SSL/TLS**: 済: 実際の暗号化モードが Full または Full (strict) であり、Automatic SSL/TLS を選んでいるかを把握し、Always Use HTTPS、最小 TLS、HSTS の採否と設定を確認している（採否は運用上の判断）。
-  - 注意: Always Use HTTPS、HSTS、最小 TLS は全プラン。Full (strict) の対象プランは未確認（調べていない）。
   - IaC: `cloudflare_zone_setting` の `setting_id` / `value`。`setting_id` は `ssl`、`always_use_https`、`min_tls_version`、`security_header`（`strict_transport_security` の `max_age` / `include_subdomains` / `preload` / `nosniff`）。Full (strict) は `setting_id = "ssl"`、`value = "strict"`。
   - 手作業: Automatic SSL/TLS の選択と実際の暗号化モードを分けて確認する。実際のモードが `flexible` なら「要対応」。「SSL/TLS Overview」（暗号化モード）、「Edge Certificates」（HTTPS・最小 TLS・HSTS）。
   - 公式の記述: Full または Full (strict) を強く推奨。最小 TLS の既定は 1.0、一般には 1.3、PCI 対象なら 1.2 を推奨。
   - 運用上の判断: オリジン証明書の条件を満たすか確認し、Full (strict) の採用を判断する。
-  - 注意: Full (strict) には期限内・信頼 CA（Origin CA 可）・ホスト名一致の証明書が必要。不適合なら 526。HSTS は HTTPS を外すと `max-age` の間アクセスできなくなる。`preload` は `max-age` 12 か月以上。
+  - 注意: Always Use HTTPS、HSTS、最小 TLS は全プラン。Full (strict) の対象プランは未確認（調べていない）。Full (strict) には期限内・信頼 CA（Origin CA 可）・ホスト名一致の証明書が必要。不適合なら 526。HSTS は HTTPS を外すと `max-age` の間アクセスできなくなる。`preload` は `max-age` 12 か月以上。
   - 公式: [暗号化モード](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/)、[Full (strict)](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/)、[HTTPS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/)、[最小 TLS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/minimum-tls/)、[HSTS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/)
 
 - [ ] **11. DNS プロキシ**: 済: Web 用レコードをプロキシし、DNS-only レコードからのオリジン IP 露出を確認している。
