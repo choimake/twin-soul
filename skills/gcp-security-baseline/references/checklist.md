@@ -1,6 +1,6 @@
 # GCP 最低限のセキュリティ・コスト対策チェックリスト
 
-サービス仕様の確認日: 2026-11-03。今回の追加・変更分: 2026-11-08。
+サービス仕様の確認日: 2026-11-03。2026-11-08 に追加・変更した項目: 4（Terraform state の保護）、6（WIF）、10（複数の管理者の出典）、13（SSH / RDP の受信制限）。
 
 Terraform の確認元: hashicorp/terraform-provider-google の main ブランチのドキュメント。
 
@@ -37,7 +37,7 @@ Terraform のリソース・属性は google provider を対象とする。組�
 
 ## 権限と認証
 
-- [ ] **4. Terraform state の保護** — 済: remote backend（Cloud Storage を推奨）を使い、state の bucket に触れる主体をビルドの仕組みと強い権限の管理者に絞り、state を暗号化し、リポジトリに入れず、可能な範囲で秘密を state に置かない。
+- [ ] **4. Terraform state の保護** — 済: remote backend（Cloud Storage を推奨）を使い、state の bucket に触れる主体をビルドの仕組みと強い権限の管理者に絞り、state を暗号化し、リポジトリに入れず（運用上の判断）、可能な範囲で秘密を state に置かない。
   - 確認: backend の構成、bucket のアクセス権、暗号化、リポジトリへの混入、秘密の有無と保管方法を確認する。秘密の値や state 内の値は読まない。
   - 注意: Cloud Storage の bucket は保存時に暗号化済み。追加の鍵は一律必須にしない。
   - 公式: <https://docs.cloud.google.com/docs/terraform/best-practices/security>
@@ -54,13 +54,13 @@ Terraform のリソース・属性は google provider を対象とする。組�
   - 注意: 上記の禁止制約は 2024-05-03 以降作成の組織では既定で強制。キーを使う場合は 90 日以内にローテーションする。従来の制約 `iam.disableServiceAccountKeyCreation` では HMAC キー作成も禁止される。
   - 公式: <https://docs.cloud.google.com/organization-policy/reference/org-policy-constraints>、[A]
 
-- [ ] **7. デフォルト SA の `Editor`** — 済: デフォルト SA への `Editor` 自動付与が無効で、既存の `Editor` 付与も除かれている。
+- [ ] **7. デフォルト SA の `Editor`** — 済: デフォルト SA への `Editor` 自動付与が無効で、既存の `Editor` 付与も除かれている（既存の付与の扱いは運用上の判断）。
   - 組織: 不要。組織ありでは `google_org_policy_policy` で `iam.automaticIamGrantsForDefaultServiceAccounts` を確認する。
   - 組織なしの Terraform: `google_project_default_service_accounts` の `action = "DEPRIVILEGE"`。`DELETE` より推奨だが、確実に処理される保証はない。`import` 不可。
   - 注意: 自動付与を無効にしても、既に付与した `Editor` は消えない。
   - 公式: <https://docs.cloud.google.com/iam/docs/service-account-types>
 
-- [ ] **8. ドメイン制限共有** — 済: 許可したドメインへの共有制限が設定され、既存の権限付与もその範囲に収まっている。
+- [ ] **8. ドメイン制限共有** — 済: 許可したドメインへの共有制限が設定され、既存の権限付与もその範囲に収まっている（既存の付与の扱いは運用上の判断）。
   - 組織: 必要。組織なしは対象外。
   - Terraform: `google_org_policy_policy` の `spec.rules.values.allowed_values` で `iam.allowedPolicyMemberDomains` を設定する。
   - 注意: 2024-05-03 以降作成の組織では既定で強制。既存の付与には遡らない。公式では `iam.managed.allowedPolicyMembers` を推奨しているが、この制約の Terraform 対応は未確認（調べていない）。
@@ -120,6 +120,6 @@ Terraform のリソース・属性は google provider を対象とする。組�
   - 公式: <https://docs.cloud.google.com/billing/docs/how-to/disable-billing-with-notifications>
 - 課金データの BigQuery エクスポート: 原則は有効化時点以降のデータのみ。マルチリージョンでは当月と前月を遡る。BigQuery 料金がかかる。
   - 公式: <https://docs.cloud.google.com/billing/docs/how-to/export-data-bigquery-setup>
-- 不要な API: 有効にした API の必要性はユーザーに確認する。`google_project_service` での API 管理は未確認（調べていない）。
+- 不要な API: 有効にした API の必要性の確認は、このチェックリストでは扱わない。`google_project_service` での API 管理は未確認（調べていない）。
 
 [A]: https://docs.cloud.google.com/docs/security/gcmvsp
