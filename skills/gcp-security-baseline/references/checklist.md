@@ -82,8 +82,11 @@ Terraform のリソース・属性は google provider を対象とする。組�
 - [ ] **12. デフォルト VPC と不要な API** — デフォルトの VPC を作らない設定と、不要な API を有効にしていないか確認する。
   - 組織: 不要。組織ありでは制約 `compute.skipDefaultNetworkCreation` を確認する。
   - 組織なしの Terraform: `google_project` の `auto_create_network = false`（既定 `true`）。`google_project_service` での API 管理は未確認のため、必要性はユーザーに確認する。
+  - 手作業: コンソールや `gcloud` で作成した既存プロジェクトも含め、`default` ネットワークが残っていないか確認する。
   - 注意: `auto_create_network = false` にすると、Terraform が既定ネットワークを作成直後に削除する。Compute API は有効のまま残る。可能なら組織の制約を使う。
-  - 公式: <https://docs.cloud.google.com/docs/security/gcmvsp/network-security>
+  - 公式の推奨: `default` ネットワークは本番に推奨される構成ではなく、SSH・RDP を許可する受信ルールが最初から含まれる。本番では custom mode VPC を推奨している。
+  - 運用判断: 参照先の公式ドキュメントでは、既存の `default` ネットワークの削除を明示していない。削除するかは運用上の判断とする。制約 `compute.skipDefaultNetworkCreation` が既存ネットワークに遡及するかは未確認。
+  - 公式: <https://docs.cloud.google.com/docs/security/gcmvsp/network-security>、<https://docs.cloud.google.com/vpc/docs/vpc>
 
 - [ ] **13. Security Command Center の Standard ティア** — 組織で Security Command Center の Standard ティアを有効化しているか確認する。
   - 組織: 必要。組織なしは対象外。
