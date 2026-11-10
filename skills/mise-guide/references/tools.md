@@ -88,7 +88,7 @@ mise upgrade
 mise prune
 mise which node
 mise where node@22
-mise exec node@20 -- node -v  # 一時的に特定 tool 版で実行（下表参照）
+mise exec node@20 -- node -v  # 一時的に特定バージョンの tool で実行（下表参照）
 mise shell node@20
 mise reshim
 ```
@@ -167,7 +167,7 @@ pin = true   # mise use 時に --pin をデフォルト化（--fuzzy で上書�
 
 | 形式 | 用途 | 例 |
 | --- | --- | --- |
-| `mise exec <tool>@<ver> -- <cmd>` | 一時的に特定 tool 版で実行 | `mise exec node@20 -- node -v` |
+| `mise exec <tool>@<ver> -- <cmd>` | 一時的に特定バージョンの tool で実行 | `mise exec node@20 -- node -v` |
 | `mise exec -- <cmd>` | プロジェクト env（`mise.local.toml` 等）を載せて随時実行 | `mise exec -- gh issue list` |
 
 `--` の前に `<tool>@<ver>` を書くかどうかで意味が変わる。git/gh 向けは [env.md](env.md) を参照。

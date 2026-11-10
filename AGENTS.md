@@ -58,7 +58,7 @@
 - ドキュメントを足す / 直す → `rules/documentation-standards.md`, `rules/document-consistency.md`
 - DR が要るか迷う → `rules/when-to-create-decision-records.md`
 - 破壊的な shell → `rules/bash-safety.md`
-- tool・依存・Docker イメージ・GitHub Actions の版を足す / 変える → `rules/version-pinning.md`
+- tool・依存・Docker イメージ・GitHub Actions のバージョンを足す / 変える → `rules/version-pinning.md`
 - 依存ツール・skill・配布方式を消す → `rules/removing-dependencies.md`
 - skill を変える → `rules/verify-before-changing-skills.md`
 - `.gitignore` / `.gitkeep` を足す / 直す → `rules/gitignore-vs-gitkeep.md`
