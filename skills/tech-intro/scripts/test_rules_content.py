@@ -22,7 +22,7 @@ from testutil import parse
 # どの本文ルールにも指摘されない、4章と末尾の3章を持つページ
 PAGE = """
 <ol data-goals><li>何か</li><li>何ができるか</li></ol>
-<details data-scope><summary>対象と版</summary><p>確認日 2026-10-07。</p></details>
+<details data-scope><summary>対象とバージョン</summary><p>確認日 2026-10-07。</p></details>
 <h2>1. なぜ要るか</h2><p><dfn>node</dfn> は処理の単位である。</p>
 <h2>2. 登場人物</h2><p>送る側と受け取る側がいる。</p>
 <h2>3. 構造</h2><pre><code>step.run()</code></pre>
@@ -90,13 +90,13 @@ class ScopeTest(unittest.TestCase):
     def test_missing_scope(self) -> None:
         html = PAGE.replace("data-scope", "")
         self.assertEqual(
-            run_rule(check_scope, html), ["scope: 冒頭に、対象・版・確認日・扱わないものの注記（data-scope）が無い"]
+            run_rule(check_scope, html), ["scope: 冒頭に、対象・バージョン・確認日・扱わないものの注記（data-scope）が無い"]
         )
 
     def test_scope_after_first_chapter(self) -> None:
-        scope = "<details data-scope><summary>対象と版</summary><p>確認日 2026-10-07。</p></details>"
+        scope = "<details data-scope><summary>対象とバージョン</summary><p>確認日 2026-10-07。</p></details>"
         html = PAGE.replace(scope, "") + scope
-        self.assertEqual(run_rule(check_scope, html), ["scope: 対象と版の注記が最初の章より後にある"])
+        self.assertEqual(run_rule(check_scope, html), ["scope: 対象とバージョンの注記が最初の章より後にある"])
 
 
 class ChapterProseTest(unittest.TestCase):

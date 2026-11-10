@@ -37,10 +37,10 @@ def check_scope(root: Node, findings: list[str]) -> None:
         return
     marked = [node for node in nodes if "data-scope" in node.attrs]
     if not marked:
-        findings.append("scope: 冒頭に、対象・版・確認日・扱わないものの注記（data-scope）が無い")
+        findings.append("scope: 冒頭に、対象・バージョン・確認日・扱わないものの注記（data-scope）が無い")
         return
     if nodes.index(marked[0]) > nodes.index(headings[0]):
-        findings.append("scope: 対象と版の注記が最初の章より後にある")
+        findings.append("scope: 対象とバージョンの注記が最初の章より後にある")
 
 
 PROSE_SKIP_TAGS = {"figure", "pre", "table", "details", "aside", "nav", "script", "style", "svg", "form", "fieldset"}

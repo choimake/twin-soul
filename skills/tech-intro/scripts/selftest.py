@@ -14,7 +14,7 @@ ENDING_BODY = """
 <h2 id="z">確認クイズ</h2>
 """
 ENDING_TOC = '<a href="#x">チェックリスト</a><a href="#y">確かめられなかったこと</a><a href="#z">確認クイズ</a>'
-SCOPE_HTML = "<details data-scope><summary>対象と版</summary><p>確認日 2026-10-07。</p></details>"
+SCOPE_HTML = "<details data-scope><summary>対象とバージョン</summary><p>確認日 2026-10-07。</p></details>"
 
 
 def page(
@@ -259,7 +259,7 @@ CASES: list[tuple[str, str, set[str]]] = [
               <a href="#d">公式 skill</a>
             </aside>""",
             ending=True,
-            scope='<p>対象と版は書いていない。</p>',
+            scope='<p>対象とバージョンは書いていない。</p>',
         ),
         {"scope"},
     ),

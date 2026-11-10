@@ -21,15 +21,15 @@ mise 管理下の tool・ランタイム、Docker ベースイメージ、GitHub
 - `latest` / `@latest` / `lts` / `system` / `prefix:` / `ref:` / `sub-1:` 等の fuzzy 指定
 - x.y.z 未満の pin（例: `node = "22"`、`python = "3.12"`、`go = "1.22"`）
 - `[tools]` の配列形式、ネスト `[tools.*]` 以外の迂回記法
-- workflow や Dockerfile に tool バージョンを二重定義して、`mise.toml` 等に書いた版とずらすこと
+- workflow や Dockerfile に tool バージョンを二重定義して、`mise.toml` 等に書いたバージョンとずらすこと
 
 ## 推奨
 
 - tool・ランタイム・CLI・Docker イメージは **x.y.z 完全一致で pin** する（例: `22.21.1`、`2.12.2`）
 - mise 利用プロジェクトでは `mise.toml` `[tools]` を x.y.z pin とし、[check-tool-pins.sh](../skills/mise-guide/scripts/check-tool-pins.sh) または `ci:lint:mise-tools` で検証する（手順は [`skills/mise-guide/references/tools.md`](../skills/mise-guide/references/tools.md)）
 - GitHub Actions の `uses:` は **full commit SHA pin** する（[`skills/mise-guide/references/ci.md`](../skills/mise-guide/references/ci.md)）
-- ドキュメントに版や数値を書く場合は **時点**（例: 2026-07 時点）を併記する
-- pin した版は定期的に更新する（例: `mise outdated`、Dependabot）
+- ドキュメントにバージョンや数値を書く場合は **時点**（例: 2026-07 時点）を併記する
+- pin したバージョンは定期的に更新する（例: `mise outdated`、Dependabot）
 
 ## 既知のギャップ
 
